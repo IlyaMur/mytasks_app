@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TasksApp;
 
 class TaskController
 {
-    public function processRequest(string $method, ?int $id)
+    public function processRequest(string $method, ?string $id): void
     {
         if (is_null($id)) {
             if ($method === 'GET') {

@@ -1,0 +1,14 @@
+{
+    "name": "ilyamur/tasksapp",
+    "description": "Basic realisation of RESTful API design",
+    "autoload": {
+        "psr-4": {
+            "TasksApp\\": "src/"
+        }
+    },
+    "authors": [{
+        "name": "Ilya Mur",
+        "email": "ilyamur@hotmail.com"
+    }],
+    "require": {}
+}
