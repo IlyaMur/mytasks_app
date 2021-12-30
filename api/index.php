@@ -7,5 +7,13 @@ $parts = explode('/', $path);
 $resource = $parts[2];
 $id = $parts[3] ?? null;
 
-echo $resource;
-echo $id;
+if ($resource !== 'tasks') {
+    http_response_code(404);
+    exit;
+}
+
+require dirname(__DIR__) . '/src/TasksController.php';
+
+$controller = new TasksApp\TaskController();
+
+$controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
