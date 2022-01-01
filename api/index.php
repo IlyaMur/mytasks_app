@@ -9,6 +9,7 @@ use TasksApp\TaskController;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+set_error_handler('TasksApp\ErrorHandler::handleError');
 set_exception_handler('TasksApp\ErrorHandler::handleException');
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__))->load();
