@@ -4,19 +4,14 @@ declare(strict_types=1);
 
 use Dotenv\Dotenv;
 use TasksApp\Database;
+use TasksApp\TaskGateway;
 use TasksApp\TaskController;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 set_exception_handler('TasksApp\ErrorHandler::handleException');
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->safeload();
-
-$dbName = $_ENV['DB_NAME'] ?? getenv('DB_HOST');
-$dbUser = $_ENV['DB_USER'] ?? getenv('DB_USER');
-$dbPass = $_ENV['DB_PASS'] ?? getenv('DB_PASS');
-$dbHost = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
+$dotenv = Dotenv::createImmutable(dirname(__DIR__))->load();
 
 $parts = explode(
     '/',
@@ -33,8 +28,14 @@ if ($resource !== 'tasks') {
 
 header('Content-type: application/json; charset=UTF-8');
 
-$database = new Database($dbHost, $dbName, $dbUser, $dbPass);
-$database->getConnection();
+$database = new Database(
+    user: $_ENV['DB_USER'],
+    password: $_ENV['DB_PASS'],
+    host: $_ENV['DB_HOST'],
+    name: $_ENV['DB_NAME']
+);
 
-$controller = new TaskController();
+$taskGateway = new TaskGateway($database);
+
+$controller = new TaskController($taskGateway);
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
