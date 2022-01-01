@@ -37,11 +37,14 @@ class TaskGateway
         $sql = "SELECT *
                 FROM task 
                 WHERE id = :id";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam('id', $id, PDO::PARAM_INT);
         $stmt->execute();
+
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // for returning bool, not int 1/0 
         if ($data !== false) {
             $data['is_completed'] = (bool) $data['is_completed'];
         }
