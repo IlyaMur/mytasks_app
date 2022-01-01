@@ -19,7 +19,8 @@ $parts = explode(
 );
 
 $resource = $parts[2];
-$id = $parts[3] ?? null;
+
+$id = empty($parts[3]) ? null : $parts[3];
 
 if ($resource !== 'tasks') {
     http_response_code(404);
