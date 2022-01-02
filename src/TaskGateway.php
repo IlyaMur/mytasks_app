@@ -74,6 +74,19 @@ class TaskGateway
         return $this->conn->lastInsertId();
     }
 
+    public function delete(string $id): int
+    {
+        $sql = 'DELETE FROM task
+                WHERE id = :id';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
     public function update(string $id, array $data): int
     {
         $fields = [];
