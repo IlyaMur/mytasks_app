@@ -74,11 +74,8 @@ class TaskGateway
         return $this->conn->lastInsertId();
     }
 
-    public function update(string $id, array $data)
+    public function update(string $id, array $data): int
     {
-        // $sql = "INSERT INTO task (name, priority, is_completed) 
-        //         VALUES (:name, :priority, :is_completed)";
-
         $fields = [];
 
         if (array_key_exists('name', $data)) {
@@ -91,7 +88,7 @@ class TaskGateway
         if (array_key_exists('priority', $data)) {
             $fields['priority'] = [
                 $data['priority'],
-                is_null($data['priority']) ? PDO::PARAM_INT : PDO::PARAM_NULL
+                is_null($data['priority']) ? PDO::PARAM_NULL : PDO::PARAM_INT
             ];
         }
 
@@ -102,7 +99,27 @@ class TaskGateway
             ];
         }
 
-        print_r($fields);
-        exit;
+        // if input is empty
+        if (empty($fields)) {
+            return 0;
+        }
+
+        $sets = array_map(
+            fn ($val) => "$val = :$val",
+            array_keys($fields)
+        );
+
+        $sql = "UPDATE task"
+            . " SET " . implode(", ", $sets)
+            . " WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+
+        foreach ($fields as $name => $val) {
+            $stmt->bindValue($name, $val[0], $val[1]);
+        }
+
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 }
