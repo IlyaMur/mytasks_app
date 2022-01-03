@@ -5,7 +5,10 @@ declare(strict_types=1);
 use Dotenv\Dotenv;
 use TasksApp\Database;
 use TasksApp\TaskGateway;
+use TasksApp\UserGateway;
+use TasksApp\ErrorHandler;
 use TasksApp\TaskController;
+use TasksApp\UserController;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -36,6 +39,7 @@ if (empty($_SERVER['HTTP_X_API_KEY'])) {
     exit;
 };
 
+$apiKey = $_SERVER['HTTP_X_API_KEY'];
 
 $database = new Database(
     user: $_ENV['DB_USER'],
@@ -43,6 +47,14 @@ $database = new Database(
     host: $_ENV['DB_HOST'],
     name: $_ENV['DB_NAME']
 );
+
+$userGateway = new UserGateway($database);
+if ($userGateway->getByAPIKey($apiKey) === false) {
+    http_response_code(401);
+    echo json_encode(['message' => 'invalid API key']);
+    exit;
+}
+
 
 $taskGateway = new TaskGateway($database);
 
