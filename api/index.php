@@ -27,11 +27,15 @@ if ($resource !== 'tasks') {
     http_response_code(404);
     exit;
 }
+
 header('Content-type: application/json; charset=UTF-8');
 
-$apiKey = $_SERVER['HTTP_X_API_KEY'];
-print_r($apiKey);
-exit;
+if (empty($_SERVER['HTTP_X_API_KEY'])) {
+    http_response_code(400);
+    echo json_encode(['message' => 'missing API key']);
+    exit;
+};
+
 
 $database = new Database(
     user: $_ENV['DB_USER'],
