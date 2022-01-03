@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "TasksApp\\": "src/"
-        }
+        },
+        "files": [
+            "api/bootstrap.php"
+        ]
     },
     "authors": [{
         "name": "Ilya Mur",
