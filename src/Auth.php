@@ -6,6 +6,7 @@ namespace TasksApp;
 
 class Auth
 {
+    private int $userId;
     public function __construct(private UserGateway $userGateway)
     {
     }
@@ -20,12 +21,21 @@ class Auth
 
         $apiKey = $_SERVER['HTTP_X_API_KEY'];
 
-        if ($this->userGateway->getByAPIKey($apiKey) === false) {
+        $user = $this->userGateway->getByAPIKey($apiKey);
+
+        if ($user === false) {
             http_response_code(401);
             echo json_encode(['message' => 'invalid API key']);
             return false;
         }
 
+        $this->userId = $user['id'];
+
         return true;
+    }
+
+    public function getUserID(): int
+    {
+        return $this->userId;
     }
 }

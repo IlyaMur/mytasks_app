@@ -6,7 +6,6 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require __DIR__ . '/vendor/autoload.php';
-    Dotenv\Dotenv::createImmutable(__DIR__)->load();
 
     $db = new TasksApp\Database(
         user: $_ENV['DB_USER'],

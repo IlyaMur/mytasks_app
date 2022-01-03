@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+header('Content-type: application/json; charset=UTF-8');
+
 $parts = explode(
     '/',
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
@@ -30,6 +32,10 @@ $auth = new TasksApp\Auth($userGateway);
 if (!$auth->authenticateAPIKey()) {
     exit;
 }
+
+$userId = $auth->getUserID();
+var_dump($userId);
+exit;
 
 $taskGateway = new TasksApp\TaskGateway($database);
 $controller = new TasksApp\TaskController($taskGateway);
