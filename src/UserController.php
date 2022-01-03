@@ -6,44 +6,41 @@ namespace TasksApp;
 
 class UserController
 {
-    public array $errors = [];
-    public string $apiKey = '';
-
     public function __construct(private UserGateway $gateway)
     {
     }
 
-    public function processCreatingRequest(array $data): void
+    public function processCreatingRequest(array $userData): array
     {
-        $this->username = $_POST['username'];
-        $this->name = $_POST['name'];
-        $this->password = $_POST['password'];
+        $userData = $this->validateInput($userData);
 
-        $this->validateInput();
-
-        if (empty($this->errors)) {
-            $this->apiKey = $this->gateway->create($data);
+        if (empty($userData['errors'])) {
+            $userData['apiKey'] = $this->gateway->create($userData);
         }
+
+        return $userData;
     }
 
-    public function validateInput(): void
+    public function validateInput($userData): array
     {
-        if (empty($this->name)) {
-            $this->errors['name'] = 'Please input your name';
+        if (empty($userData['name'])) {
+            $userData['errors']['name'] = 'Please input your name';
         }
 
-        if (empty($this->username)) {
-            $this->errors['username'] = 'Please input your username';
+        if (empty($userData['username'])) {
+            $userData['errors']['username'] = 'Please input your username';
         }
 
-        $user = $this->gateway->getUser($this->username);
+        $user = $this->gateway->getUser($userData['username']);
 
         if ($user) {
-            $this->errors['alreadyExist'] = 'User with this username already exists';
+            $userData['errors']['alreadyExists'] = 'User with this username already exists';
         }
 
-        if (strlen($this->password) < 7) {
-            $this->errors['password'] = 'Password must be at least 7 characters';
+        if (strlen($userData['password']) < 7) {
+            $userData['errors']['password'] = 'Password must be at least 7 characters';
         }
+
+        return $userData;
     }
 }

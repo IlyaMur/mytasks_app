@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $userGateway = new TasksApp\UserGateway($db);
     $userController = new TasksApp\UserController($userGateway);
-    $userController->processCreatingRequest($_POST);
+    $userData = $userController->processCreatingRequest($_POST);
 
-    if ($userController->apiKey) {
-        $_SESSION['apiKey'] = $userController->apiKey;
+    if (array_key_exists('apiKey', $userData)) {
+        $_SESSION['apiKey'] = $userData['apiKey'];
     }
 }
 ?>
@@ -123,27 +123,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h1>Registration</h1>
                         <h2>Generate your API key</h2>
                     </hgroup>
-                    <?php if (!empty($userController->errors)) : ?>
+                    <?php if (!empty($userData['errors'])) : ?>
                         <ul>
-                            <?php foreach ($userController->errors as $error) : ?>
+                            <?php foreach ($userData['errors'] as $error) : ?>
                                 <li> <?= $error ?> </li>
                             <?php endforeach ?>
                         </ul>
                     <?php endif ?>
 
                     <form method="post">
-                        <input value="<?= $userController->name ?? '' ?>" type="text" name="name" aria-invalid="<?= isset($userController->errors['name']) ? 'true' : '' ?>" placeholder="Name" aria-label="name">
+                        <input value="<?= $userData['name'] ?? '' ?>" type="text" name="name" aria-invalid="<?= isset($userData['errors']['name']) ? 'true' : '' ?>" placeholder="Name" aria-label="name">
 
-                        <input value="<?= $userController->username ?? '' ?>" type="text" name="username" aria-invalid="<?= isset($userController->errors['username']) ? 'true' : '' ?>" placeholder="Username" aria-label="username">
+                        <input value="<?= $userData['username'] ?? '' ?>" type="text" name="username" aria-invalid="<?= isset($userData['errors']['username']) ? 'true' : '' ?>" placeholder="Username" aria-label="username">
 
-                        <input value="<?= $userController->password ?? '' ?>" type="password" name="password" aria-invalid="<?= isset($userController->errors['password']) ? 'true' : '' ?>" placeholder="Password" aria-label="Password">
+                        <input value="<?= $userData['password'] ?? '' ?>" type="password" name="password" aria-invalid="<?= isset($userData['errors']['password']) ? 'true' : '' ?>" placeholder="Password" aria-label="Password">
 
                         <button type="submit" class="contrast">Register</button>
                     </form>
                 <?php else : ?>
                     <hgroup>
                         <h1>Successfully!</h1>
-                        <h2>Save your key somewhere</h2>
+                        <h2>Save your key</h2>
                     </hgroup>
                     Your API key: <strong><?= $_SESSION['apiKey'] ?></strong>
                 <?php endif ?>
