@@ -27,8 +27,11 @@ if ($resource !== 'tasks') {
     http_response_code(404);
     exit;
 }
-
 header('Content-type: application/json; charset=UTF-8');
+
+$apiKey = $_SERVER['HTTP_X_API_KEY'];
+print_r($apiKey);
+exit;
 
 $database = new Database(
     user: $_ENV['DB_USER'],

@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 session_start();
 
-use TasksApp\Database;
-use TasksApp\UserGateway;
-use TasksApp\UserController;
-
-require __DIR__ . '/vendor/autoload.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require __DIR__ . '/vendor/autoload.php';
     Dotenv\Dotenv::createImmutable(__DIR__)->load();
 
-    $db = new Database(
+    $db = new TasksApp\Database(
         user: $_ENV['DB_USER'],
         password: $_ENV['DB_PASS'],
         host: $_ENV['DB_HOST'],
         name: $_ENV['DB_NAME']
     );
-    $userGateway = new UserGateway($db);
-    $userController = new UserController($userGateway);
 
+    $userGateway = new TasksApp\UserGateway($db);
+    $userController = new TasksApp\UserController($userGateway);
     $userController->processCreatingRequest($_POST);
 
     if ($userController->apiKey) {
@@ -37,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>API key registration</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <style>
         body>main {
@@ -123,17 +118,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="container">
         <article class="grid">
             <div>
-                <h2>Generate your REST API key</h2>
-                <?php if (!empty($userController->errors)) : ?>
-                    <?php foreach ($userController->errors as $error) : ?>
-                        <li> <?= $error ?> </li>
-                    <?php endforeach ?>
-                <?php endif ?>
-                <div></div>
+                <?php if (!isset($_SESSION['apiKey'])) : ?>
+                    <hgroup>
+                        <h1>Registration</h1>
+                        <h2>Generate your API key</h2>
+                    </hgroup>
+                    <?php if (!empty($userController->errors)) : ?>
+                        <ul>
+                            <?php foreach ($userController->errors as $error) : ?>
+                                <li> <?= $error ?> </li>
+                            <?php endforeach ?>
+                        </ul>
+                    <?php endif ?>
 
-                <?php if (isset($_SESSION['apiKey'])) : ?>
-                    Your API KEY: <strong><?= $_SESSION['apiKey'] ?></strong>
-                <?php else : ?>
                     <form method="post">
                         <input value="<?= $userController->name ?? '' ?>" type="text" name="name" aria-invalid="<?= isset($userController->errors['name']) ? 'true' : '' ?>" placeholder="Name" aria-label="name">
 
@@ -143,6 +140,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <button type="submit" class="contrast">Register</button>
                     </form>
+                <?php else : ?>
+                    <hgroup>
+                        <h1>Successfully!</h1>
+                        <h2>Save your key somewhere</h2>
+                    </hgroup>
+                    Your API key: <strong><?= $_SESSION['apiKey'] ?></strong>
                 <?php endif ?>
             </div>
             <div></div>
