@@ -19,14 +19,14 @@ if ($resource !== 'tasks') {
     exit;
 }
 
-$database = new TasksApp\Database(
+$db = new TasksApp\Database(
     user: $_ENV['DB_USER'],
     password: $_ENV['DB_PASS'],
     host: $_ENV['DB_HOST'],
     name: $_ENV['DB_NAME']
 );
 
-$userGateway = new TasksApp\UserGateway($database);
+$userGateway = new TasksApp\UserGateway($db);
 $auth = new TasksApp\Auth($userGateway);
 
 if (!$auth->authenticateAPIKey()) {
@@ -35,6 +35,6 @@ if (!$auth->authenticateAPIKey()) {
 
 $userId = $auth->getUserID();
 
-$taskGateway = new TasksApp\TaskGateway($database);
+$taskGateway = new TasksApp\TaskGateway($db);
 $controller = new TasksApp\TaskController($taskGateway, $userId);
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);

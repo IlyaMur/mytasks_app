@@ -43,6 +43,7 @@ class TaskController
             switch ($method) {
                 case 'GET':
                     echo json_encode($task);
+
                     break;
                 case 'PATCH':
                     $data = (array) json_decode(file_get_contents("php://input"), true);
@@ -56,11 +57,12 @@ class TaskController
 
                     $rows = $this->taskGateway->updateForUser($id, $data, $this->userId);
                     echo json_encode(['message' => 'Task updated', 'rows' => $rows]);
+
                     break;
                 case "DELETE":
                     $rows = $this->taskGateway->deleteForUser($id, $this->userId);
-
                     echo json_encode(['message' => 'Task deleted', 'rows' => $rows]);
+
                     break;
                 default:
                     $this->respondMethodNotAllowed('GET, PATCH, DELETE');
