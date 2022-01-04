@@ -7,6 +7,7 @@ namespace TasksApp;
 class Auth
 {
     private int $userId;
+
     public function __construct(private UserGateway $userGateway)
     {
     }

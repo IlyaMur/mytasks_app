@@ -34,9 +34,7 @@ if (!$auth->authenticateAPIKey()) {
 }
 
 $userId = $auth->getUserID();
-var_dump($userId);
-exit;
 
 $taskGateway = new TasksApp\TaskGateway($database);
-$controller = new TasksApp\TaskController($taskGateway);
+$controller = new TasksApp\TaskController($taskGateway, $userId);
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
