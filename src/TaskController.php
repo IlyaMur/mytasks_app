@@ -27,13 +27,13 @@ class TaskController
                     return;
                 }
 
-                $id = $this->taskGateway->create($data);
+                $id = $this->taskGateway->createForUser($data, $this->userId);
                 $this->respondCreated($id);
             } else {
                 $this->respondMethodNotAllowed('GET, POST');
             }
         } else {
-            $task = $this->taskGateway->get($id);
+            $task = $this->taskGateway->getForUser($id, $this->userId);
 
             if ($task === false) {
                 $this->respondNotFound($id);
@@ -54,11 +54,12 @@ class TaskController
                         return;
                     }
 
-                    $rows = $this->taskGateway->update($id, $data);
+                    $rows = $this->taskGateway->updateForUser($id, $data, $this->userId);
                     echo json_encode(['message' => 'Task updated', 'rows' => $rows]);
                     break;
                 case "DELETE":
-                    $rows = $this->taskGateway->delete($id);
+                    $rows = $this->taskGateway->deleteForUser($id, $this->userId);
+
                     echo json_encode(['message' => 'Task deleted', 'rows' => $rows]);
                     break;
                 default:

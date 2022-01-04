@@ -37,14 +37,16 @@ class TaskGateway
         return $data;
     }
 
-    public function get(string $id): array | false
+    public function getForUser(string $id, int $userId): array | false
     {
         $sql = "SELECT *
                 FROM task 
-                WHERE id = :id";
+                WHERE id = :id
+                AND user_ud = :userId";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam('id', $id, PDO::PARAM_INT);
+        $stmt->bindParam('userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,13 +59,14 @@ class TaskGateway
         return $data;
     }
 
-    public function create(array $data): string | false
+    public function createForUser(array $data, int $userId): string | false
     {
-        $sql = "INSERT INTO task (name, priority, is_completed) 
-                VALUES (:name, :priority, :is_completed)";
+        $sql = "INSERT INTO task (name, priority, is_completed, user_id) 
+                VALUES (:name, :priority, :is_completed, :user_id)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue('name', $data['name'], PDO::PARAM_STR);
+        $stmt->bindValue('user_id', $userId, PDO::PARAM_INT);
         $stmt->bindValue('is_completed', $data['is_completed'] ?? false, PDO::PARAM_BOOL);
 
         if (empty($data['priority'])) {
@@ -77,20 +80,22 @@ class TaskGateway
         return $this->conn->lastInsertId();
     }
 
-    public function delete(string $id): int
+    public function deleteForUser(string $id, int $userId): int
     {
         $sql = 'DELETE FROM task
-                WHERE id = :id';
+                WHERE id = :id
+                AND user_id = :userId';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue('id', $id, PDO::PARAM_INT);
+        $stmt->bindValue('userId', $userId, PDO::PARAM_INT);
 
         $stmt->execute();
 
         return $stmt->rowCount();
     }
 
-    public function update(string $id, array $data): int
+    public function updateForUser(string $id, array $data, int $userId): int
     {
         $fields = [];
 
@@ -127,9 +132,12 @@ class TaskGateway
 
         $sql = "UPDATE task"
             . " SET " . implode(", ", $sets)
-            . " WHERE id = :id";
+            . " WHERE id = :id"
+            . " AND user_id = :userId";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue('id', $id, PDO::PARAM_INT);
+        $stmt->bindValue('userId', $userId, PDO::PARAM_INT);
 
         foreach ($fields as $name => $val) {
             $stmt->bindValue($name, $val[0], $val[1]);
