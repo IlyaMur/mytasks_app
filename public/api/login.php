@@ -8,6 +8,7 @@ use TasksApp\Controllers\TaskController;
 use TasksApp\Core\Database;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
+header('Content-type: application/json; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -34,6 +35,14 @@ $db = new Database(
 );
 
 $userGateway = new UserGateway($db);
+
+// find and verify user
 $user = $userGateway->getByUsername($data['username']);
 
-echo json_encode($user);
+if ($user === false || !password_verify((string) $data['password'], $user['password_hash'])) {
+    http_response_code(401);
+    echo json_encode(['message' => 'invalid authentication']);
+    exit;
+}
+
+echo json_encode('Successful authentication');
