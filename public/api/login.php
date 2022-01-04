@@ -7,7 +7,7 @@ use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Core\Database;
 
-require dirname(__DIR__) . '/../../vendor/autoload.php';
+require dirname(__DIR__) . '/../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -26,4 +26,14 @@ if (
     exit;
 }
 
-echo json_encode($data);
+$db = new Database(
+    user: DB_USER,
+    password: DB_PASS,
+    host: DB_HOST,
+    name: DB_NAME
+);
+
+$userGateway = new UserGateway($db);
+$user = $userGateway->getByUsername($data['username']);
+
+echo json_encode($user);
