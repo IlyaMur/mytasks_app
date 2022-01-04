@@ -7,7 +7,7 @@ use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Core\Database;
 
-require dirname(__DIR__) . '/../vendor/autoload.php';
+require dirname(__DIR__) . '/../../vendor/autoload.php';
 
 header('Content-type: application/json; charset=UTF-8');
 
