@@ -6,11 +6,11 @@
             "TasksApp\\": "src/"
         },
         "files": [
-            "api/bootstrap.php"
+            "config/config.php"
         ]
     },
     "authors": [{
-        "name": "Ilya Mur",
+        "name": "Ilya Muratov",
         "email": "ilyamur@hotmail.com"
     }],
     "require": {

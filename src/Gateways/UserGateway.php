@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TasksApp;
+namespace TasksApp\Gateways;
 
-use TasksApp\Database;
+use TasksApp\Core\Database;
 use PDO;
 
 class UserGateway

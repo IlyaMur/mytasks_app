@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TasksApp;
+namespace TasksApp\Controllers;
+
+use TasksApp\Gateways\UserGateway;
 
 class UserController
 {
