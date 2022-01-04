@@ -42,7 +42,7 @@ class TaskGateway
         $sql = "SELECT *
                 FROM task 
                 WHERE id = :id
-                AND user_ud = :userId";
+                AND user_id = :userId";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam('id', $id, PDO::PARAM_INT);
