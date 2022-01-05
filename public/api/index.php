@@ -41,7 +41,6 @@ switch ($resource) {
         break;
     case 'tasks':
         $auth = new Auth($userGateway);
-
         // selecting type of auth (token or api key)
         if (TOKEN_AUTH) {
             $isAuthCorrect = $auth->authenticateAccessToken();
