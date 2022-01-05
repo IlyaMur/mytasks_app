@@ -18,13 +18,6 @@ $parts = explode(
 );
 
 $resource = $parts[2];
-if (
-    $resource !== 'tasks' &&
-    $resource !== 'login'
-) {
-    http_response_code(404);
-    exit;
-}
 
 $db = new Database(
     user: DB_USER,
@@ -34,25 +27,36 @@ $db = new Database(
 );
 $userGateway = new UserGateway($db);
 
-// generating auth token
-if ($resource === 'login') {
-    $tokenController = new TokenController(
-        bodyData: (array) json_decode(file_get_contents("php://input"), true),
-        userGateway: $userGateway,
-        method: $_SERVER['REQUEST_METHOD']
-    );
+switch ($resource) {
+    case 'login':
+        // generating auth token
+        $tokenController = new TokenController(
+            bodyData: (array) json_decode(file_get_contents("php://input"), true),
+            userGateway: $userGateway,
+            method: $_SERVER['REQUEST_METHOD']
+        );
+        $tokenController->processInputData();
+        exit;
 
-    $tokenController->processInputData();
-    exit;
+        break;
+    case 'tasks':
+        $auth = new Auth($userGateway);
+        if (!$auth->authenticateAccessToken()) {
+            exit;
+        }
+
+        echo 'valid auth';
+        exit;
+
+        break;
+
+    default:
+        http_response_code(404);
+        exit;
+        break;
 }
 
-$auth = new Auth($userGateway);
-if (!$auth->authenticateAccessToken()) {
-    exit;
-}
 
-echo 'valid auth';
-exit;
 
 $userId = $auth->getUserID();
 

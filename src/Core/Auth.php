@@ -70,7 +70,7 @@ class Auth
         return true;
     }
 
-    public function respondWarnMessage(string $msg)
+    public function respondWarnMessage(string $msg): void
     {
         http_response_code(400);
         echo json_encode(['message' => $msg]);
