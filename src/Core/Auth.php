@@ -44,13 +44,35 @@ class Auth
 
     public function authenticateAccessToken(): bool
     {
-        // check if Bearer type in auth header
+        // check if Bearer type persist in the beginning of auth header
         if (!preg_match("/^Bearer\s+(.*)$/", $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
-            http_response_code(400);
-            echo json_encode(['message' => 'incomplete authorization header']);
+            $this->respondWarnMessage('incomplete authorization header');
+
             return false;
         }
 
-        var_dump($matches[1]);
+        $plainText = base64_decode($matches[1], true);
+        // if token can't be decoded
+        if ($plainText === false) {
+            $this->respondWarnMessage('invalid authorization header');
+
+            return false;
+        }
+
+        $jsonData = json_decode($plainText, true);
+        // if input JSON can't be decoded
+        if ($jsonData === null) {
+            $this->respondWarnMessage('invalid JSON');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function respondWarnMessage(string $msg)
+    {
+        http_response_code(400);
+        echo json_encode(['message' => $msg]);
     }
 }

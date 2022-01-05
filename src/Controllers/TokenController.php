@@ -69,9 +69,14 @@ class TokenController
 
     public function printToken(): void
     {
-        echo base64_encode(
-            json_encode(['id' => $this->user['id'], 'name' => $this->user['name']])
-        );
+        $payload = [
+            'id' => $this->user['id'],
+            'name' => $this->user['name']
+        ];
+
+        $token = base64_encode(json_encode($payload));
+
+        echo json_encode(['token' => $token]);
     }
 
     public function respondInvalidAuth(): void

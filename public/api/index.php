@@ -47,10 +47,12 @@ if ($resource === 'login') {
 }
 
 $auth = new Auth($userGateway);
-
-if (!$auth->authenticateAPIKey()) {
+if (!$auth->authenticateAccessToken()) {
     exit;
 }
+
+echo 'valid auth';
+exit;
 
 $userId = $auth->getUserID();
 
