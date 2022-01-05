@@ -41,4 +41,16 @@ class Auth
     {
         return $this->userId;
     }
+
+    public function authenticateAccessToken(): bool
+    {
+        // check if Bearer type in auth header
+        if (!preg_match("/^Bearer\s+(.*)$/", $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+            http_response_code(400);
+            echo json_encode(['message' => 'incomplete authorization header']);
+            return false;
+        }
+
+        var_dump($matches[1]);
+    }
 }

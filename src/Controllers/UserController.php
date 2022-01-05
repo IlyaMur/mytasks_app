@@ -35,7 +35,7 @@ class UserController
 
         $user = $this->gateway->getByUsername($userData['username']);
 
-        if ($user !== false) {
+        if ($user) {
             $userData['errors']['alreadyExists'] = 'User with this username already exists';
         }
 

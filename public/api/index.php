@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
+use TasksApp\Core\Auth;
+use TasksApp\Core\Database;
 use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
-use TasksApp\Core\Database;
+use TasksApp\Controllers\TokenController;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
-
 header('Content-type: application/json; charset=UTF-8');
 
 $parts = explode(
@@ -17,9 +18,10 @@ $parts = explode(
 );
 
 $resource = $parts[2];
-$id = empty($parts[3]) ? null : $parts[3];
-
-if ($resource !== 'tasks') {
+if (
+    $resource !== 'tasks' &&
+    $resource !== 'login'
+) {
     http_response_code(404);
     exit;
 }
@@ -30,9 +32,21 @@ $db = new Database(
     host: DB_HOST,
     name: DB_NAME
 );
-
 $userGateway = new UserGateway($db);
-$auth = new TasksApp\Core\Auth($userGateway);
+
+// generating auth token
+if ($resource === 'login') {
+    $tokenController = new TokenController(
+        bodyData: (array) json_decode(file_get_contents("php://input"), true),
+        userGateway: $userGateway,
+        method: $_SERVER['REQUEST_METHOD']
+    );
+
+    $tokenController->processInputData();
+    exit;
+}
+
+$auth = new Auth($userGateway);
 
 if (!$auth->authenticateAPIKey()) {
     exit;
@@ -41,5 +55,7 @@ if (!$auth->authenticateAPIKey()) {
 $userId = $auth->getUserID();
 
 $taskGateway = new TaskGateway($db);
-$controller = new TaskController($taskGateway, $userId);
-$controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+$taskController = new TaskController($taskGateway, $userId);
+
+$id = empty($parts[3]) ? null : $parts[3];
+$taskController->processRequest($_SERVER['REQUEST_METHOD'], $id);
