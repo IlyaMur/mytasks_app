@@ -41,18 +41,23 @@ switch ($resource) {
         break;
     case 'tasks':
         $auth = new Auth($userGateway);
-        if (!$auth->authenticateAccessToken()) {
+
+        // selecting type of auth (token or api key)
+        if (TOKEN_AUTH) {
+            $isAuthCorrect = $auth->authenticateAccessToken();
+        } else {
+            $isAuthCorrect = $auth->authenticateAPIKey();
+        }
+
+        if (!$isAuthCorrect) {
             exit;
         }
 
-        echo 'valid auth';
-        exit;
-
         break;
-
     default:
         http_response_code(404);
         exit;
+
         break;
 }
 

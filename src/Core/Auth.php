@@ -67,6 +67,8 @@ class Auth
             return false;
         }
 
+        $this->userId = $jsonData['id'];
+
         return true;
     }
 
