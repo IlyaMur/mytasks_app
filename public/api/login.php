@@ -45,4 +45,13 @@ if ($user === false || !password_verify((string) $data['password'], $user['passw
     exit;
 }
 
-echo json_encode('Successful authentication');
+$payload = [
+    'id' => $user['id'],
+    'name' => $user['name']
+];
+
+$accessToken = base64_encode(json_encode($payload));
+
+echo json_encode([
+    "accessToken" => $accessToken
+]);
