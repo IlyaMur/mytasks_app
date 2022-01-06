@@ -8,17 +8,15 @@ use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
-use TasksApp\Core\Printer;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
+
 header('Content-type: application/json; charset=UTF-8');
 
 $parts = explode(
     '/',
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );
-
-$resource = $parts[2];
 
 $db = new Database(
     user: DB_USER,
@@ -28,6 +26,7 @@ $db = new Database(
 );
 $userGateway = new UserGateway($db);
 
+$resource = $parts[2];
 switch ($resource) {
     case 'login':
         // generating auth token
@@ -62,11 +61,10 @@ switch ($resource) {
 }
 
 
-
 $userId = $auth->getUserID();
 
 $taskGateway = new TaskGateway($db);
 $taskController = new TaskController($taskGateway, $userId);
 
-$id = empty($parts[3]) ? null : $parts[3];
-$taskController->processRequest($_SERVER['REQUEST_METHOD'], $id);
+$taskId = empty($parts[3]) ? null : $parts[3];
+$taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);

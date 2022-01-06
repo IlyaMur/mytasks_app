@@ -61,11 +61,4 @@ class UserGateway
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    public function generateToken()
-    {
-        return base64_encode(
-            json_encode(['id' => $user['id'], 'name' => $user['name']])
-        );
-    }
 }

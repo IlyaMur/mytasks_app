@@ -6,6 +6,10 @@ class JWTCodec
 {
     const JWT_REGEXP = "/^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/";
 
+    public function __construct(private string $key)
+    {
+    }
+
     public function encode(array $payload): string
     {
         $header = json_encode([
@@ -19,7 +23,7 @@ class JWTCodec
         $signature = hash_hmac(
             'sha256',
             $header . '.' . $payload,
-            '2A472D4B6150645367566B59703373367639792F423F4528482B4D6251655468',
+            $this->key,
             true
         );
 
@@ -55,7 +59,7 @@ class JWTCodec
         $signature = hash_hmac(
             'sha256',
             $matches['header'] . '.' . $matches['payload'],
-            '2A472D4B6150645367566B59703373367639792F423F4528482B4D6251655468',
+            $this->key,
             true
         );
 

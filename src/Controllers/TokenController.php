@@ -75,9 +75,9 @@ class TokenController
             'name' => $this->user['name']
         ];
 
-        $codec = new JWTCodec();
+        $codec = new JWTCodec(SECRET_KEY);
         $accessToken = $codec->encode($payload);
-        echo json_encode(['token' => $accessToken]);
+        echo json_encode(['accessToken' => $accessToken]);
     }
 
     public function respondInvalidAuth(): void

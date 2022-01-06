@@ -17,8 +17,8 @@ class Auth
     public function authenticateAPIKey(): bool
     {
         if (empty($_SERVER['HTTP_X_API_KEY'])) {
-            http_response_code(400);
-            echo json_encode(['message' => 'missing API key']);
+            $this->respondWarnMessage('missing API key');
+
             return false;
         };
 
@@ -27,8 +27,8 @@ class Auth
         $user = $this->userGateway->getByAPIKey($apiKey);
 
         if ($user === false) {
-            http_response_code(401);
-            echo json_encode(['message' => 'invalid API key']);
+            $this->respondWarnMessage('invalid API key', 401);
+
             return false;
         }
 
@@ -66,15 +66,14 @@ class Auth
 
             return false;
         }
-
         $this->userId = $jsonData['id'];
 
         return true;
     }
 
-    public function respondWarnMessage(string $msg): void
+    public function respondWarnMessage(string $msg, int $statusCode = 400): void
     {
-        http_response_code(400);
+        http_response_code($statusCode);
         echo json_encode(['message' => $msg]);
     }
 }
