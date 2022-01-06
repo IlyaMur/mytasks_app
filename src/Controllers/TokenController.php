@@ -81,7 +81,17 @@ class TokenController
 
         $codec = new JWTCodec(SECRET_KEY);
         $accessToken = $codec->encode($payload);
-        echo json_encode(['accessToken' => $accessToken]);
+        $refreshToken = $codec->encode([
+            'sub' => $this->user['id'],
+            'exp' => time() + 60 * 60 * 24 * 5
+        ]);
+
+        echo json_encode(
+            [
+                'accessToken' => $accessToken,
+                'refreshToken' => $refreshToken
+            ]
+        );
     }
 
     public function respondInvalidAuth(): void
