@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API key registration</title>
+    <title>Tasks App account registration</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <style>
         body>main {
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (!isset($_SESSION['apiKey'])) : ?>
                     <hgroup>
                         <h1>Registration</h1>
-                        <h2>Generate your API key</h2>
+                        <h2>Create your account</h2>
                     </hgroup>
                     <?php if (!empty($userData['errors'])) : ?>
                         <ul>
@@ -146,9 +146,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php else : ?>
                     <hgroup>
                         <h1>Successfully!</h1>
-                        <h2>Save your key</h2>
+                        <h2>This token is used for key auth (X-Api-Key header), set it in the config file if you need. <br> Otherwise you have to login to /login with your credentials first to obtain JWT token (enabled by default) </h2>
                     </hgroup>
-                    Your API key: <strong><?= $_SESSION['apiKey'] ?></strong>
+                    API token for X-Api-Key auth: <strong><?= $_SESSION['apiKey'] ?></strong>
                 <?php endif ?>
             </div>
             <div></div>

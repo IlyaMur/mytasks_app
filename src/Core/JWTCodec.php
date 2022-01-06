@@ -52,6 +52,7 @@ class JWTCodec
 
     public function decode(string $token): array
     {
+        // extracting tokens parts and throwing exception if token is invalid
         if (preg_match(static::JWT_REGEXP, $token, $matches) !== 1) {
             throw new \InvalidArgumentException("ivalid token format");
         }
