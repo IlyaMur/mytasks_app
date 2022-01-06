@@ -58,7 +58,10 @@ class TokenController
 
         if (
             !$this->user ||
-            !password_verify((string) $this->bodyData['password'], $this->user['password_hash'])
+            !password_verify(
+                (string) $this->bodyData['password'],
+                $this->user['password_hash']
+            )
         ) {
             $this->respondInvalidAuth();
 

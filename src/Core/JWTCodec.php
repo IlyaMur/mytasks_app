@@ -53,7 +53,7 @@ class JWTCodec
     public function decode(string $token): array
     {
         if (preg_match(static::JWT_REGEXP, $token, $matches) !== 1) {
-            throw new \InvalidArgumentException("Ivalid token format");
+            throw new \InvalidArgumentException("ivalid token format");
         }
 
         $signature = hash_hmac(
@@ -66,7 +66,7 @@ class JWTCodec
         $signatureFromToken = $this->base64urlDecode($matches['signature']);
 
         if (!hash_equals($signature, $signatureFromToken)) {
-            throw new \Exception("Signature doesn't match format");
+            throw new \Exception("signature doesn't match format");
         }
 
         $payload = json_decode($this->base64urlDecode($matches['payload']), true);

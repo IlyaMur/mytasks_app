@@ -8,6 +8,7 @@ use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
+use TasksApp\Core\JWTCodec;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
 
@@ -40,7 +41,7 @@ switch ($resource) {
 
         break;
     case 'tasks':
-        $auth = new Auth($userGateway);
+        $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         // selecting type of auth (token or api key)
         if (TOKEN_AUTH) {
             $isAuthCorrect = $auth->authenticateAccessToken();

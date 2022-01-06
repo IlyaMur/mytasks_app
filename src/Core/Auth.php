@@ -10,8 +10,10 @@ class Auth
 {
     private int $userId;
 
-    public function __construct(private UserGateway $userGateway)
-    {
+    public function __construct(
+        private UserGateway $userGateway,
+        private JWTCodec $codec
+    ) {
     }
 
     public function authenticateAPIKey(): bool
@@ -51,22 +53,16 @@ class Auth
             return false;
         }
 
-        $plainText = base64_decode($matches[1], true);
-        // if token can't be decoded
-        if ($plainText === false) {
-            $this->respondWarnMessage('invalid authorization header');
+        // decode JWT token and catching exception if its incorrect
+        try {
+            $data = $this->codec->decode($matches[1]);
+        } catch (\Exception $e) {
+            $this->respondWarnMessage($e->getMessage(), 400);
 
             return false;
         }
 
-        $jsonData = json_decode($plainText, true);
-        // if input JSON can't be decoded
-        if ($jsonData === null) {
-            $this->respondWarnMessage('invalid JSON');
-
-            return false;
-        }
-        $this->userId = $jsonData['id'];
+        $this->userId = $data['sub'];
 
         return true;
     }
