@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TasksApp\Controllers;
 
+use TasksApp\Core\JWTCodec;
 use TasksApp\Gateways\UserGateway;
 
 class TokenController
@@ -22,7 +23,7 @@ class TokenController
             $this->validateInputData() &&
             $this->checkUserCredentials()
         ) {
-            $this->printToken();
+            $this->generateJWT();
         }
     }
 
@@ -67,16 +68,16 @@ class TokenController
         return true;
     }
 
-    public function printToken(): void
+    public function generateJWT(): void
     {
         $payload = [
-            'id' => $this->user['id'],
+            'sub' => $this->user['id'],
             'name' => $this->user['name']
         ];
 
-        $token = base64_encode(json_encode($payload));
-
-        echo json_encode(['token' => $token]);
+        $codec = new JWTCodec();
+        $accessToken = $codec->encode($payload);
+        echo json_encode(['token' => $accessToken]);
     }
 
     public function respondInvalidAuth(): void

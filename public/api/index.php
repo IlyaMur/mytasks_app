@@ -8,6 +8,7 @@ use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
+use TasksApp\Core\Printer;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-type: application/json; charset=UTF-8');
