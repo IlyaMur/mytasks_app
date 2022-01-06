@@ -38,8 +38,6 @@ switch ($resource) {
         );
         $tokenController->processInputData();
         exit;
-
-        break;
     case 'tasks':
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         // selecting type of auth (token or api key)
@@ -52,13 +50,10 @@ switch ($resource) {
         if (!$isAuthCorrect) {
             exit;
         }
-
         break;
     default:
         http_response_code(404);
         exit;
-
-        break;
 }
 
 

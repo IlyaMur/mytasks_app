@@ -75,7 +75,8 @@ class TokenController
     {
         $payload = [
             'sub' => $this->user['id'],
-            'name' => $this->user['name']
+            'name' => $this->user['name'],
+            'exp' => time() + 20
         ];
 
         $codec = new JWTCodec(SECRET_KEY);
