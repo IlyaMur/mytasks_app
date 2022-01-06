@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use TasksApp\Controllers\RefreshTokenController;
 use TasksApp\Core\Auth;
 use TasksApp\Core\Database;
 use TasksApp\Gateways\TaskGateway;
@@ -38,6 +39,15 @@ switch ($resource) {
         );
         $tokenController->processInputData();
         exit;
+    case 'refresh':
+        $refreshTokenController = new RefreshTokenController(
+            bodyData: (array) json_decode(file_get_contents("php://input"), true),
+            userGateway: $userGateway,
+            method: $_SERVER['REQUEST_METHOD']
+        );
+        $refreshTokenController->processInputData();
+        exit;
+
     case 'tasks':
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         // selecting type of auth (token or api key)
@@ -50,6 +60,7 @@ switch ($resource) {
         if (!$isAuthCorrect) {
             exit;
         }
+
         break;
     default:
         http_response_code(404);

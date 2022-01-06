@@ -10,9 +10,9 @@ use TasksApp\Gateways\UserGateway;
 class TokenController
 {
     public function __construct(
-        private array $bodyData,
-        private string $method,
-        private UserGateway $userGateway
+        protected array $bodyData,
+        protected string $method,
+        protected UserGateway $userGateway
     ) {
     }
 
