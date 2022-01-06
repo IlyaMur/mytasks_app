@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TasksApp\Core;
 
-use TasksApp\ExceptionHandlers\InvalidSignatureException;
+use TasksApp\Exceptions\InvalidSignatureException;
 
 class JWTCodec
 {

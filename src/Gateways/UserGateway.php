@@ -34,7 +34,7 @@ class UserGateway
         return $stmt->execute() ? $apiKey : false;
     }
 
-    public function getByUsername(string $username): ?array
+    public function getByUsername(string $username): array | false
     {
         $sql = 'SELECT * 
                 FROM user
@@ -44,9 +44,7 @@ class UserGateway
         $stmt->bindValue('username', $username, PDO::PARAM_STR);
         $stmt->execute();
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $user ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getByAPIKey(string $key): array | false
