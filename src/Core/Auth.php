@@ -6,6 +6,7 @@ namespace TasksApp\Core;
 
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Exceptions\InvalidSignatureException;
+use TasksApp\Exceptions\TokenExpiredException;
 
 class Auth
 {
@@ -59,6 +60,10 @@ class Auth
             $data = $this->codec->decode($matches[1]);
         } catch (InvalidSignatureException) {
             $this->respondWarnMessage('invalid signature', 401);
+
+            return false;
+        } catch (TokenExpiredException) {
+            $this->respondWarnMessage('token has expired', 401);
 
             return false;
         } catch (\Exception $e) {

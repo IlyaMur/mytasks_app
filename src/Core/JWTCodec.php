@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TasksApp\Core;
 
+use TasksApp\Exceptions\TokenExpiredException;
 use TasksApp\Exceptions\InvalidSignatureException;
 
 class JWTCodec
@@ -75,6 +76,10 @@ class JWTCodec
         }
 
         $payload = json_decode($this->base64urlDecode($matches['payload']), true);
+
+        if ($payload['exp'] < time()) {
+            throw new TokenExpiredException;
+        }
 
         return $payload;
     }
