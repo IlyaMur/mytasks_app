@@ -10,7 +10,7 @@ define('SECRET_KEY', $_ENV['SECRET_KEY']);
 
 // selecting type of auth 
 // if TOKEN_AUTH is false - using api key instead
-define('TOKEN_AUTH', false);
+define('JWT_AUTH', true);
 
-set_error_handler('TasksApp\Core\ErrorHandler::handleError');
-set_exception_handler('TasksApp\Core\ErrorHandler::handleException');
+set_error_handler('TasksApp\Exceptions\ErrorHandler::handleError');
+set_exception_handler('TasksApp\Exceptions\ErrorHandler::handleException');

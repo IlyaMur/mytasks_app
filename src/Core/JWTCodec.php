@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TasksApp\Core;
+
+use TasksApp\ExceptionHandlers\InvalidSignatureException;
 
 class JWTCodec
 {
@@ -67,7 +71,7 @@ class JWTCodec
         $signatureFromToken = $this->base64urlDecode($matches['signature']);
 
         if (!hash_equals($signature, $signatureFromToken)) {
-            throw new \Exception("signature doesn't match format");
+            throw new InvalidSignatureException("signature doesn't match");
         }
 
         $payload = json_decode($this->base64urlDecode($matches['payload']), true);

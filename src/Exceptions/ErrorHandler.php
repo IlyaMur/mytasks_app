@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Core;
+namespace TasksApp\Exceptions;
 
 use Throwable;
 use ErrorException;

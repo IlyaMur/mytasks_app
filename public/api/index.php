@@ -43,7 +43,7 @@ switch ($resource) {
     case 'tasks':
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         // selecting type of auth (token or api key)
-        if (TOKEN_AUTH) {
+        if (JWT_AUTH) {
             $isAuthCorrect = $auth->authenticateAccessToken();
         } else {
             $isAuthCorrect = $auth->authenticateAPIKey();

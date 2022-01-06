@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TasksApp\Core;
 
 use TasksApp\Gateways\UserGateway;
+use TasksApp\Exceptions\InvalidSignatureException;
 
 class Auth
 {
@@ -56,6 +57,10 @@ class Auth
         // decode JWT token and catching exception if its incorrect
         try {
             $data = $this->codec->decode($matches[1]);
+        } catch (InvalidSignatureException) {
+            $this->respondWarnMessage('invalid signature', 401);
+
+            return false;
         } catch (\Exception $e) {
             $this->respondWarnMessage($e->getMessage(), 400);
 
