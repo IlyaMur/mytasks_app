@@ -1,7 +1,5 @@
 <?php
 
-Dotenv\Dotenv::createImmutable(dirname(__DIR__))->load();
-
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASS',  getenv('DB_PASS'));
 define('DB_HOST', getenv('DB_HOST'));

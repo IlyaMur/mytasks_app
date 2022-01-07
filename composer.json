@@ -12,8 +12,5 @@
     "authors": [{
         "name": "Ilya Muratov",
         "email": "ilyamur@hotmail.com"
-    }],
-    "require": {
-        "vlucas/phpdotenv": "^5.4"
-    }
+    }]
 }
