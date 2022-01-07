@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-use TasksApp\Controllers\RefreshTokenController;
 use TasksApp\Core\Auth;
 use TasksApp\Core\Database;
+use TasksApp\Core\JWTCodec;
 use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
-use TasksApp\Core\JWTCodec;
+use TasksApp\Gateways\RefreshTokenGateway;
+use TasksApp\Controllers\RefreshTokenController;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
 
@@ -27,6 +28,7 @@ $db = new Database(
     name: DB_NAME
 );
 $userGateway = new UserGateway($db);
+$refreshTokenGateway = new RefreshTokenGateway($db, SECRET_KEY);
 
 $resource = $parts[2];
 switch ($resource) {
@@ -35,6 +37,7 @@ switch ($resource) {
         $tokenController = new TokenController(
             bodyData: (array) json_decode(file_get_contents("php://input"), true),
             userGateway: $userGateway,
+            refreshTokenGateway: $refreshTokenGateway,
             method: $_SERVER['REQUEST_METHOD']
         );
         $tokenController->processInputData();

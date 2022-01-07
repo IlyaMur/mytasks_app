@@ -6,13 +6,15 @@ namespace TasksApp\Controllers;
 
 use TasksApp\Core\JWTCodec;
 use TasksApp\Gateways\UserGateway;
+use TasksApp\Gateways\RefreshTokenGateway;
 
 class TokenController
 {
     public function __construct(
         protected array $bodyData,
         protected string $method,
-        protected UserGateway $userGateway
+        protected UserGateway $userGateway,
+        private ?RefreshTokenGateway $refreshTokenGateway = null
     ) {
     }
 
@@ -80,10 +82,12 @@ class TokenController
         ];
 
         $codec = new JWTCodec(SECRET_KEY);
+        $refreshTokenExpiry = time() + 60 * 60 * 24 * 5;
+
         $accessToken = $codec->encode($payload);
         $refreshToken = $codec->encode([
             'sub' => $this->user['id'],
-            'exp' => time() + 60 * 60 * 24 * 5
+            'exp' => $refreshTokenExpiry
         ]);
 
         echo json_encode(
@@ -92,6 +96,8 @@ class TokenController
                 'refreshToken' => $refreshToken
             ]
         );
+
+        $this->refreshTokenGateway->create($refreshToken, $refreshTokenExpiry);
     }
 
     protected function respondInvalidAuth(): void
