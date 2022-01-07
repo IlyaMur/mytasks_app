@@ -63,6 +63,16 @@ class RefreshTokenController extends TokenController
         parent::generateJWT();
     }
 
+
+    public function deleteRefreshToken()
+    {
+        if ($this->refreshTokenGateway->delete($this->bodyData['token'])) {
+            $this->respondTokenWasDeleted();
+        } else {
+            $this->respondInvalidToken();
+        }
+    }
+
     protected function respondInvalidAuth(): void
     {
         http_response_code(401);
@@ -85,11 +95,5 @@ class RefreshTokenController extends TokenController
     {
         http_response_code(400);
         echo json_encode(['message' => 'invalid token (not on whitelist)']);
-    }
-
-    protected function respondMethodNotAllowed(): void
-    {
-        http_response_code(405);
-        header('Allow: POST');
     }
 }

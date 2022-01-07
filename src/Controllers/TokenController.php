@@ -106,6 +106,12 @@ class TokenController
         echo json_encode(['message' => 'invalid authentication']);
     }
 
+    protected function respondTokenWasDeleted(): void
+    {
+        http_response_code(200);
+        echo json_encode(['message' => 'Token was deleted']);
+    }
+
     protected function respondMissingCredentials(): void
     {
         http_response_code(400);
