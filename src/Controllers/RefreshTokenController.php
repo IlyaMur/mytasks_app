@@ -42,6 +42,14 @@ class RefreshTokenController extends TokenController
             exit;
         }
 
+        // finding old refresh token in white list
+        $refreshToken = $this->refreshTokenGateway->getByToken($this->bodyData['token']);
+
+        if ($refreshToken === false) {
+            $this->respondTokenNotInWhiteList();
+            exit;
+        }
+
         $this->user = $this->userGateway->getByID($payload['sub']);
 
         if ($this->user === false) {
@@ -71,6 +79,12 @@ class RefreshTokenController extends TokenController
     {
         http_response_code(400);
         echo json_encode(['message' => 'missing token']);
+    }
+
+    protected function respondTokenNotInWhiteList(): void
+    {
+        http_response_code(400);
+        echo json_encode(['message' => 'invalid token (not on whitelist)']);
     }
 
     protected function respondMethodNotAllowed(): void
