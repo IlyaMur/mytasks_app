@@ -2,12 +2,16 @@
 
 Dotenv\Dotenv::createImmutable(dirname(__DIR__))->load();
 
-define('DB_USER', $_ENV['DB_USER']);
-define('DB_PASS', $_ENV['DB_PASS']);
-define('DB_HOST', $_ENV['DB_HOST']);
-define('DB_NAME', $_ENV['DB_NAME']);
+define('DB_USER', getenv('DB_USER'));
+define('DB_PASS',  getenv('DB_PASS'));
+define('DB_HOST', getenv('DB_HOST'));
+define('DB_NAME',  getenv('DB_NAME'));
 
-define('SECRET_KEY', $_ENV['SECRET_KEY']);
+// var_dump(DB_PASS);
+// var_dump(DB_USER);
+// exit;
+
+define('SECRET_KEY', getenv('SECRET_KEY'));
 
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
 define('ACCESS_TOKEN_LIFESPAN', 1); // seconds
