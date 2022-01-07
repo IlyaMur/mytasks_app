@@ -78,11 +78,11 @@ class TokenController
         $payload = [
             'sub' => $this->user['id'],
             'name' => $this->user['name'],
-            'exp' => time() + 20
+            'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
         $codec = new JWTCodec(SECRET_KEY);
-        $refreshTokenExpiry = time() + 60 * 60 * 24 * 5;
+        $refreshTokenExpiry = time() + 60 * 60 * 24 * REFRESH_TOKEN_LIFESPAN;
 
         $accessToken = $codec->encode($payload);
         $refreshToken = $codec->encode([

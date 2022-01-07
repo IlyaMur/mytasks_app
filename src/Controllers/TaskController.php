@@ -58,7 +58,10 @@ class TaskController
                     }
 
                     $rows = $this->taskGateway->updateForUser($id, $data, $this->userId);
-                    echo json_encode(['message' => 'Task updated', 'rows' => $rows]);
+                    $task = $this->taskGateway->getForUser($id, $this->userId);
+                    echo json_encode(
+                        $task
+                    );
 
                     break;
                 case "DELETE":
@@ -100,8 +103,8 @@ class TaskController
     {
         $errors = [];
 
-        if ($isNew && empty($data['name'])) {
-            $errors[] = 'name is required';
+        if ($isNew && empty($data['title'])) {
+            $errors[] = 'title is required';
         }
 
         if (isset($data['priority'])) {

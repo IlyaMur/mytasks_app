@@ -68,16 +68,17 @@ switch ($resource) {
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
 
         // selecting type of auth (JWT token or basic API key)
-        $isAuthCorrect = JWT_AUTH ?
-            $auth->authenticateAccessToken() :
-            $auth->authenticateAPIKey();
+        // $isAuthCorrect = JWT_AUTH ?
+        //     $auth->authenticateAccessToken() :
+        //     $auth->authenticateAPIKey();
 
+        $isAuthCorrect = true;
         if (!$isAuthCorrect) {
             exit;
         }
 
         $taskGateway = new TaskGateway($db);
-        $taskController = new TaskController(taskGateway: $taskGateway, userId: $auth->getUserID());
+        $taskController = new TaskController(taskGateway: $taskGateway, userId: 50);
 
         $taskId = empty($parts[3]) ? null : $parts[3];
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);

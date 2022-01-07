@@ -20,8 +20,7 @@ class TaskGateway
     {
         $sql = "SELECT *
                 FROM task 
-                WHERE user_id = :userId
-                ORDER BY name";
+                WHERE user_id = :userId";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue('userId', $userId, PDO::PARAM_INT);
@@ -30,7 +29,7 @@ class TaskGateway
         $data = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $row['is_completed'] = (bool) $row['is_completed'];
+            $row['completed'] = (bool) $row['completed'];
             $data[] = $row;
         }
 
@@ -53,7 +52,7 @@ class TaskGateway
 
         // for returning bool, not int 1/0 
         if ($data !== false) {
-            $data['is_completed'] = (bool) $data['is_completed'];
+            $data['completed'] = (bool) $data['completed'];
         }
 
         return $data;
@@ -61,13 +60,13 @@ class TaskGateway
 
     public function createForUser(array $data, int $userId): string | false
     {
-        $sql = "INSERT INTO task (name, priority, is_completed, user_id) 
-                VALUES (:name, :priority, :is_completed, :user_id)";
+        $sql = "INSERT INTO task (title, priority, completed, user_id) 
+                VALUES (:title, :priority, :completed, :user_id)";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue('name', $data['name'], PDO::PARAM_STR);
+        $stmt->bindValue('title', $data['title'], PDO::PARAM_STR);
         $stmt->bindValue('user_id', $userId, PDO::PARAM_INT);
-        $stmt->bindValue('is_completed', $data['is_completed'] ?? false, PDO::PARAM_BOOL);
+        $stmt->bindValue('completed', $data['completed'] ?? false, PDO::PARAM_BOOL);
 
         if (empty($data['priority'])) {
             $stmt->bindValue('priority', null, PDO::PARAM_NULL);
@@ -99,9 +98,9 @@ class TaskGateway
     {
         $fields = [];
 
-        if (array_key_exists('name', $data)) {
-            $fields['name'] = [
-                $data['name'],
+        if (array_key_exists('title', $data)) {
+            $fields['title'] = [
+                $data['title'],
                 PDO::PARAM_STR
             ];
         }
@@ -113,9 +112,9 @@ class TaskGateway
             ];
         }
 
-        if (array_key_exists('is_completed', $data)) {
-            $fields['is_completed'] = [
-                $data['is_completed'],
+        if (array_key_exists('completed', $data)) {
+            $fields['completed'] = [
+                $data['completed'],
                 PDO::PARAM_BOOL
             ];
         }
