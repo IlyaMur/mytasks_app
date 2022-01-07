@@ -38,7 +38,7 @@ class TokenController
         return true;
     }
 
-    public function validateInputData(): bool
+    protected function validateInputData(): bool
     {
         if (
             !array_key_exists('username', $this->bodyData) ||
@@ -52,7 +52,7 @@ class TokenController
         return true;
     }
 
-    public function checkUserCredentials(): bool
+    protected function checkUserCredentials(): bool
     {
         $this->user = $this->userGateway->getByUsername($this->bodyData['username']);
 
@@ -71,7 +71,7 @@ class TokenController
         return true;
     }
 
-    public function generateJWT(): void
+    protected function generateJWT(): void
     {
         $payload = [
             'sub' => $this->user['id'],
@@ -94,19 +94,19 @@ class TokenController
         );
     }
 
-    public function respondInvalidAuth(): void
+    protected function respondInvalidAuth(): void
     {
         http_response_code(401);
         echo json_encode(['message' => 'invalid authentication']);
     }
 
-    public function respondMissingCredentials(): void
+    protected function respondMissingCredentials(): void
     {
         http_response_code(400);
         echo json_encode(['message' => 'missing login credentials']);
     }
 
-    public function respondMethodNotAllowed(): void
+    protected function respondMethodNotAllowed(): void
     {
         http_response_code(405);
         header('Allow: POST');
