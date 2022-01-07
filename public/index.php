@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-size: cover;
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
             .grid>div:nth-of-type(2) {
                 display: block;
             }
