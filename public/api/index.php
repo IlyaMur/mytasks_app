@@ -13,6 +13,7 @@ use TasksApp\Controllers\TokenController;
 use TasksApp\Controllers\RefreshTokenController;
 
 header('Content-Type: application/json; charset=UTF-8');
+
 require dirname(__DIR__) . '/../vendor/autoload.php';
 
 $parts = explode(
@@ -40,7 +41,7 @@ switch ($resource) {
         exit;
 
     case 'logout':
-        // deleting existing refresh token
+        // endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
             bodyData: (array) json_decode(file_get_contents("php://input"), true),
             refreshTokenGateway: $refreshTokenGateway,
@@ -62,8 +63,10 @@ switch ($resource) {
         exit;
 
     case 'tasks':
+        // endpoint for tasks manipulating 
         // RESTful endpoint with auth
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
+
         // selecting type of auth (JWT token or basic API key)
         $isAuthCorrect = JWT_AUTH ?
             $auth->authenticateAccessToken() :

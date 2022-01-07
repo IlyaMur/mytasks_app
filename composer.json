@@ -1,6 +1,6 @@
 {
     "name": "ilyamur/tasksapp",
-    "description": "Basic realisation of RESTful API design",
+    "description": "Basic realisation of RESTful API design and JWT/Key auth",
     "autoload": {
         "psr-4": {
             "TasksApp\\": "src/"
