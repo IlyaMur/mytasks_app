@@ -14,7 +14,7 @@ class TokenController
         protected array $bodyData,
         protected string $method,
         protected UserGateway $userGateway,
-        private ?RefreshTokenGateway $refreshTokenGateway = null
+        protected RefreshTokenGateway $refreshTokenGateway
     ) {
     }
 

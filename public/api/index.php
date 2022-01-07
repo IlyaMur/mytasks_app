@@ -7,9 +7,9 @@ use TasksApp\Core\Database;
 use TasksApp\Core\JWTCodec;
 use TasksApp\Gateways\TaskGateway;
 use TasksApp\Gateways\UserGateway;
+use TasksApp\Gateways\RefreshTokenGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
-use TasksApp\Gateways\RefreshTokenGateway;
 use TasksApp\Controllers\RefreshTokenController;
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
@@ -45,12 +45,12 @@ switch ($resource) {
     case 'refresh':
         $refreshTokenController = new RefreshTokenController(
             bodyData: (array) json_decode(file_get_contents("php://input"), true),
+            refreshTokenGateway: $refreshTokenGateway,
             userGateway: $userGateway,
             method: $_SERVER['REQUEST_METHOD']
         );
         $refreshTokenController->processInputData();
         exit;
-
     case 'tasks':
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         // selecting type of auth (token or api key)

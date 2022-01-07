@@ -37,7 +37,7 @@ class RefreshTokenController extends TokenController
 
         try {
             $payload = $codec->decode($this->bodyData['token']);
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             $this->respondInvalidToken();
             exit;
         }
@@ -48,6 +48,9 @@ class RefreshTokenController extends TokenController
             $this->respondInvalidAuth();
             exit;
         }
+
+        // delete old refresh token from db 
+        $this->refreshTokenGateway->delete($this->bodyData['token']);
 
         parent::generateJWT();
     }

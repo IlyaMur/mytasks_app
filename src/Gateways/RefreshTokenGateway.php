@@ -27,48 +27,24 @@ class RefreshTokenGateway
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue('token_hash', $token, PDO::PARAM_STR);
+        $stmt->bindValue('token_hash', $hash, PDO::PARAM_STR);
         $stmt->bindValue('expires_at', $expiry, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
 
-    public function getByUsername(string $username): array | false
+    public function delete(string $token): int
     {
-        $sql = 'SELECT * 
-                FROM user
-                WHERE username = :username';
+        $hash = hash_hmac('sha256', $token, $this->key);
+
+        $sql = 'DELETE FROM refresh_token
+                WHERE token_hash = :token_hash';
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue('username', $username, PDO::PARAM_STR);
+        $stmt->bindValue('token_hash', $hash, PDO::PARAM_STR);
+
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function getByAPIKey(string $key): array | false
-    {
-        $sql = 'SELECT * 
-                FROM user
-                WHERE api_key = :api_key';
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue('api_key', $key, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function getByID(int $id): array | false
-    {
-        $sql = "SELECT * 
-                FROM user
-                WHERE id = :id";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue('id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->rowCount();
     }
 }
