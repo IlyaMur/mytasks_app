@@ -17,6 +17,9 @@ define('ACCESS_TOKEN_LIFESPAN', 1000000000); // seconds
 // if JWT_AUTH is false - using basic X-Api-Key header key instead
 define('JWT_AUTH', false);
 
+// showing errors
+define('SHOW_ERRORS', false);
+
 // hight level error handlers
 set_error_handler('TasksApp\Exceptions\ErrorHandler::handleError');
 set_exception_handler('TasksApp\Exceptions\ErrorHandler::handleException');
