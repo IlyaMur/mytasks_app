@@ -36,7 +36,7 @@ class Auth
             return false;
         }
 
-        $this->userId = $user['id'];
+        $this->userId = (string) $user['id'];
 
         return true;
     }
