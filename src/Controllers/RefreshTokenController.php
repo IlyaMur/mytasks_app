@@ -6,7 +6,7 @@ namespace TasksApp\Controllers;
 
 class RefreshTokenController extends TokenController
 {
-    public function processInputData()
+    public function processRequest()
     {
         if (
             $this->checkMethod() &&

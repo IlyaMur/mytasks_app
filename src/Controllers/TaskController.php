@@ -35,6 +35,7 @@ class TaskController
                 $this->respondMethodNotAllowed('GET, POST');
             }
         } else {
+            // process if user provided task id
             $task = $this->taskGateway->getForUser($id, $this->userId);
 
             if ($task === false) {
@@ -75,6 +76,27 @@ class TaskController
         }
     }
 
+    public function getValidationErrors(array $data, bool $isNew = true): array
+    {
+        $errors = [];
+
+        if ($isNew && empty($data['title'])) {
+            $errors[] = 'title is required';
+        }
+
+        if ($isNew && empty($data['body'])) {
+            $errors[] = 'body is required';
+        }
+
+        if (isset($data['priority'])) {
+            if (filter_var($data['priority'], FILTER_VALIDATE_INT) === false) {
+                $errors[] = 'priority must be an integer';
+            }
+        }
+
+        return $errors;
+    }
+
     private function respondMethodNotAllowed(string $allowedMethods): void
     {
         http_response_code(405);
@@ -97,26 +119,5 @@ class TaskController
     {
         http_response_code(422);
         echo json_encode(['errors' => $errors]);
-    }
-
-    public function getValidationErrors(array $data, bool $isNew = true): array
-    {
-        $errors = [];
-
-        if ($isNew && empty($data['title'])) {
-            $errors[] = 'title is required';
-        }
-
-        if ($isNew && empty($data['body'])) {
-            $errors[] = 'body is required';
-        }
-
-        if (isset($data['priority'])) {
-            if (filter_var($data['priority'], FILTER_VALIDATE_INT) === false) {
-                $errors[] = 'priority must be an integer';
-            }
-        }
-
-        return $errors;
     }
 }

@@ -18,7 +18,7 @@ class TokenController
     ) {
     }
 
-    public function processInputData()
+    public function processRequest()
     {
         if (
             $this->checkMethod() &&

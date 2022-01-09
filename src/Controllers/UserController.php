@@ -45,7 +45,7 @@ class UserController
             $JWTtokens = $this->generateJWT($userId, $data['username']);
             $this->respondCreated($JWTtokens);
         } else {
-            $this->respondCreated(['apiKey' => $apiKey]);
+            $this->respondCreated(['accessToken' => $apiKey]);
         }
     }
 

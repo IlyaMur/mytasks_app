@@ -18,7 +18,18 @@ class Auth
     ) {
     }
 
-    public function authenticateAPIKey(): bool
+    public function authenticate(): bool
+    {
+        // selecting type of auth (JWT token or basic API key)
+        return JWT_AUTH ? $this->authenticateAccessToken() : $this->authenticateAPIKey();
+    }
+
+    public function getUserID(): string
+    {
+        return $this->userId;
+    }
+
+    private function authenticateAPIKey(): bool
     {
         if (empty($_SERVER['HTTP_X_API_KEY'])) {
             $this->respondWarnMessage('missing API key');
@@ -41,12 +52,7 @@ class Auth
         return true;
     }
 
-    public function getUserID(): string
-    {
-        return $this->userId;
-    }
-
-    public function authenticateAccessToken(): bool
+    private function authenticateAccessToken(): bool
     {
         // check if Bearer type persist in the beginning of auth header
         if (!preg_match("/^Bearer\s+(.*)$/", $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
@@ -77,7 +83,7 @@ class Auth
         return true;
     }
 
-    public function respondWarnMessage(string $msg, int $statusCode = 400): void
+    private function respondWarnMessage(string $msg, int $statusCode = 400): void
     {
         http_response_code($statusCode);
         echo json_encode(['message' => $msg]);

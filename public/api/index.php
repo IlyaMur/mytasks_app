@@ -13,28 +13,22 @@ use TasksApp\Controllers\TokenController;
 use TasksApp\Controllers\RefreshTokenController;
 use TasksApp\Controllers\UserController;
 
+require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-require dirname(__DIR__) . '/../vendor/autoload.php';
-
-$parts = explode(
-    '/',
-    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-);
+$parts = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
 $userGateway = new UserGateway($db);
-$refreshTokenGateway = new RefreshTokenGateway($db, SECRET_KEY);
 
 $resource = $parts[2];
-
 // selecting an endpoint based on the requested resource
 switch ($resource) {
     case 'signup':
         // endpoint for signup - create new user/generate access tokens 
         $userController = new UserController(
             userGateway: $userGateway,
-            refreshTokenGateway: $refreshTokenGateway,
+            refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
         );
@@ -45,19 +39,19 @@ switch ($resource) {
         // endpoint for login - generating new access token
         $tokenController = new TokenController(
             userGateway: $userGateway,
-            refreshTokenGateway: $refreshTokenGateway,
+            refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
 
         );
-        $tokenController->processInputData();
+        $tokenController->processRequest();
         break;
 
     case 'logout':
         // endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
             userGateway: $userGateway,
-            refreshTokenGateway: $refreshTokenGateway,
+            refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
         );
@@ -67,32 +61,24 @@ switch ($resource) {
     case 'refresh':
         // endpoint for refreshing access token by refresh token
         $refreshTokenController = new RefreshTokenController(
-            refreshTokenGateway: $refreshTokenGateway,
             userGateway: $userGateway,
+            refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
 
         );
-        $refreshTokenController->processInputData();
+        $refreshTokenController->processRequest();
         break;
 
     case 'tasks':
-        // endpoint for tasks manipulating 
-        // RESTful endpoint with auth
+        // RESTful endpoint for tasks manipulating 
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
-
-        // selecting type of auth (JWT token or basic API key)
-        $isAuthCorrect = JWT_AUTH ?
-            $auth->authenticateAccessToken() :
-            $auth->authenticateAPIKey();
-
-        if (!$isAuthCorrect) {
+        if (!$auth->authenticate()) {
             exit;
         }
-        $taskGateway = new TaskGateway($db);
-        $taskController = new TaskController(taskGateway: $taskGateway, userId: $auth->getUserID());
-
+        $taskController = new TaskController(taskGateway: new TaskGateway($db), userId: $auth->getUserID());
         $taskId = empty($parts[3]) ? null : $parts[3];
+
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);
         break;
 
