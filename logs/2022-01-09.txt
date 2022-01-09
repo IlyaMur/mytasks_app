@@ -1,0 +1,6 @@
+[09-Jan-2022 14:09:16 Europe/Berlin] Fatal error
+Message: 'Undefined variable $usrGateway'
+Stack trace: #0 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/index.php(75): TasksApp\Exceptions\ErrorHandler::handleError(2, 'Undefined varia...', '/Applications/X...', 75)
+#1 {main}
+Thrown in '/Applications/XAMPP/xamppfiles/htdocs/api-test/public/index.php
+75
