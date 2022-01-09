@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TasksApp\Controllers;
 
-use TasksApp\Core\JWTCodec;
-
 class RefreshTokenController extends TokenController
 {
     public function processInputData()
@@ -20,8 +18,10 @@ class RefreshTokenController extends TokenController
 
     protected function validateInputData(): bool
     {
+        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
+
         if (
-            !array_key_exists('token', $this->bodyData)
+            !array_key_exists('refreshToken', $this->bodyData)
         ) {
             $this->respondMissingToken();
 
@@ -33,17 +33,15 @@ class RefreshTokenController extends TokenController
 
     protected function generateJWT(): void
     {
-        $codec = new JWTCodec(SECRET_KEY);
-
         try {
-            $payload = $codec->decode($this->bodyData['token']);
+            $payload = $this->codec->decode($this->bodyData['refreshToken']);
         } catch (\Throwable) {
             $this->respondInvalidToken();
             exit;
         }
 
         // finding old refresh token in white list
-        $refreshToken = $this->refreshTokenGateway->getByToken($this->bodyData['token']);
+        $refreshToken = $this->refreshTokenGateway->getByToken($this->bodyData['refreshToken']);
 
         if ($refreshToken === false) {
             $this->respondTokenNotInWhiteList();

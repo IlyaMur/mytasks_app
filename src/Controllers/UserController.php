@@ -12,13 +12,15 @@ class UserController
 {
     public function __construct(
         private UserGateway $userGateway,
-        private RefreshTokenGateway $refreshTokenGateway
+        private RefreshTokenGateway $refreshTokenGateway,
+        private JWTCodec $codec,
+        private string $method
     ) {
     }
 
-    public function processRequest(string $method): void
+    public function processRequest(): void
     {
-        if ($method !== 'POST') {
+        if ($this->method !== 'POST') {
             $this->respondMethodNotAllowed('POST');
             return;
         }
@@ -38,6 +40,7 @@ class UserController
             return;
         }
 
+        // checking if JWT auth enabled 
         if (JWT_AUTH) {
             $JWTtokens = $this->generateJWT($userId, $data['username']);
             $this->respondCreated($JWTtokens);
@@ -99,11 +102,10 @@ class UserController
             'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
-        $codec = new JWTCodec(SECRET_KEY);
         $refreshTokenExpiry = time() + 60 * 60 * 24 * REFRESH_TOKEN_LIFESPAN;
 
-        $accessToken = $codec->encode($payload);
-        $refreshToken = $codec->encode([
+        $accessToken = $this->codec->encode($payload);
+        $refreshToken = $this->codec->encode([
             'sub' => $userId,
             'exp' => $refreshTokenExpiry
         ]);

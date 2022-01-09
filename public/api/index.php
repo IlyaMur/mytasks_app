@@ -35,17 +35,20 @@ switch ($resource) {
         $userController = new UserController(
             userGateway: $userGateway,
             refreshTokenGateway: $refreshTokenGateway,
+            method: $_SERVER['REQUEST_METHOD'],
+            codec: new JWTCodec(SECRET_KEY)
         );
-        $userController->processRequest($_SERVER['REQUEST_METHOD']);
+        $userController->processRequest();
         break;
 
     case 'login':
         // endpoint for login - generating new access token
         $tokenController = new TokenController(
-            bodyData: (array) json_decode(file_get_contents("php://input"), true),
             userGateway: $userGateway,
             refreshTokenGateway: $refreshTokenGateway,
-            method: $_SERVER['REQUEST_METHOD']
+            method: $_SERVER['REQUEST_METHOD'],
+            codec: new JWTCodec(SECRET_KEY)
+
         );
         $tokenController->processInputData();
         break;
@@ -53,10 +56,10 @@ switch ($resource) {
     case 'logout':
         // endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
-            bodyData: (array) json_decode(file_get_contents("php://input"), true),
-            refreshTokenGateway: $refreshTokenGateway,
             userGateway: $userGateway,
-            method: $_SERVER['REQUEST_METHOD']
+            refreshTokenGateway: $refreshTokenGateway,
+            method: $_SERVER['REQUEST_METHOD'],
+            codec: new JWTCodec(SECRET_KEY)
         );
         $refreshTokenController->deleteRefreshToken();
         break;
@@ -64,10 +67,11 @@ switch ($resource) {
     case 'refresh':
         // endpoint for refreshing access token by refresh token
         $refreshTokenController = new RefreshTokenController(
-            bodyData: (array) json_decode(file_get_contents("php://input"), true),
             refreshTokenGateway: $refreshTokenGateway,
             userGateway: $userGateway,
-            method: $_SERVER['REQUEST_METHOD']
+            method: $_SERVER['REQUEST_METHOD'],
+            codec: new JWTCodec(SECRET_KEY)
+
         );
         $refreshTokenController->processInputData();
         break;
@@ -90,9 +94,6 @@ switch ($resource) {
 
         $taskId = empty($parts[3]) ? null : $parts[3];
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);
-        break;
-    case 'user':
-        echo json_encode(['username' => 'Vasya', 'email' => 'asd@asd.ru']);
         break;
 
     default:

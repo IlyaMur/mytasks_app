@@ -11,10 +11,10 @@ use TasksApp\Gateways\RefreshTokenGateway;
 class TokenController
 {
     public function __construct(
-        protected array $bodyData,
         protected string $method,
         protected UserGateway $userGateway,
-        protected RefreshTokenGateway $refreshTokenGateway
+        protected RefreshTokenGateway $refreshTokenGateway,
+        protected JWTCodec $codec
     ) {
     }
 
@@ -42,6 +42,8 @@ class TokenController
 
     protected function validateInputData(): bool
     {
+        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
+
         if (
             !array_key_exists('email', $this->bodyData) ||
             !array_key_exists('password', $this->bodyData)
@@ -81,11 +83,10 @@ class TokenController
             'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
-        $codec = new JWTCodec(SECRET_KEY);
         $refreshTokenExpiry = time() + 60 * 60 * 24 * REFRESH_TOKEN_LIFESPAN;
 
-        $accessToken = $codec->encode($payload);
-        $refreshToken = $codec->encode([
+        $accessToken = $this->codec->encode($payload);
+        $refreshToken = $this->codec->encode([
             'sub' => $this->user['id'],
             'exp' => $refreshTokenExpiry
         ]);
