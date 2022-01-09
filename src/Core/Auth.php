@@ -10,7 +10,7 @@ use TasksApp\Exceptions\TokenExpiredException;
 
 class Auth
 {
-    private int $userId;
+    private string $userId;
 
     public function __construct(
         private UserGateway $userGateway,
@@ -41,7 +41,7 @@ class Auth
         return true;
     }
 
-    public function getUserID(): int
+    public function getUserID(): string
     {
         return $this->userId;
     }
@@ -72,7 +72,7 @@ class Auth
             return false;
         }
 
-        $this->userId = $data['sub'];
+        $this->userId = (string) $data['sub'];
 
         return true;
     }

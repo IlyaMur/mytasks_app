@@ -16,7 +16,7 @@ class TaskGateway
         $this->conn = $database->getConnection();
     }
 
-    public function getAllForUser(int $userId): array
+    public function getAllForUser(string $userId): array
     {
         $sql = "SELECT *
                 FROM task 
@@ -36,7 +36,7 @@ class TaskGateway
         return $data;
     }
 
-    public function getForUser(string $id, int $userId): array | false
+    public function getForUser(string $id, string $userId): array | false
     {
         $sql = "SELECT *
                 FROM task 
@@ -58,13 +58,15 @@ class TaskGateway
         return $data;
     }
 
-    public function createForUser(array $data, int $userId): string | false
+    public function createForUser(array $data, string $userId): string | false
     {
-        $sql = "INSERT INTO task (title, priority, completed, user_id) 
-                VALUES (:title, :priority, :completed, :user_id)";
+        $sql = "INSERT INTO task (title, body, priority, completed, user_id) 
+                VALUES (:title, :body, :priority, :completed, :user_id)";
 
         $stmt = $this->conn->prepare($sql);
+
         $stmt->bindValue('title', $data['title'], PDO::PARAM_STR);
+        $stmt->bindValue('body', $data['body'], PDO::PARAM_STR);
         $stmt->bindValue('user_id', $userId, PDO::PARAM_INT);
         $stmt->bindValue('completed', $data['completed'] ?? false, PDO::PARAM_BOOL);
 
@@ -79,7 +81,7 @@ class TaskGateway
         return $this->conn->lastInsertId();
     }
 
-    public function deleteForUser(string $id, int $userId): int
+    public function deleteForUser(string $id, string $userId): int
     {
         $sql = 'DELETE FROM task
                 WHERE id = :id
@@ -94,13 +96,20 @@ class TaskGateway
         return $stmt->rowCount();
     }
 
-    public function updateForUser(string $id, array $data, int $userId): int
+    public function updateForUser(string $id, array $data, string $userId): int
     {
         $fields = [];
 
         if (array_key_exists('title', $data)) {
             $fields['title'] = [
                 $data['title'],
+                PDO::PARAM_STR
+            ];
+        }
+
+        if (array_key_exists('body', $data)) {
+            $fields['body'] = [
+                $data['body'],
                 PDO::PARAM_STR
             ];
         }

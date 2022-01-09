@@ -11,6 +11,7 @@ use TasksApp\Gateways\RefreshTokenGateway;
 use TasksApp\Controllers\TaskController;
 use TasksApp\Controllers\TokenController;
 use TasksApp\Controllers\RefreshTokenController;
+use TasksApp\Controllers\UserController;
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -27,10 +28,19 @@ $refreshTokenGateway = new RefreshTokenGateway($db, SECRET_KEY);
 
 $resource = $parts[2];
 
-// selecting endpoint based on the requested resource
+// selecting an endpoint based on the requested resource
 switch ($resource) {
+    case 'signup':
+        // endpoint for signup - create new user/generate access tokens 
+        $userController = new UserController(
+            userGateway: $userGateway,
+            refreshTokenGateway: $refreshTokenGateway,
+        );
+        $userController->processRequest($_SERVER['REQUEST_METHOD']);
+        break;
+
     case 'login':
-        // endpoint for generating access token
+        // endpoint for login - generating new access token
         $tokenController = new TokenController(
             bodyData: (array) json_decode(file_get_contents("php://input"), true),
             userGateway: $userGateway,
@@ -38,7 +48,7 @@ switch ($resource) {
             method: $_SERVER['REQUEST_METHOD']
         );
         $tokenController->processInputData();
-        exit;
+        break;
 
     case 'logout':
         // endpoint for deleting existing refresh token
@@ -49,7 +59,7 @@ switch ($resource) {
             method: $_SERVER['REQUEST_METHOD']
         );
         $refreshTokenController->deleteRefreshToken();
-        exit;
+        break;
 
     case 'refresh':
         // endpoint for refreshing access token by refresh token
@@ -60,7 +70,7 @@ switch ($resource) {
             method: $_SERVER['REQUEST_METHOD']
         );
         $refreshTokenController->processInputData();
-        exit;
+        break;
 
     case 'tasks':
         // endpoint for tasks manipulating 
@@ -68,21 +78,22 @@ switch ($resource) {
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
 
         // selecting type of auth (JWT token or basic API key)
-        // $isAuthCorrect = JWT_AUTH ?
-        //     $auth->authenticateAccessToken() :
-        //     $auth->authenticateAPIKey();
+        $isAuthCorrect = JWT_AUTH ?
+            $auth->authenticateAccessToken() :
+            $auth->authenticateAPIKey();
 
-        $isAuthCorrect = true;
         if (!$isAuthCorrect) {
             exit;
         }
-
         $taskGateway = new TaskGateway($db);
-        $taskController = new TaskController(taskGateway: $taskGateway, userId: 50);
+        $taskController = new TaskController(taskGateway: $taskGateway, userId: $auth->getUserID());
 
         $taskId = empty($parts[3]) ? null : $parts[3];
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);
-        exit;
+        break;
+    case 'user':
+        echo json_encode(['username' => 'Vasya', 'email' => 'asd@asd.ru']);
+        break;
 
     default:
         http_response_code(404);

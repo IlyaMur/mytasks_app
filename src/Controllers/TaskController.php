@@ -10,7 +10,7 @@ class TaskController
 {
     public function __construct(
         private TaskGateway $taskGateway,
-        private int $userId
+        private string $userId
     ) {
     }
 
@@ -58,9 +58,9 @@ class TaskController
                     }
 
                     $rows = $this->taskGateway->updateForUser($id, $data, $this->userId);
-                    $task = $this->taskGateway->getForUser($id, $this->userId);
+
                     echo json_encode(
-                        $task
+                        ['message' => 'Task updated', 'rows' => $rows]
                     );
 
                     break;
@@ -105,6 +105,10 @@ class TaskController
 
         if ($isNew && empty($data['title'])) {
             $errors[] = 'title is required';
+        }
+
+        if ($isNew && empty($data['body'])) {
+            $errors[] = 'body is required';
         }
 
         if (isset($data['priority'])) {

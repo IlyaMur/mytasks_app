@@ -16,32 +16,32 @@ class UserGateway
         $this->conn = $database->getConnection();
     }
 
-    public function create(array $userData): string | false
+    public function create(array $userData): array | false
     {
-        $sql = "INSERT INTO user (name, username, password_hash, api_key) 
-                VALUES (:name, :username, :password_hash, :api_key)";
+        $sql = "INSERT INTO user (email, username, password_hash, api_key) 
+                VALUES (:email, :username, :password_hash, :api_key)";
 
         $stmt = $this->conn->prepare($sql);
 
-        $passwordHash = password_hash($userData['password'], PASSWORD_DEFAULT);
+        $passwordHash = password_hash((string) $userData['password'], PASSWORD_DEFAULT);
         $apiKey = bin2hex(random_bytes(16));
 
-        $stmt->bindValue('name', $userData['name'], PDO::PARAM_STR);
+        $stmt->bindValue('email', $userData['email'], PDO::PARAM_STR);
         $stmt->bindValue('username', $userData['username'], PDO::PARAM_STR);
         $stmt->bindValue('password_hash', $passwordHash, PDO::PARAM_STR);
         $stmt->bindValue('api_key', $apiKey, PDO::PARAM_STR);
 
-        return $stmt->execute() ? $apiKey : false;
+        return $stmt->execute() ? [$apiKey, $this->conn->lastInsertId()] : false;
     }
 
-    public function getByUsername(string $username): array | false
+    public function getByEmail(string $email): array | false
     {
         $sql = 'SELECT * 
                 FROM user
-                WHERE username = :username';
+                WHERE email = :email';
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue('username', $username, PDO::PARAM_STR);
+        $stmt->bindValue('email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

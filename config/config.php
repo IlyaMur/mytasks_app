@@ -12,11 +12,11 @@ define('DB_NAME',  getenv('DB_NAME'));
 define('SECRET_KEY', getenv('SECRET_KEY'));
 
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
-define('ACCESS_TOKEN_LIFESPAN', 1); // seconds
+define('ACCESS_TOKEN_LIFESPAN', 1000000000); // seconds
 
 // selecting type of auth 
 // if JWT_AUTH is false - using basic X-Api-Key header key instead
-define('JWT_AUTH', false);
+define('JWT_AUTH', true);
 
 set_error_handler('TasksApp\Exceptions\ErrorHandler::handleError');
 set_exception_handler('TasksApp\Exceptions\ErrorHandler::handleException');

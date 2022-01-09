@@ -43,7 +43,7 @@ class TokenController
     protected function validateInputData(): bool
     {
         if (
-            !array_key_exists('username', $this->bodyData) ||
+            !array_key_exists('email', $this->bodyData) ||
             !array_key_exists('password', $this->bodyData)
         ) {
             $this->respondMissingCredentials();
@@ -56,7 +56,7 @@ class TokenController
 
     protected function checkUserCredentials(): bool
     {
-        $this->user = $this->userGateway->getByUsername($this->bodyData['username']);
+        $this->user = $this->userGateway->getByEmail($this->bodyData['email']);
 
         if (
             !$this->user ||
@@ -77,7 +77,7 @@ class TokenController
     {
         $payload = [
             'sub' => $this->user['id'],
-            'name' => $this->user['name'],
+            'name' => $this->user['username'],
             'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
@@ -103,7 +103,7 @@ class TokenController
     protected function respondInvalidAuth(): void
     {
         http_response_code(401);
-        echo json_encode(['message' => 'invalid authentication']);
+        echo json_encode(['general' => 'No user with this data was found']);
     }
 
     protected function respondTokenWasDeleted(): void
@@ -115,7 +115,7 @@ class TokenController
     protected function respondMissingCredentials(): void
     {
         http_response_code(400);
-        echo json_encode(['message' => 'missing login credentials']);
+        echo json_encode(['general' => 'missing login credentials']);
     }
 
     protected function respondMethodNotAllowed(): void
