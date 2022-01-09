@@ -1,5 +1,14 @@
 <?php
 
+// set dir for logging
+ini_set(
+    'error_log',
+    dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt'
+);
+
+// showing errors, if false - logging
+define('SHOW_ERRORS', true);
+
 // db credentials
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASS',  getenv('DB_PASS'));
@@ -16,9 +25,6 @@ define('ACCESS_TOKEN_LIFESPAN', 1000000000); // seconds
 // selecting type of auth 
 // if JWT_AUTH is false - using basic X-Api-Key header key instead
 define('JWT_AUTH', false);
-
-// showing errors
-define('SHOW_ERRORS', false);
 
 // hight level error handlers
 set_error_handler('TasksApp\Exceptions\ErrorHandler::handleError');

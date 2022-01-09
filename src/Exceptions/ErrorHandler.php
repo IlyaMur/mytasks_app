@@ -36,14 +36,11 @@ class ErrorHandler
                 'line' => $exception->getLine()
             ]);
         } else {
-            $log = dirname(__DIR__) . '/../logs/' . date('Y-m-d') . '.txt';
-            ini_set('error_log', $log);
-
             $logMessage = "Fatal error\n";
             $logMessage .= "Message: '" . $exception->getMessage() . "'\n";
             $logMessage .= "Stack trace: " . $exception->getTraceAsString() . "\n";
-            $logMessage .= "Thrown in '" . $exception->getFile() . "\n" .
-                $exception->getLine();
+            $logMessage .= "Thrown in '" . $exception->getFile() . "\n";
+            $logMessage .= "Line: " . $exception->getLine();
 
             error_log($logMessage);
 

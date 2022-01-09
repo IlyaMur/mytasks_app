@@ -72,7 +72,7 @@ switch ($resource) {
 
     case 'tasks':
         // RESTful endpoint for tasks manipulating 
-        $auth = new Auth($usrGateway, new JWTCodec(SECRET_KEY));
+        $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         if (!$auth->authenticate()) {
             exit;
         }
