@@ -16,6 +16,7 @@ class TokenController
         protected RefreshTokenGateway $refreshTokenGateway,
         protected JWTCodec $codec
     ) {
+        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
     }
 
     public function processRequest()
@@ -42,7 +43,6 @@ class TokenController
 
     protected function validateInputData(): bool
     {
-        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
 
         if (
             !array_key_exists('email', $this->bodyData) ||
