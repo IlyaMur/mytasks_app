@@ -51,7 +51,7 @@ class TaskController
                 case 'PATCH':
                     $data = (array) json_decode(file_get_contents("php://input"), true);
 
-                    $errors = $this->getValidationErrors($data, false);
+                    $errors = $this->getValidationErrors($data);
 
                     if (!empty($errors)) {
                         $this->respondUnprocessableEntity($errors);
@@ -76,21 +76,21 @@ class TaskController
         }
     }
 
-    public function getValidationErrors(array $data, bool $isNew = true): array
+    public function getValidationErrors(array $data): array
     {
         $errors = [];
 
-        if ($isNew && empty($data['title'])) {
-            $errors[] = 'title is required';
+        if (empty($data['title'])) {
+            $errors['title'] = 'title is required';
         }
 
-        if ($isNew && empty($data['body'])) {
-            $errors[] = 'body is required';
+        if (empty($data['body'])) {
+            $errors['body'] = 'body is required';
         }
 
         if (isset($data['priority'])) {
             if (filter_var($data['priority'], FILTER_VALIDATE_INT) === false) {
-                $errors[] = 'priority must be an integer';
+                $errors['priority'] = 'priority must be an integer';
             }
         }
 

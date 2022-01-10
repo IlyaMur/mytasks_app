@@ -13,15 +13,18 @@ use TasksApp\Controllers\TokenController;
 use TasksApp\Controllers\RefreshTokenController;
 use TasksApp\Controllers\UserController;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-$parts = explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+// filter redundant slashes
+$reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
+
+$parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
 
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
 $userGateway = new UserGateway($db);
 
-$resource = $parts[1];
+$resource = $parts[2];
 // selecting an endpoint based on the requested resource
 switch ($resource) {
     case 'signup':
@@ -77,7 +80,7 @@ switch ($resource) {
             exit;
         }
         $taskController = new TaskController(taskGateway: new TaskGateway($db), userId: $auth->getUserID());
-        $taskId = empty($parts[2]) ? null : $parts[2];
+        $taskId = empty($parts[3]) ? null : $parts[3];
 
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);
         break;
