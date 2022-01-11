@@ -48,7 +48,7 @@ class RefreshTokenController extends TokenController
             exit;
         }
 
-        $this->user = $this->userGateway->getByID($payload['sub']);
+        $this->user = $this->userGateway->getByID((string) $payload['sub']);
 
         if ($this->user === false) {
             $this->respondInvalidAuth();

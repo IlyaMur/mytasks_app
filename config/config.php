@@ -20,7 +20,7 @@ define('SECRET_KEY', getenv('SECRET_KEY'));
 
 // setting for adjusting lifespan of the JWT tokens 
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
-define('ACCESS_TOKEN_LIFESPAN', 1000000000); // seconds
+define('ACCESS_TOKEN_LIFESPAN', 300); // seconds
 
 // selecting type of auth 
 // if JWT_AUTH is false - using basic X-Api-Key header key instead
