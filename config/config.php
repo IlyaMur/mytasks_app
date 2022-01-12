@@ -7,7 +7,7 @@ ini_set(
 );
 
 // showing errors, if false - logging
-define('SHOW_ERRORS', true);
+define('SHOW_ERRORS', false);
 
 // db credentials
 define('DB_USER', getenv('DB_USER'));
