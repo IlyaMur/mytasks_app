@@ -2,16 +2,9 @@
 
 declare(strict_types=1);
 
-use TasksApp\Core\Auth;
-use TasksApp\Core\Database;
-use TasksApp\Core\JWTCodec;
-use TasksApp\Gateways\TaskGateway;
-use TasksApp\Gateways\UserGateway;
-use TasksApp\Gateways\RefreshTokenGateway;
-use TasksApp\Controllers\TaskController;
-use TasksApp\Controllers\TokenController;
-use TasksApp\Controllers\RefreshTokenController;
-use TasksApp\Controllers\UserController;
+use TasksApp\Core\{JWTCodec, Database, Auth};
+use TasksApp\Controllers\{UserController, RefreshTokenController, TaskController, TokenController};
+use TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');

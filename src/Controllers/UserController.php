@@ -42,7 +42,7 @@ class UserController
 
         // checking if JWT auth enabled 
         if (JWT_AUTH) {
-            $JWTtokens = $this->generateJWT($userId, $data['username']);
+            $JWTtokens = $this->generateJWT((string) $userId, (string) $data['username']);
             $this->respondCreated($JWTtokens);
         } else {
             $this->respondCreated(['accessToken' => $apiKey]);

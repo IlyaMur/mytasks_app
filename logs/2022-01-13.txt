@@ -1,0 +1,8 @@
+[13-Jan-2022 06:47:22 Europe/Berlin] Fatal error
+Message: 'SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db`.`task`, CONSTRAINT `task_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)'
+Stack trace: #0 /Applications/XAMPP/xamppfiles/htdocs/api-test/src/Gateways/TaskGateway.php(80): PDOStatement->execute()
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/src/Controllers/TaskController.php(32): TasksApp\Gateways\TaskGateway->createForUser(Array, '85')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(83): TasksApp\Controllers\TaskController->processRequest('POST', NULL)
+#3 {main}
+Thrown in '/Applications/XAMPP/xamppfiles/htdocs/api-test/src/Gateways/TaskGateway.php
+Line: 80
