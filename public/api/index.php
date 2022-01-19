@@ -34,6 +34,7 @@ switch ($resource) {
         // endpoint for login - generating new access token
         $tokenController = new TokenController(
             userGateway: $userGateway,
+            data: (array) json_decode(file_get_contents("php://input"), true),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
@@ -46,6 +47,7 @@ switch ($resource) {
         // endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
             userGateway: $userGateway,
+            data: (array) json_decode(file_get_contents("php://input"), true),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)
@@ -57,6 +59,7 @@ switch ($resource) {
         // endpoint for refreshing access token by refresh token
         $refreshTokenController = new RefreshTokenController(
             userGateway: $userGateway,
+            data: (array) json_decode(file_get_contents("php://input"), true),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             method: $_SERVER['REQUEST_METHOD'],
             codec: new JWTCodec(SECRET_KEY)

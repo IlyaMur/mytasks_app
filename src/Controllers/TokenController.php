@@ -11,12 +11,13 @@ use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
 class TokenController
 {
     public function __construct(
-        protected string $method,
+        public string $method,
         protected UserGateway $userGateway,
         protected RefreshTokenGateway $refreshTokenGateway,
-        protected JWTCodec $codec
+        protected JWTCodec $codec,
+        array $data
     ) {
-        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
+        $this->bodyData = $data;
     }
 
     public function processRequest()
@@ -30,7 +31,7 @@ class TokenController
         }
     }
 
-    public function checkMethod(): bool
+    protected function checkMethod(): bool
     {
         if ($this->method !== 'POST') {
             $this->respondMethodNotAllowed();
@@ -80,7 +81,7 @@ class TokenController
         $payload = [
             'sub' => $this->user['id'],
             'name' => $this->user['username'],
-            'exp' => time() + ACCESS_TOKEN_LIFESPAN
+            'exp' => time() + ACCESS_TOKEN_LIFESPAN // tokens lifespan configuring in the config file
         ];
 
         $refreshTokenExpiry = time() + 60 * 60 * 24 * REFRESH_TOKEN_LIFESPAN;
@@ -91,14 +92,17 @@ class TokenController
             'exp' => $refreshTokenExpiry
         ]);
 
-        echo json_encode(
-            [
-                'accessToken' => $accessToken,
-                'refreshToken' => $refreshToken
-            ]
-        );
+        $this->respondTokens([
+            'accessToken' => $accessToken,
+            'refreshToken' => $refreshToken
+        ]);
 
         $this->refreshTokenGateway->create($refreshToken, $refreshTokenExpiry);
+    }
+
+    protected function respondTokens(array $tokens): void
+    {
+        echo json_encode($tokens);
     }
 
     protected function respondInvalidAuth(): void
