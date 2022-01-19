@@ -102,30 +102,35 @@ class TokenController
 
     protected function respondTokens(array $tokens): void
     {
-        echo json_encode($tokens);
+        $this->renderJSON($tokens);
     }
 
     protected function respondInvalidAuth(): void
     {
         http_response_code(401);
-        echo json_encode(['general' => 'No user with this data was found']);
+        $this->renderJSON(['general' => 'No user with this data was found']);
     }
 
     protected function respondTokenWasDeleted(): void
     {
         http_response_code(200);
-        echo json_encode(['message' => 'Token was deleted']);
+        $this->renderJSON(['message' => 'Token was deleted']);
     }
 
     protected function respondMissingCredentials(): void
     {
         http_response_code(400);
-        echo json_encode(['general' => 'missing login credentials']);
+        $this->renderJSON(['general' => 'missing login credentials']);
     }
 
     protected function respondMethodNotAllowed(): void
     {
         http_response_code(405);
         header('Allow: POST');
+    }
+
+    protected function renderJSON(array | string $item): void
+    {
+        echo json_encode($item);
     }
 }

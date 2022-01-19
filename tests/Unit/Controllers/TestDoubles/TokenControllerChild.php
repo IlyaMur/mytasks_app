@@ -27,4 +27,34 @@ class TokenControllerChild extends TokenController
     {
         parent::generateJWT();
     }
+
+    public function respondTokens(array $tokens): void
+    {
+        parent::respondTokens($tokens);
+    }
+
+    public function respondInvalidAuth(): void
+    {
+        parent::respondInvalidAuth();
+    }
+
+    public function respondTokenWasDeleted(): void
+    {
+        parent::respondTokenWasDeleted();
+    }
+
+    public function respondMissingCredentials(): void
+    {
+        parent::respondMissingCredentials();
+    }
+
+    public function respondMethodNotAllowed(): void
+    {
+        parent::respondMethodNotAllowed();
+    }
+
+    public function renderJSON(array | string $item): void
+    {
+        parent::renderJSON($item);
+    }
 }

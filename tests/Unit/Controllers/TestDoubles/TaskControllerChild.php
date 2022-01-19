@@ -18,9 +18,19 @@ class TaskControllerChild extends TaskController
         parent::requestToResource();
     }
 
-    public function processUpdateRequest(): ?array
+    public function processUpdateRequest(): void
     {
-        return parent::requestToResource();
+        parent::processUpdateRequest();
+    }
+
+    public function processCreateRequest(): void
+    {
+        parent::processCreateRequest();
+    }
+
+    public function processDeleteRequest(): void
+    {
+        parent::processDeleteRequest();
     }
 
     public function getValidationErrors(array $data): array

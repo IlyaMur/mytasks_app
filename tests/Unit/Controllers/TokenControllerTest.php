@@ -166,4 +166,85 @@ class TokenControllerTest extends TestCase
 
         $controllerMock->generateJWT();
     }
+
+    public function testProcessRequestGenerateJWTIfCheckingsAreOk()
+    {
+        $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
+            ->setConstructorArgs([
+                'POST',
+                $this->createMock(UserGateway::class),
+                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(JWTCodec::class),
+                ['email' => 'email@email.com', 'password' => '12345']
+            ])->onlyMethods(['checkMethod', 'validateInputData', 'checkUserCredentials', 'generateJWT'])->getMock();
+
+        $controllerMock->expects($this->once())->method('checkMethod')->willReturn(true);
+        $controllerMock->expects($this->once())->method('validateInputData')->willReturn(true);
+        $controllerMock->expects($this->once())->method('checkUserCredentials')->willReturn(true);
+
+        $controllerMock->expects($this->once())->method('generateJWT');
+
+        $controllerMock->processRequest();
+    }
+
+    /**
+     * @dataProvider renderJSONProvider
+     */
+
+    public function testCallRenderJSONCorrectly(array | string $data, string $method): void
+    {
+        $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
+            ->setConstructorArgs([
+                'POST',
+                $this->createMock(UserGateway::class),
+                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(JWTCodec::class),
+                ['email' => 'email@email.com', 'password' => '12345']
+            ])->onlyMethods(['renderJSON'])->getMock();
+
+        $controllerMock->expects($this->once())->method('renderJSON')->with($data);
+
+        $controllerMock->$method();
+    }
+
+    public function renderJSONProvider(): array
+    {
+        return [
+            [['general' => 'No user with this data was found'], 'respondInvalidAuth'],
+            [['message' => 'Token was deleted'], 'respondTokenWasDeleted'],
+            [['general' => 'missing login credentials'], 'respondMissingCredentials'],
+        ];
+    }
+
+    public function testRespondTokentsCorrectly(): void
+    {
+        $data = ['accessToken' => 123, 'refreshToken' => 456];
+        $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
+            ->setConstructorArgs([
+                'POST',
+                $this->createMock(UserGateway::class),
+                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(JWTCodec::class),
+                ['email' => 'email@email.com', 'password' => '12345']
+            ])->onlyMethods(['renderJSON'])->getMock();
+
+        $controllerMock->expects($this->once())->method('renderJSON')->with($data);
+
+        $controllerMock->respondTokens($data);
+    }
+
+    public function testRenderJSON(): void
+    {
+        $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
+            ->setConstructorArgs([
+                'POST',
+                $this->createMock(UserGateway::class),
+                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(JWTCodec::class),
+                ['email' => 'email@email.com', 'password' => '12345']
+            ])->onlyMethods([])->getMock();
+
+        $controllerMock->renderJSON("foobar");
+        $this->expectOutputString('"foobar"');
+    }
 }
