@@ -24,6 +24,7 @@ class TaskController
     protected function requestToSingleEntity(): void
     {
         $task = $this->taskGateway->getForUser($this->taskId, $this->userId);
+
         if ($task === false) {
             $this->respondNotFound();
             return;
@@ -39,8 +40,7 @@ class TaskController
 
                 break;
             case 'DELETE':
-                $rows = $this->taskGateway->deleteForUser($this->taskId, $this->userId);
-                $this->renderJSON(['message' => 'Task deleted', 'rows' => $rows]);
+                $this->processDeleteRequest();
 
                 break;
             default:
@@ -56,16 +56,7 @@ class TaskController
                 break;
 
             case 'POST':
-                $data = $this->getFromRequestBody();
-                $errors = $this->getValidationErrors($data);
-
-                if (!empty($errors)) {
-                    $this->respondUnprocessableEntity($errors);
-                    break;
-                }
-
-                $newTaskId = $this->taskGateway->createForUser($data, $this->userId);
-                $this->respondCreated($newTaskId);
+                $this->processCreateRequest();
 
                 break;
             default:
@@ -73,21 +64,48 @@ class TaskController
         }
     }
 
-    protected function processUpdateRequest()
+    protected function processUpdateRequest(): void
     {
         $data = $this->getFromRequestBody();
-        $errors = $this->getValidationErrors($data);
-
-        if (!empty($errors)) {
-            $this->respondUnprocessableEntity($errors);
+        if (!$this->validateData($data)) {
             return;
         }
 
         $rows = $this->taskGateway->updateForUser($this->taskId, $data, $this->userId);
 
-        $this->renderJSON(
-            ['message' => 'Task updated', 'rows' => $rows]
-        );
+        $this->renderJSON(['message' => 'Task updated', 'rows' => $rows]);
+    }
+
+    protected function processCreateRequest(): void
+    {
+        $data = $this->getFromRequestBody();
+        if (!$this->validateData($data)) {
+            return;
+        }
+
+        $newTaskId = $this->taskGateway->createForUser($data, $this->userId);
+
+        if ($newTaskId) {
+            $this->respondCreated($newTaskId);
+        }
+    }
+
+    protected function validateData(array $data): bool
+    {
+        $errors = $this->getValidationErrors($data);
+
+        if (!empty($errors)) {
+            $this->respondUnprocessableEntity($errors);
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function processDeleteRequest()
+    {
+        $rows = $this->taskGateway->deleteForUser($this->taskId, $this->userId);
+        $this->renderJSON(['message' => 'Task deleted', 'rows' => $rows]);
     }
 
     protected function getValidationErrors(array $data): array

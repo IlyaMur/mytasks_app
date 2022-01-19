@@ -12,16 +12,6 @@ use Ilyamur\TasksApp\Services\JWTCodec;
 
 class TokenControllerTest extends TestCase
 {
-    // public function setUp(): void
-    // {
-    //     $userGatewayMock = $this->createMock(UserGateway::class);
-    //     $tokenMock = $this->createMock(refreshTokenGateway::class);
-    //     $codecMock = $this->createMock(JWTCodec::class);
-    //     $data = ['email' => 'email@email.com', 'password' => 12345];
-
-    //     $this->controller = new TokenControllerChild('POST', $userGatewayMock, $tokenMock, $codecMock, $data);
-    // }
-
     public function testCheckMethodReturnTrueIfMethodIsPost()
     {
         $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
