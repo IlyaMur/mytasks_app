@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Exceptions;
+namespace Ilyamur\TasksApp\Exceptions;
 
 class InvalidSignatureException extends \Exception
 {

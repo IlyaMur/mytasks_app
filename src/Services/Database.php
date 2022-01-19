@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Core;
+namespace Ilyamur\TasksApp\Services;
 
 use PDO;
 

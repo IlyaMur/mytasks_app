@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Core;
+namespace Ilyamur\TasksApp\Services;
 
-use TasksApp\Gateways\UserGateway;
-use TasksApp\Exceptions\InvalidSignatureException;
-use TasksApp\Exceptions\TokenExpiredException;
+use Ilyamur\TasksApp\Gateways\UserGateway;
+use Ilyamur\TasksApp\Exceptions\InvalidSignatureException;
+use Ilyamur\TasksApp\Exceptions\TokenExpiredException;
 
 class Auth
 {
@@ -21,6 +21,7 @@ class Auth
     public function authenticate(): bool
     {
         // selecting type of auth (JWT token or basic API key)
+        // adjusting in the config file
         return JWT_AUTH ? $this->authenticateAccessToken() : $this->authenticateAPIKey();
     }
 
@@ -31,22 +32,19 @@ class Auth
 
     private function authenticateAPIKey(): bool
     {
-        if (empty($_SERVER['HTTP_X_API_KEY'])) {
-            $this->respondWarnMessage('missing API key');
+        $apiKey = $this->getAPIKeyFromHeader();
 
+        if (!$apiKey) {
+            $this->respondWarnMessage('missing API key');
             return false;
         };
-
-        $apiKey = $_SERVER['HTTP_X_API_KEY'];
 
         $user = $this->userGateway->getByAPIKey($apiKey);
 
         if ($user === false) {
             $this->respondWarnMessage('invalid API key', 401);
-
             return false;
         }
-
         $this->userId = (string) $user['id'];
 
         return true;
@@ -55,7 +53,7 @@ class Auth
     private function authenticateAccessToken(): bool
     {
         // check if Bearer type persist in the beginning of auth header
-        if (!preg_match("/^Bearer\s+(.*)$/", $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+        if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader(), $matches)) {
             $this->respondWarnMessage('incomplete authorization header');
 
             return false;
@@ -77,10 +75,19 @@ class Auth
 
             return false;
         }
-
         $this->userId = (string) $data['sub'];
 
         return true;
+    }
+
+    private function getAPIKeyFromHeader(): ?string
+    {
+        return empty($_SERVER['HTTP_X_API_KEY']) ? null : $_SERVER['HTTP_X_API_KEY'];
+    }
+
+    private function getJWTFromHeader(): ?string
+    {
+        return empty($_SERVER['HTTP_AUTHORIZATION']) ? null : $_SERVER['HTTP_AUTHORIZATION'];
     }
 
     private function respondWarnMessage(string $msg, int $statusCode = 400): void

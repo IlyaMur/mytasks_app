@@ -2,81 +2,95 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Controllers;
+namespace Ilyamur\TasksApp\Controllers;
 
-use TasksApp\Gateways\TaskGateway;
+use Ilyamur\TasksApp\Gateways\TaskGateway;
 
 class TaskController
 {
     public function __construct(
         private TaskGateway $taskGateway,
-        private string $userId
+        private string $userId,
+        private string $method,
+        private ?string $taskId,
     ) {
     }
 
-    public function processRequest(string $method, ?string $id): void
+    public function processRequest(): void
     {
-        if (is_null($id)) {
-            if ($method === 'GET') {
-                echo json_encode($this->taskGateway->getAllForUser($this->userId));
-            } elseif ($method === 'POST') {
-                $data = (array) json_decode(file_get_contents("php://input"), true);
+        is_null($this->taskId) ? $this->requestToResource() : $this->requestToSingleEntity();
+    }
 
+    protected function requestToSingleEntity(): void
+    {
+        $task = $this->taskGateway->getForUser($this->taskId, $this->userId);
+        if ($task === false) {
+            $this->respondNotFound();
+            return;
+        }
+
+        switch ($this->method) {
+            case 'GET':
+                $this->renderJSON($task);
+
+                break;
+            case 'PATCH':
+                $this->processUpdateRequest();
+
+                break;
+            case 'DELETE':
+                $rows = $this->taskGateway->deleteForUser($this->taskId, $this->userId);
+                $this->renderJSON(['message' => 'Task deleted', 'rows' => $rows]);
+
+                break;
+            default:
+                $this->respondMethodNotAllowed('GET, PATCH, DELETE');
+        }
+    }
+
+    protected function requestToResource(): void
+    {
+        switch ($this->method) {
+            case 'GET':
+                $this->renderJSON($this->taskGateway->getAllForUser($this->userId));
+                break;
+
+            case 'POST':
+                $data = $this->getFromRequestBody();
                 $errors = $this->getValidationErrors($data);
 
                 if (!empty($errors)) {
                     $this->respondUnprocessableEntity($errors);
-                    return;
+                    break;
                 }
 
-                $id = $this->taskGateway->createForUser($data, $this->userId);
-                $this->respondCreated($id);
-            } else {
+                $newTaskId = $this->taskGateway->createForUser($data, $this->userId);
+                $this->respondCreated($newTaskId);
+
+                break;
+            default:
                 $this->respondMethodNotAllowed('GET, POST');
-            }
-        } else {
-            // process if user provided task id
-            $task = $this->taskGateway->getForUser($id, $this->userId);
-
-            if ($task === false) {
-                $this->respondNotFound($id);
-                return;
-            }
-
-            switch ($method) {
-                case 'GET':
-                    echo json_encode($task);
-
-                    break;
-                case 'PATCH':
-                    $data = (array) json_decode(file_get_contents("php://input"), true);
-
-                    $errors = $this->getValidationErrors($data);
-
-                    if (!empty($errors)) {
-                        $this->respondUnprocessableEntity($errors);
-                        return;
-                    }
-
-                    $rows = $this->taskGateway->updateForUser($id, $data, $this->userId);
-
-                    echo json_encode(
-                        ['message' => 'Task updated', 'rows' => $rows]
-                    );
-
-                    break;
-                case "DELETE":
-                    $rows = $this->taskGateway->deleteForUser($id, $this->userId);
-                    echo json_encode(['message' => 'Task deleted', 'rows' => $rows]);
-
-                    break;
-                default:
-                    $this->respondMethodNotAllowed('GET, PATCH, DELETE');
-            }
         }
     }
 
-    public function getValidationErrors(array $data): array
+    protected function processUpdateRequest()
+    {
+        $data = $this->getFromRequestBody();
+        $errors = $this->getValidationErrors($data);
+
+        if (!empty($errors)) {
+            $this->respondUnprocessableEntity($errors);
+            return;
+        }
+
+        $rows = $this->taskGateway->updateForUser($this->taskId, $data, $this->userId);
+
+        $this->renderJSON(
+            ['message' => 'Task updated', 'rows' => $rows]
+        );
+    }
+
+    protected function getValidationErrors(array $data): array
     {
         $errors = [];
 
@@ -97,27 +111,37 @@ class TaskController
         return $errors;
     }
 
-    private function respondMethodNotAllowed(string $allowedMethods): void
+    protected function respondMethodNotAllowed(string $allowedMethods): void
     {
         http_response_code(405);
         header("Allow: $allowedMethods");
     }
 
-    private function respondNotFound(string $id): void
+    protected function respondNotFound(): void
     {
         http_response_code(404);
-        echo json_encode(['message' => "Task with ID $id not found"]);
+        $this->renderJSON(['message' => "Task with ID $this->taskId not found"]);
     }
 
-    private function respondCreated(string $id): void
+    protected function respondCreated(string $newTaskId): void
     {
         http_response_code(201);
-        echo json_encode(["message" => "Task created", "id" => $id]);
+        $this->renderJSON(["message" => "Task created", "id" => $newTaskId]);
     }
 
-    private function respondUnprocessableEntity(array $errors): void
+    protected function respondUnprocessableEntity(array $errors): void
     {
         http_response_code(422);
-        echo json_encode(['errors' => $errors]);
+        $this->renderJSON(['errors' => $errors]);
+    }
+
+    protected function renderJSON(array | string $item): void
+    {
+        echo json_encode($item);
+    }
+
+    public function getFromRequestBody(): array
+    {
+        return (array) json_decode(file_get_contents("php://input"), true);
     }
 }

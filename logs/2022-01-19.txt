@@ -1,0 +1,189 @@
+[19-Jan-2022 01:25:45 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:45 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:45 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:46 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:25:51 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:05 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:05 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:05 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('TasksApp\\Except...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:31 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:32 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:32 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:32 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:26:32 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:27:17 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:27:18 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:27:18 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:27:18 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30
+[19-Jan-2022 01:27:18 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: set_error_handler(): Argument #1 ($callback) must be a valid callback or null, class "Ilyamur\TasksApp\Exceptions\ErrorHandler" not found in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php:30
+Stack trace:
+#0 /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php(30): set_error_handler('Ilyamur\\TasksAp...')
+#1 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(69): require('/Applications/X...')
+#2 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/composer/autoload_real.php(59): composerRequirefcb8413e7bba8a5de8a903ebe38e4887('f86df1325c6b646...', '/Applications/X...')
+#3 /Applications/XAMPP/xamppfiles/htdocs/api-test/vendor/autoload.php(7): ComposerAutoloaderInitfcb8413e7bba8a5de8a903ebe38e4887::getLoader()
+#4 /Applications/XAMPP/xamppfiles/htdocs/api-test/public/api/index.php(9): require('/Applications/X...')
+#5 {main}
+  thrown in /Applications/XAMPP/xamppfiles/htdocs/api-test/config/config.php on line 30

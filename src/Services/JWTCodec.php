@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Core;
+namespace Ilyamur\TasksApp\Services;
 
-use TasksApp\Exceptions\TokenExpiredException;
-use TasksApp\Exceptions\InvalidSignatureException;
+use Ilyamur\TasksApp\Exceptions\TokenExpiredException;
+use Ilyamur\TasksApp\Exceptions\InvalidSignatureException;
 
 class JWTCodec
 {

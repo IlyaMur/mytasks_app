@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Controllers;
+namespace Ilyamur\TasksApp\Controllers;
 
-use TasksApp\Core\JWTCodec;
-use TasksApp\Gateways\UserGateway;
-use TasksApp\Gateways\RefreshTokenGateway;
+use Ilyamur\TasksApp\Services\JWTCodec;
+use Ilyamur\TasksApp\Gateways\UserGateway;
+use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
 
 class UserController
 {

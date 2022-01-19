@@ -18,7 +18,7 @@ define('DB_NAME',  getenv('DB_NAME'));
 // sha256 codec secret string for JWT encoding
 define('SECRET_KEY', getenv('SECRET_KEY'));
 
-// setting for adjusting lifespan of the JWT tokens 
+// adjusting lifespan of the JWT tokens 
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
 define('ACCESS_TOKEN_LIFESPAN', 60); // seconds
 
@@ -27,8 +27,8 @@ define('ACCESS_TOKEN_LIFESPAN', 60); // seconds
 define('JWT_AUTH', true);
 
 // hight level error handlers
-set_error_handler('TasksApp\Exceptions\ErrorHandler::handleError');
-set_exception_handler('TasksApp\Exceptions\ErrorHandler::handleException');
+set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
+set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
 
 // CORS headers settings 
 if (isset($_SERVER['HTTP_ORIGIN'])) {

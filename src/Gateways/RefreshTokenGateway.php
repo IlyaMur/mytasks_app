@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Gateways;
+namespace Ilyamur\TasksApp\Gateways;
 
-use TasksApp\Core\Database;
+use Ilyamur\TasksApp\Services\Database;
 use PDO;
 
 class RefreshTokenGateway

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit verbose="true" colors="true" convertErrorsToExceptions="true" processIsolation="true" beStrictAboutChangesToGlobalState="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" testdox="true" backupGlobals="false" stopOnError="true" stopOnFailure="true">
+    <testsuites>
+        <testsuite name="gh-actions">
+            <directory>tests</directory>
+            <exclude>
+                tests/Unit/Models
+            </exclude>
+        </testsuite>
+    </testsuites>
+
+    <coverage cacheDirectory=".phpunit.cache/code-coverage" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <file>src/Controllers/Home.php</file>
+        </exclude>
+    </coverage>
+</phpunit>

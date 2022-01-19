@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-use TasksApp\Core\{JWTCodec, Database, Auth};
-use TasksApp\Controllers\{UserController, RefreshTokenController, TaskController, TokenController};
-use TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
+use Ilyamur\TasksApp\Services\{JWTCodec, Database, Auth};
+use Ilyamur\TasksApp\Controllers\{UserController, RefreshTokenController, TaskController, TokenController};
+use Ilyamur\TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
 
 require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-// filter redundant slashes
+// filter redundant slashes and parse request uri
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
-
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
 
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
@@ -70,10 +69,16 @@ switch ($resource) {
         // RESTful endpoint for tasks manipulating 
         $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
         if (!$auth->authenticate()) {
-            exit;
+            break;
         }
-        $taskController = new TaskController(taskGateway: new TaskGateway($db), userId: $auth->getUserID());
         $taskId = empty($parts[3]) ? null : $parts[3];
+
+        $taskController = new TaskController(
+            taskGateway: new TaskGateway($db),
+            method: $_SERVER['REQUEST_METHOD'],
+            taskId: $taskId,
+            userId: $auth->getUserID()
+        );
 
         $taskController->processRequest($_SERVER['REQUEST_METHOD'], $taskId);
         break;

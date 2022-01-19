@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TasksApp\Controllers;
+namespace Ilyamur\TasksApp\Controllers;
 
 class RefreshTokenController extends TokenController
 {

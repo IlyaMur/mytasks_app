@@ -3,14 +3,22 @@
     "description": "Basic realisation of RESTful API design and JWT/Key auth",
     "autoload": {
         "psr-4": {
-            "TasksApp\\": "src/"
+            "Ilyamur\\TasksApp\\": "src/"
         },
         "files": [
             "config/config.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ilyamur\\TaskApp\\Tests\\": "tests/"
+        }
+    },
     "authors": [{
         "name": "Ilya Muratov",
         "email": "ilyamur@hotmail.com"
-    }]
+    }],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
 }
