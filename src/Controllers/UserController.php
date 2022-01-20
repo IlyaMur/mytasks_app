@@ -76,24 +76,6 @@ class UserController
         return $errors;
     }
 
-    private function respondMethodNotAllowed(string $allowedMethods): void
-    {
-        http_response_code(405);
-        header("Allow: $allowedMethods");
-    }
-
-    private function respondUnprocessableEntity(array $errors): void
-    {
-        http_response_code(422);
-        echo json_encode($errors);
-    }
-
-    private function respondCreated(array $tokens): void
-    {
-        http_response_code(201);
-        echo json_encode($tokens);
-    }
-
     protected function generateJWT(string $userId, string $username): array
     {
         $payload = [
@@ -116,5 +98,28 @@ class UserController
             'accessToken' => $accessToken,
             'refreshToken' => $refreshToken
         ];
+    }
+
+    protected function respondMethodNotAllowed(string $allowedMethods): void
+    {
+        http_response_code(405);
+        header("Allow: $allowedMethods");
+    }
+
+    protected function respondUnprocessableEntity(array $errors): void
+    {
+        http_response_code(422);
+        $this->renderJSON($errors);
+    }
+
+    protected function respondCreated(array $tokens): void
+    {
+        http_response_code(201);
+        $this->renderJSON($tokens);
+    }
+
+    protected function renderJSON(array | string $item): void
+    {
+        echo json_encode($item);
     }
 }

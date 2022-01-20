@@ -180,7 +180,7 @@ class TaskControllerTest extends TestCase
         ];
     }
 
-    public function testProcessDeleteRequestCorrectly()
+    public function testProcessDeleteRequestCorrectly(): void
     {
         $gatewayMock = $this->getMockBuilder(TaskGateway::class)
             ->disableOriginalConstructor()
@@ -201,7 +201,7 @@ class TaskControllerTest extends TestCase
         $controllerMock->processDeleteRequest();
     }
 
-    public function testProcessCreateRequestCorrectly()
+    public function testProcessCreateRequestCorrectly(): void
     {
         $data = ['title' => 'baz', 'body' => 'foo'];
 
@@ -228,7 +228,7 @@ class TaskControllerTest extends TestCase
         $controllerMock->processCreateRequest();
     }
 
-    public function testDoesNotProcessCreateRequestIfDataIsIncorrect()
+    public function testDoesNotProcessCreateRequestIfDataIsIncorrect(): void
     {
         $gatewayMock = $this->getMockBuilder(TaskGateway::class)
             ->disableOriginalConstructor()
@@ -248,5 +248,57 @@ class TaskControllerTest extends TestCase
             ->willReturn(['title' => 'baz']);
 
         $controllerMock->processCreateRequest();
+    }
+
+    /**
+     * @dataProvider dataForGetValidationErrorsProvider
+     */
+
+    public function testGetCorrectValidationErrrors(array $data, array $expectedErrors): void
+    {
+        $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])
+            ->getMock();
+
+        $this->assertEquals($expectedErrors, $controllerMock->getValidationErrors($data));
+    }
+
+    public function dataForGetValidationErrorsProvider(): array
+    {
+        return [
+            [['title' => '42', 'body' => 'foo'], []],
+            [['title' => '42'], ['body' => 'body is required']],
+            [['body' => 'foo'], ['title' => 'title is required']],
+            [[], ['title' => 'title is required', 'body' => 'body is required']],
+            [['body' => 'foo', 'title' => '42', 'priority' => 100], []],
+            [['body' => 'foo', 'title' => '42', 'priority' => 'buz'], ['priority' => 'priority must be an integer']]
+        ];
+    }
+
+    public function testCorrectRespondNotFound(): void
+    {
+        $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
+            ->setConstructorArgs([$this->createMock(TaskGateway::class), '1', 'GET', '100'])
+            ->onlyMethods(['renderJSON'])
+            ->getMock();
+
+        $controllerMock->expects($this->once())
+            ->method('renderJSON')->with(['message' => "Task with ID 100 not found"]);
+
+        $controllerMock->respondNotFound();
+    }
+
+    public function testCorrectRespondCreated(): void
+    {
+        $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['renderJSON'])
+            ->getMock();
+
+        $controllerMock->expects($this->once())
+            ->method('renderJSON')->with(["message" => "Task created", "id" => '111']);
+
+        $controllerMock->respondCreated('111');
     }
 }

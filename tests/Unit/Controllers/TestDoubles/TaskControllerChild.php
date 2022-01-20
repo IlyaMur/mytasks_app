@@ -37,4 +37,14 @@ class TaskControllerChild extends TaskController
     {
         return parent::getValidationErrors($data);
     }
+
+    public function respondNotFound(): void
+    {
+        parent::respondNotFound();
+    }
+
+    public function respondCreated(string $newTaskId): void
+    {
+        parent::respondCreated($newTaskId);
+    }
 }
