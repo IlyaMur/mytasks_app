@@ -31,10 +31,9 @@ class UserControllerTest extends TestCase
     {
         $controllerMock = $this->getMockBuilder(UserControllerChild::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getFromRequestBody', 'getValidationErrors'])
+            ->onlyMethods(['getValidationErrors'])
             ->getMock();
 
-        $controllerMock->method('getFromRequestBody');
         $controllerMock->method('getValidationErrors')->willReturn([]);
 
         $this->assertTrue($controllerMock->validateInputData());
@@ -44,10 +43,9 @@ class UserControllerTest extends TestCase
     {
         $controllerMock = $this->getMockBuilder(UserControllerChild::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getFromRequestBody', 'getValidationErrors', 'respondUnprocessableEntity'])
+            ->onlyMethods(['getValidationErrors', 'respondUnprocessableEntity'])
             ->getMock();
 
-        $controllerMock->method('getFromRequestBody');
         $controllerMock->expects($this->once())->method('respondUnprocessableEntity');
         $controllerMock->method('getValidationErrors')->willReturn(['error']);
 
@@ -130,9 +128,10 @@ class UserControllerTest extends TestCase
                 $this->createMock(JWTCodec::class),
                 'POST',
                 $data
-            ])->onlyMethods(['respondCreated'])
+            ])->onlyMethods(['respondCreated', 'generateJWT'])
             ->getMock();
 
+        $controllerMock->expects($this->once())->method('generateJWT')->willReturn(['accessToken' => '42']);
         $controllerMock->expects($this->once())->method('respondCreated')->with(['accessToken' => '42']);
 
         $controllerMock->respondJWT();

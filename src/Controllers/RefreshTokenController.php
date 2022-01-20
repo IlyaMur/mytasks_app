@@ -48,7 +48,7 @@ class RefreshTokenController extends TokenController
 
         if ($this->user === false) {
             $this->respondInvalidAuth();
-            exit;
+            return;
         }
 
         // delete old refresh token from db 

@@ -139,9 +139,4 @@ class UserController
     {
         echo json_encode($item);
     }
-
-    protected function getFromRequestBody(): array
-    {
-        return (array) json_decode(file_get_contents("php://input"), true);
-    }
 }

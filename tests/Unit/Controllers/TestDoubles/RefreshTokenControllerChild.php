@@ -28,6 +28,11 @@ class RefreshTokenControllerChild extends RefreshTokenController
         parent::respondInvalidAuth();
     }
 
+    public function respondInvalidToken(): void
+    {
+        parent::respondInvalidToken();
+    }
+
     public function respondMissingToken(): void
     {
         parent::respondMissingToken();
