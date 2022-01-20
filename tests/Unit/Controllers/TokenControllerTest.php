@@ -18,7 +18,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
@@ -32,7 +32,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'GET',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
@@ -46,7 +46,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
@@ -60,7 +60,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com']
             ])->onlyMethods(['respondMissingCredentials'])->getMock();
@@ -82,7 +82,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $userGatewayMock,
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
@@ -103,7 +103,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $userGatewayMock,
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '123456']
             ])->onlyMethods(['respondInvalidAuth'])->getMock();
@@ -124,7 +124,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $userGatewayMock,
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods(['respondInvalidAuth'])->getMock();
@@ -134,7 +134,7 @@ class TokenControllerTest extends TestCase
 
     public function testCorrectlyGenerateJWT()
     {
-        $tokenMock = $this->getMockBuilder(refreshTokenGateway::class)
+        $tokenMock = $this->getMockBuilder(RefreshTokenGateway::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['create'])
             ->getMock();
@@ -173,7 +173,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods(['checkMethod', 'validateInputData', 'checkUserCredentials', 'generateJWT'])->getMock();
@@ -197,7 +197,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods(['renderJSON'])->getMock();
@@ -223,7 +223,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods(['renderJSON'])->getMock();
@@ -239,7 +239,7 @@ class TokenControllerTest extends TestCase
             ->setConstructorArgs([
                 'POST',
                 $this->createMock(UserGateway::class),
-                $this->createMock(refreshTokenGateway::class),
+                $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();

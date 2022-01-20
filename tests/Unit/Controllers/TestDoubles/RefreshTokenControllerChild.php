@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ilyamur\TasksApp\Controllers;
+namespace Ilyamur\TaskApp\Tests\Unit\Controllers\TestDoubles;
 
-class RefreshTokenController extends RefreshTokenController
+use Ilyamur\TasksApp\Controllers\RefreshTokenController;
+
+class RefreshTokenControllerChild extends RefreshTokenController
 {
     public function validateInputData(): bool
     {
@@ -36,8 +38,8 @@ class RefreshTokenController extends RefreshTokenController
         parent::respondTokenNotInWhiteList();
     }
 
-    protected function renderJSON(array | string $item): void
+    public function renderJSON($item): void
     {
-        echo json_encode($item);
+        parent::renderJSON($item);
     }
 }
