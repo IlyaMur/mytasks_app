@@ -48,11 +48,6 @@ class TokenControllerChild extends TokenController
         parent::respondMissingCredentials();
     }
 
-    public function respondMethodNotAllowed(): void
-    {
-        parent::respondMethodNotAllowed();
-    }
-
     public function renderJSON(array | string $item): void
     {
         parent::renderJSON($item);

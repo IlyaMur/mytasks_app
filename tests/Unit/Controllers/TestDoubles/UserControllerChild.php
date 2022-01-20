@@ -9,14 +9,34 @@ use Ilyamur\TasksApp\Controllers\UserController;
 
 class UserControllerChild extends UserController
 {
-    public function generateJWT(string $userId, string $username): array
+    public function validateInputData(): bool
     {
-        return parent::generateJWT($userId, $username);
+        return parent::validateInputData();
+    }
+
+    public function respondJWT(): void
+    {
+        parent::respondJWT();
+    }
+
+    public function checkMethod(): bool
+    {
+        return parent::checkMethod();
+    }
+
+    public function getValidationErrors(): array
+    {
+        return parent::getValidationErrors();
+    }
+
+    public function generateJWT(string $userId): array
+    {
+        return parent::generateJWT($userId);
     }
 
     public function respondUnprocessableEntity(array $errors): void
     {
-        return parent::respondUnprocessableEntity($errors);
+        parent::respondUnprocessableEntity($errors);
     }
 
     public function respondCreated(array $tokens): void

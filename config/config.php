@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Configuration file
+ */
+
 // set dir for logging
 ini_set(
     'error_log',
@@ -22,9 +26,9 @@ define('SECRET_KEY', getenv('SECRET_KEY'));
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
 define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
 
-// selecting type of auth 
+// selection type of auth 
 // if JWT_AUTH is false - using basic X-Api-Key header key instead
-define('JWT_AUTH', true);
+define('JWT_AUTH', false);
 
 // hight level error handlers
 set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');

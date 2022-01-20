@@ -26,7 +26,7 @@ class TokenControllerTest extends TestCase
         $this->assertTrue($controllerMock->checkMethod());
     }
 
-    public function testCheckMethodReturnFalseIfMethodIsPost()
+    public function testCheckMethodReturnFalseIfMethodIsNotPost()
     {
         $controllerMock = $this->getMockBuilder(TokenControllerChild::class)
             ->setConstructorArgs([

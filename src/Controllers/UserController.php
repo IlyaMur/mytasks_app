@@ -20,67 +20,84 @@ class UserController
 
     public function processRequest(): void
     {
-        if ($this->method !== 'POST') {
-            $this->respondMethodNotAllowed('POST');
-            return;
+        if ($this->checkMethod() && $this->validateInputData()) {
+            $this->respondJWT();
         }
+    }
 
-        $data = (array) json_decode(file_get_contents("php://input"), true);
-        $errors = $this->validateInput($data);
+    protected function validateInputData(): bool
+    {
+        $this->inputData = $this->getFromRequestBody();
+        $errors = $this->getValidationErrors();
 
         if (!empty($errors)) {
             $this->respondUnprocessableEntity($errors);
-            return;
+            return false;
         }
 
-        [$apiKey, $userId] = $this->userGateway->create($data);
+        return true;
+    }
+
+    protected function checkMethod(): bool
+    {
+        if ($this->method !== 'POST') {
+            $this->respondMethodNotAllowed('POST');
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function respondJWT(): void
+    {
+        [$apiKey, $userId] = $this->userGateway->create($this->inputData);
 
         if (!$apiKey) {
             $this->respondUnprocessableEntity(['userReg' => "Server can't handle the request"]);
             return;
         }
 
-        // checking if JWT auth enabled 
+        // checking if JWT auth is enabled 
         if (JWT_AUTH) {
-            $JWTtokens = $this->generateJWT((string) $userId, (string) $data['username']);
+            $JWTtokens = $this->generateJWT((string) $userId);
             $this->respondCreated($JWTtokens);
         } else {
             $this->respondCreated(['accessToken' => $apiKey]);
         }
     }
 
-    public function validateInput($userData): array
+    protected function getValidationErrors(): array
     {
         $errors = [];
 
-        if (empty($userData['username'])) {
+        if (empty($this->inputData['username'])) {
             $errors['username'] = 'Please input your username';
         }
 
-        if (empty($userData['email'])) {
+        if (empty($this->inputData['email'])) {
             $errors['email'] = 'Please input your email';
         } else {
-            if (!filter_var($userData['email'], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($this->inputData['email'], FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = 'Please input correct email';
             } else {
-                if ($this->userGateway->getByEmail($userData['email'])) {
+                if ($this->userGateway->getByEmail($this->inputData['email'])) {
                     $errors['email'] = 'User with this email already exists';
                 }
             }
         }
 
-        if (empty($userData['password'])) {
+        if (empty($this->inputData['password'])) {
             $errors['password'] = 'Please input your password';
         }
 
         return $errors;
     }
 
-    protected function generateJWT(string $userId, string $username): array
+    protected function generateJWT(string $userId): array
     {
         $payload = [
             'sub' => $userId,
-            'name' => $username,
+            'name' => (string) $this->inputData['username'],
             'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
@@ -121,5 +138,10 @@ class UserController
     protected function renderJSON(array | string $item): void
     {
         echo json_encode($item);
+    }
+
+    protected function getFromRequestBody(): array
+    {
+        return (array) json_decode(file_get_contents("php://input"), true);
     }
 }

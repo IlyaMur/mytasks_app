@@ -240,7 +240,7 @@ class TaskControllerTest extends TestCase
 
         $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
             ->setConstructorArgs([$gatewayMock, '1', 'GET', '100'])
-            ->onlyMethods(['getFromRequestBody'])
+            ->onlyMethods(['getFromRequestBody', 'renderJSON'])
             ->getMock();
 
         $controllerMock->expects($this->once())
