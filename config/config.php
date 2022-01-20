@@ -4,15 +4,6 @@
  * Configuration file
  */
 
-// set dir for logging
-ini_set(
-    'error_log',
-    dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt'
-);
-
-// showing errors, if false - logging
-define('SHOW_ERRORS', true);
-
 // db credentials
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASS',  getenv('DB_PASS'));
@@ -33,6 +24,15 @@ define('JWT_AUTH', true);
 // hight level error handlers
 set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
 set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
+
+// set dir for logging
+ini_set(
+    'error_log',
+    dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt'
+);
+
+// showing errors, if false - logging
+define('SHOW_ERRORS', true);
 
 // CORS headers settings 
 if (isset($_SERVER['HTTP_ORIGIN'])) {

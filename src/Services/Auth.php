@@ -30,7 +30,7 @@ class Auth
         return $this->userId;
     }
 
-    private function authenticateAPIKey(): bool
+    protected function authenticateAPIKey(): bool
     {
         $apiKey = $this->getAPIKeyFromHeader();
 
@@ -50,7 +50,7 @@ class Auth
         return true;
     }
 
-    private function authenticateAccessToken(): bool
+    protected function authenticateAccessToken(): bool
     {
         // check if Bearer type persist in the beginning of auth header
         if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader(), $matches)) {
@@ -90,9 +90,14 @@ class Auth
         return empty($_SERVER['HTTP_AUTHORIZATION']) ? null : $_SERVER['HTTP_AUTHORIZATION'];
     }
 
-    private function respondWarnMessage(string $msg, int $statusCode = 400): void
+    protected function respondWarnMessage(string $msg, int $statusCode = 400): void
     {
         http_response_code($statusCode);
-        echo json_encode(['message' => $msg]);
+        $this->renderJSON(['message' => $msg]);
+    }
+
+    protected function renderJSON(array | string $item): void
+    {
+        echo json_encode($item);
     }
 }
