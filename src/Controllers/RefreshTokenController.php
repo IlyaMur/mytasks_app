@@ -61,10 +61,12 @@ class RefreshTokenController extends TokenController
         parent::generateJWT();
     }
 
-
-    public function deleteRefreshToken()
+    protected function deleteRefreshToken(): void
     {
-        if (isset($this->bodyData['refreshToken']) && $this->refreshTokenGateway->delete($this->bodyData['refreshToken'])) {
+        if (
+            isset($this->bodyData['refreshToken']) &&
+            $this->refreshTokenGateway->delete($this->bodyData['refreshToken'])
+        ) {
             $this->respondTokenWasDeleted();
         } else {
             $this->respondInvalidToken();
@@ -74,24 +76,29 @@ class RefreshTokenController extends TokenController
     protected function respondInvalidAuth(): void
     {
         http_response_code(401);
-        echo json_encode(['message' => 'invalid authentication']);
+        $this->renderJSON(['message' => 'invalid authentication']);
     }
 
     protected function respondInvalidToken(): void
     {
         http_response_code(401);
-        echo json_encode(['message' => 'invalid token']);
+        $this->renderJSON(['message' => 'invalid token']);
     }
 
     protected function respondMissingToken(): void
     {
         http_response_code(400);
-        echo json_encode(['message' => 'missing token']);
+        $this->renderJSON(['message' => 'missing token']);
     }
 
     protected function respondTokenNotInWhiteList(): void
     {
         http_response_code(400);
-        echo json_encode(['message' => 'invalid token (not on whitelist)']);
+        $this->renderJSON(['message' => 'invalid token (not on whitelist)']);
+    }
+
+    protected function renderJSON(array | string $item): void
+    {
+        echo json_encode($item);
     }
 }
