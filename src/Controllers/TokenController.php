@@ -11,13 +11,12 @@ use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
 class TokenController
 {
     public function __construct(
-        public string $method,
+        protected string $method,
         protected UserGateway $userGateway,
         protected RefreshTokenGateway $refreshTokenGateway,
         protected JWTCodec $codec,
-        array $data
+        protected array $bodyData
     ) {
-        $this->bodyData = $data;
     }
 
     public function processRequest()
@@ -44,7 +43,6 @@ class TokenController
 
     protected function validateInputData(): bool
     {
-
         if (
             !array_key_exists('email', $this->bodyData) ||
             !array_key_exists('password', $this->bodyData)

@@ -18,11 +18,7 @@ class RefreshTokenController extends TokenController
 
     protected function validateInputData(): bool
     {
-        $this->bodyData = (array) json_decode(file_get_contents("php://input"), true);
-
-        if (
-            !array_key_exists('refreshToken', $this->bodyData)
-        ) {
+        if (!array_key_exists('refreshToken', $this->bodyData)) {
             $this->respondMissingToken();
 
             return false;
@@ -37,7 +33,7 @@ class RefreshTokenController extends TokenController
             $payload = $this->codec->decode($this->bodyData['refreshToken']);
         } catch (\Throwable) {
             $this->respondInvalidToken();
-            exit;
+            return;
         }
 
         // finding old refresh token in white list
@@ -45,7 +41,7 @@ class RefreshTokenController extends TokenController
 
         if ($refreshToken === false) {
             $this->respondTokenNotInWhiteList();
-            exit;
+            return;
         }
 
         $this->user = $this->userGateway->getByID((string) $payload['sub']);
@@ -61,7 +57,7 @@ class RefreshTokenController extends TokenController
         parent::generateJWT();
     }
 
-    protected function deleteRefreshToken(): void
+    public function deleteRefreshToken(): void
     {
         if (
             isset($this->bodyData['refreshToken']) &&

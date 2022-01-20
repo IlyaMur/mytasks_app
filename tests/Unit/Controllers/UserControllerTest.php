@@ -61,7 +61,8 @@ class UserControllerTest extends TestCase
                 $this->createMock(UserGateway::class),
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'GET'
+                'GET',
+                ['foo' => 'bar']
             ])->onlyMethods(['respondMethodNotAllowed'])
             ->getMock();
 
@@ -77,7 +78,8 @@ class UserControllerTest extends TestCase
                 $this->createMock(UserGateway::class),
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'POST'
+                'POST',
+                ['foo' => 'bar']
             ])->onlyMethods(['respondMethodNotAllowed'])
             ->getMock();
 
@@ -100,11 +102,10 @@ class UserControllerTest extends TestCase
                 $gatewayMock,
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'POST'
+                'POST',
+                $data
             ])->onlyMethods(['respondCreated', 'respondUnprocessableEntity'])
             ->getMock();
-
-        $controllerMock->inputData = $data;
 
         $controllerMock->expects($this->never())->method('respondCreated');
         $controllerMock->expects($this->once())->method('respondUnprocessableEntity')
@@ -127,11 +128,10 @@ class UserControllerTest extends TestCase
                 $gatewayMock,
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'POST'
+                'POST',
+                $data
             ])->onlyMethods(['respondCreated'])
             ->getMock();
-
-        $controllerMock->inputData = $data;
 
         $controllerMock->expects($this->once())->method('respondCreated')->with(['accessToken' => '42']);
 
@@ -158,12 +158,11 @@ class UserControllerTest extends TestCase
                 $gatewayMock,
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'POST'
+                'POST',
+                $data
             ])
             ->onlyMethods([])
             ->getMock();
-
-        $controllerMock->inputData = $data;
 
         $this->assertEquals($expectedErrors, $controllerMock->getValidationErrors());
     }
@@ -216,9 +215,9 @@ class UserControllerTest extends TestCase
                 $this->createMock(UserGateway::class),
                 $tokenGatewayMock,
                 $codecMock,
-                'POST'
+                'POST',
+                ['username' => 'foo']
             ])->onlyMethods([])->getMock();
-        $controllerMock->inputData = ['username' => 'foo'];
 
         $this->assertEquals(
             [
@@ -240,7 +239,8 @@ class UserControllerTest extends TestCase
                 $this->createMock(UserGateway::class),
                 $this->createMock(RefreshTokenGateway::class),
                 $this->createMock(JWTCodec::class),
-                'POST'
+                'POST',
+                ['foo' => 'bar']
             ])->onlyMethods(['renderJSON'])->getMock();
 
         $controllerMock->expects($this->once())->method('renderJSON')->with($data);

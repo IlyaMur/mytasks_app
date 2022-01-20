@@ -11,10 +11,11 @@ use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
 class UserController
 {
     public function __construct(
-        private UserGateway $userGateway,
-        private RefreshTokenGateway $refreshTokenGateway,
-        private JWTCodec $codec,
-        private string $method
+        protected UserGateway $userGateway,
+        protected RefreshTokenGateway $refreshTokenGateway,
+        protected JWTCodec $codec,
+        protected string $method,
+        protected array $bodyData
     ) {
     }
 
@@ -27,7 +28,6 @@ class UserController
 
     protected function validateInputData(): bool
     {
-        $this->inputData = $this->getFromRequestBody();
         $errors = $this->getValidationErrors();
 
         if (!empty($errors)) {
@@ -50,7 +50,7 @@ class UserController
 
     protected function respondJWT(): void
     {
-        [$apiKey, $userId] = $this->userGateway->create($this->inputData);
+        [$apiKey, $userId] = $this->userGateway->create($this->bodyData);
 
         if (!$apiKey) {
             $this->respondUnprocessableEntity(['userReg' => "Server can't handle the request"]);
@@ -70,23 +70,23 @@ class UserController
     {
         $errors = [];
 
-        if (empty($this->inputData['username'])) {
+        if (empty($this->bodyData['username'])) {
             $errors['username'] = 'Please input your username';
         }
 
-        if (empty($this->inputData['email'])) {
+        if (empty($this->bodyData['email'])) {
             $errors['email'] = 'Please input your email';
         } else {
-            if (!filter_var($this->inputData['email'], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($this->bodyData['email'], FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = 'Please input correct email';
             } else {
-                if ($this->userGateway->getByEmail($this->inputData['email'])) {
+                if ($this->userGateway->getByEmail($this->bodyData['email'])) {
                     $errors['email'] = 'User with this email already exists';
                 }
             }
         }
 
-        if (empty($this->inputData['password'])) {
+        if (empty($this->bodyData['password'])) {
             $errors['password'] = 'Please input your password';
         }
 
@@ -97,7 +97,7 @@ class UserController
     {
         $payload = [
             'sub' => $userId,
-            'name' => (string) $this->inputData['username'],
+            'name' => (string) $this->bodyData['username'],
             'exp' => time() + ACCESS_TOKEN_LIFESPAN
         ];
 
