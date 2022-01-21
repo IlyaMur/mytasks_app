@@ -53,8 +53,8 @@ class TaskController
         switch ($this->method) {
             case 'GET':
                 $this->renderJSON($this->taskGateway->getAllForUser($this->userId));
-                break;
 
+                break;
             case 'POST':
                 $this->processCreateRequest();
 
