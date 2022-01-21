@@ -96,33 +96,6 @@ class RefreshTokenControllerTest extends TestCase
         $controllerMock->generateJWT();
     }
 
-    // public function testJWTRespondCallNotInWhitelist()
-    // {
-    //     $codecMock = $this->getMockBuilder(JWTCodec::class)
-    //         ->disableOriginalConstructor()
-    //         ->onlyMethods(['decode'])->getMock();
-    //     $codecMock->method('decode')->willReturn(['42']);
-
-    //     $refreshTokenGatewayMock = $this->getMockBuilder(RefreshTokenGateway::class)
-    //         ->disableOriginalConstructor()
-    //         ->onlyMethods(['getByToken'])->getMock();
-
-    //     $refreshTokenGatewayMock->expects($this->once())->method('getByToken')->willReturn(false);
-
-    //     $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
-    //         ->setConstructorArgs([
-    //             'POST',
-    //             $this->createMock(UserGateway::class),
-    //             $refreshTokenGatewayMock,
-    //             $codecMock,
-    //             ['email' => 'email@email.com', 'refreshToken' => '12345']
-    //         ])->onlyMethods(['respondTokenNotInWhiteList'])->getMock();
-
-    //     $controllerMock->expects($this->once())->method('respondTokenNotInWhiteList');
-
-    //     $controllerMock->generateJWT();
-    // }
-
     public function testJWTRespondCallRespondInvalidAuthIfNoUser()
     {
         $codecMock = $this->getMockBuilder(JWTCodec::class)
@@ -153,28 +126,6 @@ class RefreshTokenControllerTest extends TestCase
 
         $controllerMock->generateJWT();
     }
-
-    // public function testJWTRespondCallInvalidToken()
-    // {
-    //     $codecMock = $this->getMockBuilder(JWTCodec::class)
-    //         ->disableOriginalConstructor()
-    //         ->onlyMethods(['decode'])->getMock();
-
-    //     $codecMock->method('decode')->will($this->throwException(new \Exception));
-
-    //     $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
-    //         ->setConstructorArgs([
-    //             'POST',
-    //             $this->createMock(UserGateway::class),
-    //             $this->createMock(RefreshTokenGateway::class),
-    //             $codecMock,
-    //             ['email' => 'email@email.com', 'password' => '12345']
-    //         ])->onlyMethods(['respondInvalidToken'])->getMock();
-
-    //     $controllerMock->expects($this->once())->method('respondInvalidToken');
-
-    //     $controllerMock->generateJWT();
-    // }
 
     public function testJWTRespondCallNotInWhitelist()
     {

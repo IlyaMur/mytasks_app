@@ -22,7 +22,7 @@ class Auth
     {
         // selecting type of auth (JWT token or basic API key)
         // adjusting in the config file
-        return JWT_AUTH ? $this->authenticateAccessToken() : $this->authenticateAPIKey();
+        return JWT_AUTH ? $this->authenticateByJWT() : $this->authenticateByKey();
     }
 
     public function getUserID(): string
@@ -30,7 +30,7 @@ class Auth
         return $this->userId;
     }
 
-    protected function authenticateAPIKey(): bool
+    protected function authenticateByKey(): bool
     {
         $apiKey = $this->getAPIKeyFromHeader();
 
@@ -50,9 +50,9 @@ class Auth
         return true;
     }
 
-    protected function authenticateAccessToken(): bool
+    protected function authenticateByJWT(): bool
     {
-        // check if Bearer type persist in the beginning of auth header
+        // check if Bearer key persist in the beginning of auth header
         if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader(), $matches)) {
             $this->respondWarnMessage('incomplete authorization header');
 
@@ -80,12 +80,12 @@ class Auth
         return true;
     }
 
-    private function getAPIKeyFromHeader(): ?string
+    protected function getAPIKeyFromHeader(): ?string
     {
         return empty($_SERVER['HTTP_X_API_KEY']) ? null : $_SERVER['HTTP_X_API_KEY'];
     }
 
-    private function getJWTFromHeader(): ?string
+    protected function getJWTFromHeader(): ?string
     {
         return empty($_SERVER['HTTP_AUTHORIZATION']) ? null : $_SERVER['HTTP_AUTHORIZATION'];
     }

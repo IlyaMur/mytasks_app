@@ -6,14 +6,14 @@ use Ilyamur\TasksApp\Services\Auth;
 
 class AuthChild extends Auth
 {
-    public function authenticateAPIKey(): bool
+    public function authenticateByKey(): bool
     {
-        return parent::authenticateAPIKey();
+        return parent::authenticateByKey();
     }
 
-    public function authenticateAccessToken(): bool
+    public function authenticateByJWT(): bool
     {
-        return parent::authenticateAccessToken();
+        return parent::authenticateByJWT();
     }
 
     public function respondWarnMessage(string $msg, int $statusCode = 400): void
@@ -23,6 +23,6 @@ class AuthChild extends Auth
 
     public function renderJSON(array | string $item): void
     {
-        parent::respondWarnMessage($item);
+        parent::renderJSON($item);
     }
 }

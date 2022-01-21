@@ -9,7 +9,7 @@ use Ilyamur\TasksApp\Exceptions\InvalidSignatureException;
 
 class JWTCodec
 {
-    const JWT_REGEXP = "/^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/";
+    private const JWT_REGEXP = "/^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/";
 
     public function __construct(private string $key)
     {
@@ -81,7 +81,6 @@ class JWTCodec
         if ($payload['exp'] < time()) {
             throw new TokenExpiredException;
         }
-
         return $payload;
     }
 }
