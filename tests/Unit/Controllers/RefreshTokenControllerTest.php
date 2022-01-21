@@ -182,7 +182,7 @@ class RefreshTokenControllerTest extends TestCase
                 $refreshTokenGatewayMock,
                 $codecMock,
                 ['email' => 'email@email.com', 'refreshToken' => 'token12345']
-            ])->onlyMethods(['respondInvalidAuth'])->getMock();
+            ])->onlyMethods(['respondInvalidAuth', 'respondTokens'])->getMock();
 
         $controllerMock->generateJWT();
     }
