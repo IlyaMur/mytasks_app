@@ -80,7 +80,7 @@ class RefreshTokenControllerTest extends TestCase
             ->disableOriginalConstructor()
             ->onlyMethods(['decode'])->getMock();
 
-        $codecMock->method('decode')->will($this->throwException(new \Exception));
+        $codecMock->method('decode')->will($this->throwException(new \Exception()));
 
         $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
             ->setConstructorArgs([

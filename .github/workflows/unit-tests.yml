@@ -1,0 +1,23 @@
+name: PHPUnit-Tests
+
+on: push
+
+jobs:
+    run-linttest:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+            - name: Install
+              run: make install
+            - name: run-tests
+              uses: paambaati/codeclimate-action@v2.6.0
+              env:
+                  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+              with:
+                  coverageCommand: make test-coverage
+                  coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+                  debug: true

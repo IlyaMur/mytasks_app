@@ -22,8 +22,8 @@ define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
 define('JWT_AUTH', true);
 
 // hight level error handlers
-set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
-set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
+// set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
+// set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
 
 // set dir for logging
 ini_set(

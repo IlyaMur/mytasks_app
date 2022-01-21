@@ -1,0 +1,17 @@
+name: CodeSniffer-PSR12
+
+on: push
+
+jobs:
+  run-linttest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+      - name: Install
+        run: make install
+      - name: run-linter
+        run: make lint

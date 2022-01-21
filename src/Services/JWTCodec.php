@@ -79,7 +79,7 @@ class JWTCodec
 
         // throwing exception if access token is expired
         if ($payload['exp'] < time()) {
-            throw new TokenExpiredException;
+            throw new TokenExpiredException();
         }
         return $payload;
     }

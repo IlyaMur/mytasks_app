@@ -19,6 +19,7 @@
         "email": "ilyamur@hotmail.com"
     }],
     "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6",
         "phpunit/phpunit": "^9.5"
     }
 }

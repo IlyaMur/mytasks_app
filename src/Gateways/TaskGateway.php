@@ -51,7 +51,7 @@ class TaskGateway
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // for returning bool, not int 1/0 
+        // for returning bool
         if ($data !== false) {
             $data['completed'] = (bool) $data['completed'];
         }

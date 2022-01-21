@@ -51,7 +51,7 @@ class RefreshTokenController extends TokenController
             return;
         }
 
-        // delete old refresh token from db 
+        // delete old refresh token from db
         $this->refreshTokenGateway->delete($this->bodyData['refreshToken']);
 
         parent::generateJWT();

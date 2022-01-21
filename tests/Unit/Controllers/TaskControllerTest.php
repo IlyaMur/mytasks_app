@@ -188,7 +188,7 @@ class TaskControllerTest extends TestCase
             ->getMock();
 
         $gatewayMock->expects($this->once())
-            ->method('deleteForUser')->with('100', '1')->willReturn(7);;
+            ->method('deleteForUser')->with('100', '1')->willReturn(7);
 
         $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
             ->setConstructorArgs([$gatewayMock, '1', 'GET', '100'])
