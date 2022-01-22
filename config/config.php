@@ -19,7 +19,7 @@ define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
 
 // Selection type of auth 
 // If JWT_AUTH is false - using basic X-Api-Key header key instead
-define('JWT_AUTH', false);
+define('JWT_AUTH', true);
 
 // Hight level error handlers
 set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
