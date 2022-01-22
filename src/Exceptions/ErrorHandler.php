@@ -7,8 +7,23 @@ namespace Ilyamur\TasksApp\Exceptions;
 use Throwable;
 use ErrorException;
 
+/**
+ * Error and exception handler
+ *
+ * PHP version 8.0
+ */
 class ErrorHandler
 {
+    /**
+     * Error handler. Convert all errors to Exceptions by throwing an ErrorException.
+     *
+     * @param int $errno Error level
+     * @param string $errstr Error message
+     * @param string $errfile Filename the error was raised in
+     * @param int $errline Line number in the file
+     *
+     * @return void
+     */
     public static function handleError(
         int $errno,
         string $errstr,
@@ -24,10 +39,19 @@ class ErrorHandler
         );
     }
 
+    /**
+     * Exception handler.
+     * Selecting an exception output. Log or render to the screen.
+     *
+     * @param Throwable $exception The exception
+     *
+     * @return void
+     */
     public static function handleException(Throwable $exception): void
     {
         http_response_code(500);
 
+        // SHOW_ERROS const configuring in the configuration file
         if (SHOW_ERRORS) {
             echo json_encode([
                 'code' => $exception->getCode(),

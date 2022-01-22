@@ -7,15 +7,39 @@ namespace Ilyamur\TasksApp\Gateways;
 use Ilyamur\TasksApp\Services\Database;
 use PDO;
 
+/**
+ * TaskGateway
+ *
+ * PHP version 8.0
+ */
 class TaskGateway
 {
+    /**
+     * Database connection object
+     *
+     * @var PDO
+     */
     private PDO $conn;
 
+    /**
+     * Class constructor
+     *
+     * @param Database $database Database object
+     *
+     * @return void
+     */
     public function __construct(Database $database)
     {
         $this->conn = $database->getConnection();
     }
 
+    /**
+     * Get all tasks from task table by user id
+     *
+     * @param string $userId user id
+     *
+     * @return void
+     */
     public function getAllForUser(string $userId): array
     {
         $sql = "SELECT *
@@ -37,6 +61,14 @@ class TaskGateway
         return $data;
     }
 
+    /**
+     * Get specific task from task table by user and task ids
+     *
+     * @param string $userId user id
+     * @param string $id task id
+     *
+     * @return mixed
+     */
     public function getForUser(string $id, string $userId): array | false
     {
         $sql = "SELECT *
@@ -51,7 +83,7 @@ class TaskGateway
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // for returning bool
+        // For returning bool
         if ($data !== false) {
             $data['completed'] = (bool) $data['completed'];
         }
@@ -59,6 +91,14 @@ class TaskGateway
         return $data;
     }
 
+    /**
+     * Create new task for specific user
+     *
+     * @param array $data task data
+     * @param string $userId user id
+     *
+     * @return mixed
+     */
     public function createForUser(array $data, string $userId): string | false
     {
         $sql = "INSERT INTO task (title, body, priority, completed, user_id) 
@@ -82,6 +122,14 @@ class TaskGateway
         return $this->conn->lastInsertId();
     }
 
+    /**
+     * Delete task for specific user
+     *
+     * @param string $userId user id
+     * @param string $id task id
+     *
+     * @return int
+     */
     public function deleteForUser(string $id, string $userId): int
     {
         $sql = 'DELETE FROM task
@@ -97,8 +145,18 @@ class TaskGateway
         return $stmt->rowCount();
     }
 
+    /**
+     * Update task for specific user
+     *
+     * @param string $userId user id
+     * @param string $id task id
+     * @param array $data task data
+     *
+     * @return int
+     */
     public function updateForUser(string $id, array $data, string $userId): int
     {
+        // Building SQL query by existing input array keys
         $fields = [];
 
         if (array_key_exists('title', $data)) {
@@ -129,7 +187,7 @@ class TaskGateway
             ];
         }
 
-        // if input is empty
+        // If input is empty
         if (empty($fields)) {
             return 0;
         }

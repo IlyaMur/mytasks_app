@@ -6,10 +6,30 @@ namespace Ilyamur\TasksApp\Services;
 
 use PDO;
 
+/**
+ * Database
+ *
+ * PHP version 8.0
+ */
 class Database
 {
+    /**
+     * Database connection object
+     *
+     * @var mixed PDO or null
+     */
     private ?PDO $conn = null;
 
+    /**
+     * Class constructor
+     *
+     * @param string $host DB host
+     * @param string $name DB name
+     * @param string $user DB user
+     * @param string $password DB password
+     *
+     * @return void
+     */
     public function __construct(
         private string $host,
         private string $name,
@@ -18,6 +38,11 @@ class Database
     ) {
     }
 
+    /**
+     * Get DB connection
+     *
+     * @return PDO
+     */
     public function getConnection(): PDO
     {
         if (is_null($this->conn)) {

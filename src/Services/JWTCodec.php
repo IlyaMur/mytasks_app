@@ -7,14 +7,38 @@ namespace Ilyamur\TasksApp\Services;
 use Ilyamur\TasksApp\Exceptions\TokenExpiredException;
 use Ilyamur\TasksApp\Exceptions\InvalidSignatureException;
 
+/**
+ * JWTCodec
+ *
+ * PHP version 8.0
+ */
 class JWTCodec
 {
+    /**
+     * Regexp for parsing JWT
+     *
+     * @var string
+     */
     private const JWT_REGEXP = "/^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/";
 
+    /**
+     * Class constructor
+     *
+     * @param string $key secret key
+     *
+     * @return void
+     */
     public function __construct(private string $key)
     {
     }
 
+    /**
+     * Encode array to JWT
+     *
+     * @param array $payload Payload for encrypting
+     *
+     * @return string
+     */
     public function encode(array $payload): string
     {
         $header = json_encode([
@@ -37,6 +61,13 @@ class JWTCodec
         return $header . '.' . $payload . '.' . $signature;
     }
 
+    /**
+     * URL friendly encoding to base64
+     *
+     * @param string $text String to encode
+     *
+     * @return string
+     */
     private function base64urlEncode(string $text): string
     {
         return str_replace(
@@ -46,6 +77,13 @@ class JWTCodec
         );
     }
 
+    /**
+     * Decoding from URL friendly base64
+     *
+     * @param string $text String to decode
+     *
+     * @return string
+     */
     private function base64urlDecode(string $text): string
     {
         return base64_decode(str_replace(
@@ -55,9 +93,16 @@ class JWTCodec
         ));
     }
 
+    /**
+     * Decoding input JWT
+     *
+     * @param string $token JWT
+     *
+     * @return array
+     */
     public function decode(string $token): array
     {
-        // extracting tokens parts and throwing exception if token is invalid
+        // Extracting tokens parts and throwing an exception if JWT is invalid
         if (preg_match(static::JWT_REGEXP, $token, $matches) !== 1) {
             throw new \InvalidArgumentException("ivalid token format");
         }
@@ -77,7 +122,7 @@ class JWTCodec
 
         $payload = json_decode($this->base64urlDecode($matches['payload']), true);
 
-        // throwing exception if access token is expired
+        // Throwing an exception if access token is expired
         if ($payload['exp'] < time()) {
             throw new TokenExpiredException();
         }

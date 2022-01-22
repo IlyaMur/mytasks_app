@@ -8,8 +8,24 @@ use Ilyamur\TasksApp\Services\JWTCodec;
 use Ilyamur\TasksApp\Gateways\UserGateway;
 use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
 
+/**
+ * TokenController
+ *
+ * PHP version 8.0
+ */
 class TokenController
 {
+    /**
+     * Class constructor. Set parameters to token object
+     *
+     * @param UserGateway $userGateway UserGateway object
+     * @param RefreshTokenGateway $refreshTokenGateway RefreshTokenGateway object
+     * @param JWTCodec $codec JWT handler
+     * @param array $bodyData Data from requests body
+     * @param string $method HTTP method
+     *
+     * @return void
+     */
     public function __construct(
         protected string $method,
         protected UserGateway $userGateway,
@@ -19,6 +35,11 @@ class TokenController
     ) {
     }
 
+    /**
+     * Process the request to generate JWT
+     *
+     * @return void
+     */
     public function processRequest()
     {
         if (
@@ -30,6 +51,11 @@ class TokenController
         }
     }
 
+    /**
+     * Checking HTTP method
+     *
+     * @return bool
+     */
     protected function checkMethod(): bool
     {
         if ($this->method !== 'POST') {
@@ -41,6 +67,11 @@ class TokenController
         return true;
     }
 
+    /**
+     * Checking input JSON.
+     *
+     * @return bool Return true if 'email' and 'password keys exist, false otherwise
+     */
     protected function validateInputData(): bool
     {
         if (
@@ -55,6 +86,11 @@ class TokenController
         return true;
     }
 
+    /**
+     * Checking user credentials: password and email
+     *
+     * @return bool Return true if credentials are valid, false otherwise
+     */
     protected function checkUserCredentials(): bool
     {
         $this->user = $this->userGateway->getByEmail($this->bodyData['email']);
@@ -74,6 +110,11 @@ class TokenController
         return true;
     }
 
+    /**
+     * Generate JWT
+     *
+     * @return void
+     */
     protected function generateJWT(): void
     {
         $payload = [
@@ -98,35 +139,70 @@ class TokenController
         $this->refreshTokenGateway->create($refreshToken, $refreshTokenExpiry);
     }
 
+    /**
+     * Respond JWT
+     *
+     * @param array $tokens array with JWT
+     *
+     * @return void
+     */
     protected function respondTokens(array $tokens): void
     {
         $this->renderJSON($tokens);
     }
 
+    /**
+     * Respond invalid auth message and set 401 status code
+     *
+     * @return void
+     */
     protected function respondInvalidAuth(): void
     {
         http_response_code(401);
         $this->renderJSON(['general' => 'No user with this data was found']);
     }
 
+    /**
+     * Respond JWT was succefully deleted
+     *
+     * @return void
+     */
     protected function respondTokenWasDeleted(): void
     {
         http_response_code(200);
         $this->renderJSON(['message' => 'Token was deleted']);
     }
 
+    /**
+     * Respond missing credentials
+     *
+     * @return void
+     */
     protected function respondMissingCredentials(): void
     {
         http_response_code(400);
         $this->renderJSON(['general' => 'missing login credentials']);
     }
 
+    /**
+     * Respond http method not allowed
+     * Sending header with allowed method
+     *
+     * @return void
+     */
     protected function respondMethodNotAllowed(): void
     {
         http_response_code(405);
         header('Allow: POST');
     }
 
+    /**
+     * Render JSON
+     *
+     * @param mixed Array or string
+     *
+     * @return void
+     */
     protected function renderJSON(array | string $item): void
     {
         echo json_encode($item);

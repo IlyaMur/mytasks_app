@@ -16,13 +16,13 @@ class UserControllerTest extends TestCase
     {
         $controllerMock = $this->getMockBuilder(UserControllerChild::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['checkMethod', 'validateInputData', 'respondJWT'])
+            ->onlyMethods(['checkMethod', 'validateInputData', 'createUser'])
             ->getMock();
 
         $controllerMock->method('checkMethod')->willReturn(true);
         $controllerMock->method('validateInputData')->willReturn(true);
 
-        $controllerMock->expects($this->once())->method('respondJWT');
+        $controllerMock->expects($this->once())->method('createUser');
 
         $controllerMock->processRequest();
     }
@@ -109,7 +109,7 @@ class UserControllerTest extends TestCase
         $controllerMock->expects($this->once())->method('respondUnprocessableEntity')
             ->with(['userReg' => "Server can't handle the request"]);
 
-        $controllerMock->respondJWT();
+        $controllerMock->createUser();
     }
 
     public function testRespondJWTIfDataCorrect(): void
@@ -134,7 +134,7 @@ class UserControllerTest extends TestCase
         $controllerMock->expects($this->once())->method('generateJWT')->willReturn(['accessToken' => '42']);
         $controllerMock->expects($this->once())->method('respondCreated')->with(['accessToken' => '42']);
 
-        $controllerMock->respondJWT();
+        $controllerMock->createUser();
     }
 
     /**

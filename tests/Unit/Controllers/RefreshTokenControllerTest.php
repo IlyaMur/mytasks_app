@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Ilyamur\TasksApp\Services\JWTCodec;
 use Ilyamur\TasksApp\Gateways\UserGateway;
 use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
-use Ilyamur\TaskApp\Tests\Unit\Controllers\TestDoubles\TokenControllerChild;
 use Ilyamur\TaskApp\Tests\Unit\Controllers\TestDoubles\RefreshTokenControllerChild;
 
 class RefreshTokenControllerTest extends TestCase

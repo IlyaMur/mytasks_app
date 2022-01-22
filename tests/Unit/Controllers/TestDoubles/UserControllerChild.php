@@ -13,9 +13,9 @@ class UserControllerChild extends UserController
         return parent::validateInputData();
     }
 
-    public function respondJWT(): void
+    public function createUser(): void
     {
-        parent::respondJWT();
+        parent::createUser();
     }
 
     public function checkMethod(): bool

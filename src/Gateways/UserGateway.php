@@ -7,15 +7,39 @@ namespace Ilyamur\TasksApp\Gateways;
 use Ilyamur\TasksApp\Services\Database;
 use PDO;
 
+/**
+ * UserGateway
+ *
+ * PHP version 8.0
+ */
 class UserGateway
 {
+    /**
+     * Database connection object
+     *
+     * @var PDO
+     */
     private PDO $conn;
 
+    /**
+     * Class constructor
+     *
+     * @param Database $database Database object
+     *
+     * @return void
+     */
     public function __construct(Database $database)
     {
         $this->conn = $database->getConnection();
     }
 
+    /**
+     * Create new user
+     *
+     * @param array $userData user data
+     *
+     * @return mixed
+     */
     public function create(array $userData): array | false
     {
         $sql = "INSERT INTO user (email, username, password_hash, api_key) 
@@ -34,6 +58,13 @@ class UserGateway
         return $stmt->execute() ? [$apiKey, $this->conn->lastInsertId()] : false;
     }
 
+    /**
+     * Get user by emai new user
+     *
+     * @param string $email Email
+     *
+     * @return mixed
+     */
     public function getByEmail(string $email): array | false
     {
         $sql = 'SELECT * 
@@ -47,6 +78,13 @@ class UserGateway
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get user by API key
+     *
+     * @param string $key Key
+     *
+     * @return mixed
+     */
     public function getByAPIKey(string $key): array | false
     {
         $sql = 'SELECT * 
@@ -60,6 +98,13 @@ class UserGateway
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get user by id
+     *
+     * @param string $id Id
+     *
+     * @return mixed
+     */
     public function getByID(string $id): array | false
     {
         $sql = "SELECT * 

@@ -6,10 +6,16 @@ use Ilyamur\TasksApp\Services\{JWTCodec, Database, Auth};
 use Ilyamur\TasksApp\Controllers\{UserController, RefreshTokenController, TaskController, TokenController};
 use Ilyamur\TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
 
+/**
+ * Front Controller
+ * 
+ * PHP version 8.0
+ */
+
 require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-// filter redundant slashes and parse request uri
+// Filter redundant slashes and parse request uri
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
 
@@ -20,10 +26,14 @@ $userGateway = new UserGateway($db);
 $bodyData = (array) json_decode(file_get_contents("php://input"), true);
 
 $resource = $parts[2];
-// selecting an endpoint based on the requested resource
+
+/**
+ * Routing
+ * Selecting an endpoint based on the requested resource
+ */
 switch ($resource) {
     case 'signup':
-        // endpoint for signup - create new user/generate access tokens 
+        // Endpoint for signup - create new user/generate access tokens 
         $userController = new UserController(
             userGateway: $userGateway,
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
@@ -35,7 +45,7 @@ switch ($resource) {
         break;
 
     case 'login':
-        // endpoint for login - generating new access token
+        // Endpoint for login - generating new access token
         $tokenController = new TokenController(
             userGateway: $userGateway,
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
@@ -47,7 +57,7 @@ switch ($resource) {
         break;
 
     case 'logout':
-        // endpoint for deleting existing refresh token
+        // Endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
             userGateway: $userGateway,
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
@@ -59,7 +69,7 @@ switch ($resource) {
         break;
 
     case 'refresh':
-        // endpoint for refreshing access token by refresh token
+        // Endpoint for refreshing access token by refresh token
         $refreshTokenController = new RefreshTokenController(
             userGateway: $userGateway,
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
