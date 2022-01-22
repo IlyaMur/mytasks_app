@@ -32,7 +32,7 @@ ini_set(
 );
 
 // Showing errors, if false - logging
-define('SHOW_ERRORS', false);
+define('SHOW_ERRORS', true);
 
 // CORS headers settings 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
