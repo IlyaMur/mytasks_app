@@ -5,4 +5,4 @@ test:
 lint:
 	composer exec phpcs -- --standard=PSR12 src tests
 test-coverage:
-	composer exec --verbose phpunit tests -- --coverage-html build/
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
