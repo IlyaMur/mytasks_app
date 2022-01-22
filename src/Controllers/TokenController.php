@@ -55,7 +55,7 @@ class TokenController
      * Checking HTTP method
      *
      * @param string $method Allowed method
-     * 
+     *
      * @return bool
      */
     protected function checkMethod(string $method): bool
