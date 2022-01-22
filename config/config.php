@@ -22,8 +22,8 @@ define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
 define('JWT_AUTH', true);
 
 // Hight level error handlers
-// set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
-// set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
+set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
+set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
 
 // Set dir for logging
 ini_set(
@@ -32,7 +32,7 @@ ini_set(
 );
 
 // Showing errors, if false - logging
-define('SHOW_ERRORS', true);
+define('SHOW_ERRORS', false);
 
 // CORS headers settings 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
