@@ -90,14 +90,14 @@ class Auth
      */
     protected function authenticateByJWT(): bool
     {
-        // check if Bearer key persist in the beginning of auth header
-        if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader(), $matches)) {
+        // Check if Bearer key persist in the beginning of auth header
+        if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader() ?? '', $matches)) {
             $this->respondWarnMessage('incomplete authorization header');
 
             return false;
         }
 
-        // decode JWT token and catching exception if its incorrect
+        // Decode JWT token and catching exception if its incorrect
         try {
             $data = $this->codec->decode($matches[1]);
         } catch (InvalidSignatureException) {

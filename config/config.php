@@ -4,34 +4,34 @@
  * Configuration file
  */
 
-// db credentials
+// DB credentials
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASS',  getenv('DB_PASS'));
 define('DB_HOST', getenv('DB_HOST'));
 define('DB_NAME',  getenv('DB_NAME'));
 
-// sha256 codec secret string for JWT encoding
+// SHA256 codec secret string for JWT encoding
 define('SECRET_KEY', getenv('SECRET_KEY'));
 
-// adjusting lifespan of the JWT tokens 
+// Adjusting lifespan of the JWT tokens 
 define('REFRESH_TOKEN_LIFESPAN', 15); // days
 define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
 
-// selection type of auth 
-// if JWT_AUTH is false - using basic X-Api-Key header key instead
-define('JWT_AUTH', true);
+// Selection type of auth 
+// If JWT_AUTH is false - using basic X-Api-Key header key instead
+define('JWT_AUTH', false);
 
-// hight level error handlers
-// set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
-// set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
+// Hight level error handlers
+set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
+set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
 
-// set dir for logging
+// Set dir for logging
 ini_set(
     'error_log',
     dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt'
 );
 
-// showing errors, if false - logging
+// Showing errors, if false - logging
 define('SHOW_ERRORS', true);
 
 // CORS headers settings 
