@@ -47,4 +47,9 @@ class TaskControllerChild extends TaskController
     {
         parent::respondCreated($newTaskId);
     }
+
+    public function renderJSON(array | string $item): void
+    {
+        parent::renderJSON($item);
+    }
 }

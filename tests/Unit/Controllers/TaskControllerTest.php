@@ -300,4 +300,14 @@ class TaskControllerTest extends TestCase
 
         $controllerMock->respondCreated('111');
     }
+
+    public function testCallRenderJSONCorrectly(): void
+    {
+        $controllerMock = $this->getMockBuilder(TaskControllerChild::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])->getMock();
+
+        $controllerMock->renderJSON("foobar");
+        $this->expectOutputString('"foobar"');
+    }
 }

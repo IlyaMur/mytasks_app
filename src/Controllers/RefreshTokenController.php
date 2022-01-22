@@ -19,7 +19,7 @@ class RefreshTokenController extends TokenController
     public function processRequest(): void
     {
         if (
-            $this->checkMethod() &&
+            $this->checkMethod('POST') &&
             $this->validateInputData()
         ) {
             $this->generateJWT();
@@ -71,7 +71,7 @@ class RefreshTokenController extends TokenController
             return;
         }
 
-        // Delete old refresh token from db
+        // Delete old refresh token from DB
         $this->refreshTokenGateway->delete($this->bodyData['refreshToken']);
 
         parent::generateJWT();
@@ -84,6 +84,10 @@ class RefreshTokenController extends TokenController
      */
     public function deleteRefreshToken(): void
     {
+        if (!$this->checkMethod('DELETE')) {
+            return;
+        }
+
         if (
             isset($this->bodyData['refreshToken']) &&
             $this->refreshTokenGateway->delete($this->bodyData['refreshToken'])

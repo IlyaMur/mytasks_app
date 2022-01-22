@@ -8,9 +8,9 @@ use Ilyamur\TasksApp\Controllers\TokenController;
 
 class TokenControllerChild extends TokenController
 {
-    public function checkMethod(): bool
+    public function checkMethod(string $method): bool
     {
-        return parent::checkMethod();
+        return parent::checkMethod($method);
     }
 
     public function validateInputData(): bool

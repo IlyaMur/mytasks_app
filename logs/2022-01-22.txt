@@ -1,0 +1,1 @@
+[22-Jan-2022 09:54:38 UTC] PHP Fatal error:  Declaration of Ilyamur\TaskApp\Tests\Unit\Controllers\TestDoubles\TokenControllerChild::checkMethod(): bool must be compatible with Ilyamur\TasksApp\Controllers\TokenController::checkMethod(string $method): bool in /Applications/XAMPP/xamppfiles/htdocs/api-test/tests/Unit/Controllers/TestDoubles/TokenControllerChild.php on line 11

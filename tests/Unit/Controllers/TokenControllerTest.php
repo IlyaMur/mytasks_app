@@ -23,7 +23,7 @@ class TokenControllerTest extends TestCase
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
 
-        $this->assertTrue($controllerMock->checkMethod());
+        $this->assertTrue($controllerMock->checkMethod('POST'));
     }
 
     public function testCheckMethodReturnFalseIfMethodIsNotPost()
@@ -37,7 +37,7 @@ class TokenControllerTest extends TestCase
                 ['email' => 'email@email.com', 'password' => '12345']
             ])->onlyMethods([])->getMock();
 
-        $this->assertFalse($controllerMock->checkMethod());
+        $this->assertFalse($controllerMock->checkMethod('POST'));
     }
 
     public function testValidateIfDataIsCorrect()

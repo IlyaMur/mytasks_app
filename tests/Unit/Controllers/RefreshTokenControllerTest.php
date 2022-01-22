@@ -201,7 +201,8 @@ class RefreshTokenControllerTest extends TestCase
                 $refreshTokenGatewayMock,
                 $this->createMock(JWTCodec::class),
                 ['refreshToken' => 'token12345']
-            ])->onlyMethods(['respondTokenWasDeleted'])->getMock();
+            ])->onlyMethods(['respondTokenWasDeleted', 'checkMethod'])->getMock();
+        $controllerMock->expects($this->once())->method('checkMethod')->willReturn(true);
         $controllerMock->expects($this->once())->method('respondTokenWasDeleted');
 
         $controllerMock->deleteRefreshToken();
@@ -217,13 +218,36 @@ class RefreshTokenControllerTest extends TestCase
 
         $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
             ->setConstructorArgs([
-                'POST',
+                'DELETE',
                 $this->createMock(UserGateway::class),
                 $refreshTokenGatewayMock,
                 $this->createMock(JWTCodec::class),
                 ['incorrect' => 'data']
             ])->onlyMethods(['respondInvalidToken'])->getMock();
+
         $controllerMock->expects($this->once())->method('respondInvalidToken');
+
+        $controllerMock->deleteRefreshToken();
+    }
+
+    public function testDoesNotDeleteRefreshTokenIfMethodIsNotDelete()
+    {
+        $refreshTokenGatewayMock = $this->getMockBuilder(RefreshTokenGateway::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['delete'])->getMock();
+        $refreshTokenGatewayMock->expects($this->never())
+            ->method('delete')->willReturn(1)->with('token12345');
+
+        $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
+            ->setConstructorArgs([
+                'POST',
+                $this->createMock(UserGateway::class),
+                $refreshTokenGatewayMock,
+                $this->createMock(JWTCodec::class),
+                ['incorrect' => 'data']
+            ])->onlyMethods(['respondMethodNotAllowed'])->getMock();
+
+        $controllerMock->expects($this->once())->method('respondMethodNotAllowed');
 
         $controllerMock->deleteRefreshToken();
     }
@@ -256,5 +280,15 @@ class RefreshTokenControllerTest extends TestCase
             [['message' => 'missing token'], 'respondMissingToken'],
             [['message' => 'invalid token (not on whitelist)'], 'respondTokenNotInWhiteList'],
         ];
+    }
+
+    public function testCallRenderJSONCorrectly(): void
+    {
+        $controllerMock = $this->getMockBuilder(RefreshTokenControllerChild::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])->getMock();
+
+        $controllerMock->renderJSON("foobar");
+        $this->expectOutputString('"foobar"');
     }
 }

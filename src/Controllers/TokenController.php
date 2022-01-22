@@ -43,7 +43,7 @@ class TokenController
     public function processRequest()
     {
         if (
-            $this->checkMethod() &&
+            $this->checkMethod('POST') &&
             $this->validateInputData() &&
             $this->checkUserCredentials()
         ) {
@@ -54,12 +54,14 @@ class TokenController
     /**
      * Checking HTTP method
      *
+     * @param string $method Allowed method
+     * 
      * @return bool
      */
-    protected function checkMethod(): bool
+    protected function checkMethod(string $method): bool
     {
-        if ($this->method !== 'POST') {
-            $this->respondMethodNotAllowed();
+        if ($this->method !== $method) {
+            $this->respondMethodNotAllowed($method);
 
             return false;
         }
@@ -190,10 +192,10 @@ class TokenController
      *
      * @return void
      */
-    protected function respondMethodNotAllowed(): void
+    protected function respondMethodNotAllowed(string $method): void
     {
         http_response_code(405);
-        header('Allow: POST');
+        header("Allow: $method");
     }
 
     /**
