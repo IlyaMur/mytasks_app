@@ -128,7 +128,7 @@ With a `DELETE-request` with **Refresh Token** included in its body, **Refresh T
 
 ## Authorization by key.
 
-The registration is similar to [above](#endpoint-for-registration).
+The registration is similar to [above](#registration).
 In the `POST` request to the https://rest-todoapp.herokuapp.com/api/signup endpoint, you need to include JSON with the desired login, password, and mail.
 
 If successful, the response will receive an access token.
