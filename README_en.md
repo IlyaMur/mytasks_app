@@ -78,9 +78,9 @@ The corresponding constants are available to override settings in the configurat
 
 JWT authorization is available as the main authorization option (set by default).
 
-Token lifetime (adjustable in [config.php](config/config.php)):
-**Access Token** - 5 minutes.
-**Refresh Token** - 5 days.
+Token lifetime (adjustable in [config.php](config/config.php)):  
+**Access Token** - 5 minutes.  
+**Refresh Token** - 5 days.  
 
 ### Registration
 
@@ -124,7 +124,7 @@ In the body of the `POST` request you need to include JSON with your username an
 ### Logout
 
 https://rest-todoapp.herokuapp.com/api/logout is a logout.    
-With a `DELETE-request` with **Refresh Token** included in its body, **Refresh Token** will be removed from the white list, and its further updating will become impossible.
+With a `DELETE` request with **Refresh Token** included in its body, **Refresh Token** will be removed from the white list, and its further updating will become impossible.
 
 ## Authorization by key.
 

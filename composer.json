@@ -1,5 +1,5 @@
 {
-    "name": "ilyamur/tasksapp",
+    "name": "ilyamur/mytasks",
     "description": "Basic realisation of RESTful API design and JWT/Key auth",
     "autoload": {
         "psr-4": {
