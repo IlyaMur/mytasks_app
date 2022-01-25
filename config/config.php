@@ -13,9 +13,9 @@ define('DB_NAME',  getenv('DB_NAME'));
 // SHA256 codec secret string for JWT encoding
 define('SECRET_KEY', getenv('SECRET_KEY'));
 
-// Adjusting lifespan of the JWT tokens 
-define('REFRESH_TOKEN_LIFESPAN', 15); // days
-define('ACCESS_TOKEN_LIFESPAN', 6000); // seconds
+// Adjusting lifetime of the JWT tokens 
+define('REFRESH_TOKEN_LIFESPAN', 5); // days
+define('ACCESS_TOKEN_LIFESPAN', 300); // seconds
 
 // Selection type of auth 
 // If JWT_AUTH is false - using basic X-Api-Key header key instead

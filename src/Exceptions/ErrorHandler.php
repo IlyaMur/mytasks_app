@@ -69,7 +69,7 @@ class ErrorHandler
             error_log($logMessage);
 
             echo json_encode([
-                'message' => "Something went wrong, for additional info contact app admin ",
+                'message' => "Something went wrong, for additional info contact app admin",
             ]);
         }
     }
