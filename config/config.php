@@ -10,7 +10,7 @@ define('DB_PASS',  getenv('DB_PASS'));
 define('DB_HOST', getenv('DB_HOST'));
 define('DB_NAME',  getenv('DB_NAME'));
 
-// SHA256 codec secret string for JWT encoding
+// SHA256 codec secret string
 define('SECRET_KEY', getenv('SECRET_KEY'));
 
 // Adjusting lifetime of the JWT tokens 
@@ -18,14 +18,14 @@ define('REFRESH_TOKEN_LIFESPAN', 5); // days
 define('ACCESS_TOKEN_LIFESPAN', 300); // seconds
 
 // Selection type of auth 
-// If JWT_AUTH is false - using basic X-Api-Key header key instead
+// If JWT_AUTH is false - using a basic X-Api-Key header key instead
 define('JWT_AUTH', true);
 
 // Hight level error handlers
 set_error_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleError');
 set_exception_handler('Ilyamur\TasksApp\Exceptions\ErrorHandler::handleException');
 
-// Set dir for logging
+// Set a dir for logging
 ini_set(
     'error_log',
     dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt'
