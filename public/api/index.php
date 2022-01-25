@@ -15,14 +15,14 @@ use Ilyamur\TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
 require dirname(__DIR__) . '/../vendor/autoload.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-// Filter redundant slashes and parse request uri
+// Filter redundant slashes and parse request URI
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
 
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
 $userGateway = new UserGateway($db);
 
-// JSON from request body casted to array 
+// JSON from the request body casted to an array 
 $bodyData = (array) json_decode(file_get_contents("php://input"), true);
 
 $resource = $parts[2];
@@ -45,7 +45,7 @@ switch ($resource) {
         break;
 
     case 'login':
-        // Endpoint for login - generating new access token
+        // Endpoint for login - generating new access tokens
         $tokenController = new TokenController(
             userGateway: $userGateway,
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
