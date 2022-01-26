@@ -17,15 +17,13 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // Filter redundant slashes and parse request URI
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
-// Reject if it's not an API request
-if ($parts[1] !== 'api') {
+// Reject if it's an incorrect API request
+if ($parts[1] !== 'api' || ($parts[1] === 'api' && empty($parts[2]))) {
     http_response_code(404);
     return;
 }
 
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
-$userGateway = new UserGateway($db);
-
 // Get JSON from the request body
 $bodyData = (array) json_decode(file_get_contents("php://input"), true);
 
@@ -33,12 +31,11 @@ $bodyData = (array) json_decode(file_get_contents("php://input"), true);
  * Routing
  * Select an endpoint based on the requested resource
  */
-$resource = $parts[2];
-switch ($resource) {
+switch ($parts[2]) {
     case 'signup':
         // Endpoint for signup - create new user/generate access tokens 
         $userController = new UserController(
-            userGateway: $userGateway,
+            userGateway: new UserGateway($db),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             bodyData: $bodyData,
             method: $_SERVER['REQUEST_METHOD'],
@@ -50,7 +47,7 @@ switch ($resource) {
     case 'login':
         // Endpoint for login - generating new access tokens
         $tokenController = new TokenController(
-            userGateway: $userGateway,
+            userGateway: new UserGateway($db),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             bodyData: $bodyData,
             method: $_SERVER['REQUEST_METHOD'],
@@ -62,7 +59,7 @@ switch ($resource) {
     case 'logout':
         // Endpoint for deleting existing refresh token
         $refreshTokenController = new RefreshTokenController(
-            userGateway: $userGateway,
+            userGateway: new UserGateway($db),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             bodyData: $bodyData,
             method: $_SERVER['REQUEST_METHOD'],
@@ -74,7 +71,7 @@ switch ($resource) {
     case 'refresh':
         // Endpoint for refreshing access token by refresh token
         $refreshTokenController = new RefreshTokenController(
-            userGateway: $userGateway,
+            userGateway: new UserGateway($db),
             refreshTokenGateway: new RefreshTokenGateway($db, SECRET_KEY),
             bodyData: $bodyData,
             method: $_SERVER['REQUEST_METHOD'],
@@ -85,16 +82,14 @@ switch ($resource) {
 
     case 'tasks':
         // RESTful endpoint for tasks manipulating 
-        $auth = new Auth($userGateway, new JWTCodec(SECRET_KEY));
+        $auth = new Auth(new UserGateway($db), new JWTCodec(SECRET_KEY));
         if (!$auth->authenticate()) {
             break;
         }
-        $taskId = empty($parts[3]) ? null : $parts[3];
-
         $taskController = new TaskController(
             taskGateway: new TaskGateway($db),
             method: $_SERVER['REQUEST_METHOD'],
-            taskId: $taskId,
+            taskId: empty($parts[3]) ? null : $parts[3],
             userId: $auth->getUserID()
         );
         $taskController->processRequest();
