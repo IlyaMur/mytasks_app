@@ -17,7 +17,6 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // Filter redundant slashes and parse request URI
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
-
 // Reject if it's not an API request
 if ($parts[1] !== 'api') {
     http_response_code(404);
@@ -32,7 +31,7 @@ $bodyData = (array) json_decode(file_get_contents("php://input"), true);
 
 /**
  * Routing
- * Selecting an endpoint based on the requested resource
+ * Select an endpoint based on the requested resource
  */
 $resource = $parts[2];
 switch ($resource) {
