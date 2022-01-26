@@ -12,25 +12,29 @@ use Ilyamur\TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
  * PHP version 8.0
  */
 
-require dirname(__DIR__) . '/../vendor/autoload.php';
-header('Content-Type: application/json; charset=UTF-8');
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 // Filter redundant slashes and parse request URI
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
 
+// Reject if it's not an API request
+if ($parts[1] !== 'api') {
+    http_response_code(404);
+    return;
+}
+
 $db = new Database(DB_HOST, DB_NAME, DB_USER, DB_PASS);
 $userGateway = new UserGateway($db);
 
-// JSON from the request body casted to an array 
+// Get JSON from the request body
 $bodyData = (array) json_decode(file_get_contents("php://input"), true);
-
-$resource = $parts[2];
 
 /**
  * Routing
  * Selecting an endpoint based on the requested resource
  */
+$resource = $parts[2];
 switch ($resource) {
     case 'signup':
         // Endpoint for signup - create new user/generate access tokens 
