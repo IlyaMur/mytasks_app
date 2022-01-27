@@ -39,6 +39,7 @@ define('SHOW_ERRORS', false);
 
 // CORS headers settings 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
+    // Allow only the React App deployed to the GH Pages 
     header("Access-Control-Allow-Origin: https://ilyamur.github.io");
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Max-Age: 86400');  // cache for 1 day
