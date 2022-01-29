@@ -61,8 +61,8 @@ Optionally, change the database connection parameters in the `.env` file.
 ```dotenv
 MYSQL_USER='user'
 MYSQL_HOST='mariadb'
-MYSQL_PASSWORD='123'
-MYSQL_ROOT_PASSWORD='123'
+APACHE_DEFAULT_PORT='80'
+MYSQL_PASSWORD='testpassword'
 ```
 
 Build and run the application

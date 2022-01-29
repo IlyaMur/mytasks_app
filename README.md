@@ -60,6 +60,7 @@ API **MyTasks** доступен по адресу - https://rest-todoapp.heroku
 MYSQL_USER='user'
 MYSQL_HOST='mariadb'
 APACHE_DEFAULT_PORT='80'
+MYSQL_PASSWORD='testpassword'
 ...
 ```
 
