@@ -68,8 +68,11 @@ MYSQL_ROOT_PASSWORD='123'
 Build and run the application
 
     $ make docker-start # build the project and upload the db dump to it  
+    $ make docker-stop  # stop and remove containers  
     $ make docker-bash  # bash session in docker container
     $ make docker-test  # run tests in docker container
+
+By default the app will be available at `localhost/api/tasks`
 
 ### Local installation
 
