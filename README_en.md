@@ -56,7 +56,7 @@ And prepare `.env` file
 
 ### Docker build
 
-Optionally, change the database connection parameters in the `.env` file and the migration file `database/import.php`
+Optionally, change the database connection parameters in the `.env` file.
 
 ```dotenv
 MYSQL_USER='user'

@@ -11,7 +11,7 @@ test-coverage:
 	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
 
 docker-start: 
-	docker-compose up -d && make docker-install && sleep 5 && make install-dump
+	docker-compose up -d && make docker-install
 
 docker-stop: 
 	docker-compose down
@@ -24,9 +24,6 @@ docker-test:
 
 docker-bash:
 	docker exec -it php-apache bash
-
-install-dump:
-	docker exec -it php-apache php ./database/import.php
 
 env-prepare:
 	cp -n .env.example .env || true
