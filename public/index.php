@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-use Ilyamur\TasksApp\Services\Auth;
-use Ilyamur\TasksApp\Services\Database;
-use Ilyamur\TasksApp\Services\JWTCodec;
-use Ilyamur\TasksApp\Gateways\TaskGateway;
-use Ilyamur\TasksApp\Gateways\UserGateway;
-use Ilyamur\TasksApp\Controllers\TaskController;
-use Ilyamur\TasksApp\Controllers\UserController;
-use Ilyamur\TasksApp\Controllers\TokenController;
-use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
-use Ilyamur\TasksApp\Controllers\RefreshTokenController;
+use Ilyamur\TasksApp\Services\{Auth, Database, JWTCodec};
+use Ilyamur\TasksApp\Gateways\{TaskGateway, RefreshTokenGateway, UserGateway};
+use Ilyamur\TasksApp\Controllers\{
+    TaskController,
+    UserController,
+    TokenController,
+    RefreshTokenController
+};
 
 /**
  * Front Controller
