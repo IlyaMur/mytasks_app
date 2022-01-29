@@ -13,14 +13,20 @@ test-coverage:
 docker-start: 
 	docker-compose up -d && make docker-install && sleep 5 && make install-dump
 
-install-dump:
-	docker exec -it php-apache php ./database/import.php
-
 docker-stop: 
 	docker-compose down
 
 docker-install:
-	docker exec -it php-apache composer install --no-dev
+	docker exec -it php-apache composer install
+
+docker-test:
+	docker exec -it php-apache composer install
+
+docker-bash:
+	docker-compose run --rm php-apache bash
+
+install-dump:
+	docker exec -it php-apache php ./database/import.php
 
 env-prepare:
 	cp -n .env.example .env || true

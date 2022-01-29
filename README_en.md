@@ -10,6 +10,8 @@
 **Table of contents**
   - [Overview](#overview)
   - [Install](#install)
+    - [Docker Build](#docker-build) 
+    - [Local installation](#local-installation) 
     - [Configuration](#configuration)
   - [Authorization by JWT](#authorization-by-jwt)
     - [Registration](#registration)
@@ -28,8 +30,6 @@ The application is a CRUD with full access to the `tasks` resource via the REST 
 
 One of the goal of writing this app was to avoid any dependencies and write all the API functionality from scratch. Special attention paid to the security of JWT authorization.  
 
-To improve the quality of the code, the main functionality of the app was covered by unit tests.
-
 The application was deployed to the Heroku service.  
 The **MyTasks** API is available at - https://rest-todoapp.herokuapp.com/api/signup   
 
@@ -45,19 +45,47 @@ The application has:
 
 ## Install  
 
-`PHP >= 8.0` (application uses named arguments and other new PHP features)  
+First of all, you need to clone the repository  
 
-You need to clone the repository:
-    $ git clone https://github.com/IlyaMur/mytasks_app.git
+    $ git clone https://github.com/IlyaMur/mytasks_app.git  
+    $ cd mytasks_app
+
+And prepare `.env` file  
+
+    $ make env-prepare
+
+### Docker build
+
+Optionally, change the database connection parameters in the `.env` file and the migration file `database/import.php`
+
+```dotenv
+MYSQL_USER='user'
+MYSQL_HOST='mariadb'
+MYSQL_PASSWORD='123'
+MYSQL_ROOT_PASSWORD='123'
+```
+
+Build and run the application
+
+    $ make docker-start # build the project and upload the db dump to it  
+    $ make docker-bash  # bash session in docker container
+    $ make docker-test  # run tests in docker container
+
+### Local installation
+
+`PHP >= 8.0`
 
 To install dependencies:  
 
-    $ make install   
+    $ make install
+
+To run tests:  
+
+    $ make test   
 
 Configure your web server to have the `public/` folder as the web root.
 
 Import SQL from the `database/mytasks.sql` file into the selected DBMS 
-In `config/config.php` set the data for accessing the database, storage and hashing settings.
 
 ### Configuration  
 
