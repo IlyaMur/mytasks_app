@@ -20,10 +20,10 @@ docker-install:
 	docker exec -it php-apache composer install
 
 docker-test:
-	docker exec -it php-apache composer install
+	docker exec -it php-apache make test
 
 docker-bash:
-	docker-compose run --rm php-apache bash
+	docker exec -it php-apache bash
 
 install-dump:
 	docker exec -it php-apache php ./database/import.php
