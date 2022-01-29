@@ -56,7 +56,7 @@ To install dependencies:
 
 Configure your web server to have the `public/` folder as the web root.
 
-Import SQL from the `mytasks.sql` file into the selected DBMS 
+Import SQL from the `database/mytasks.sql` file into the selected DBMS 
 In `config/config.php` set the data for accessing the database, storage and hashing settings.
 
 ### Configuration  

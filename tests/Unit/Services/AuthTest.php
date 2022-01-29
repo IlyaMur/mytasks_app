@@ -83,10 +83,22 @@ class AuthTest extends TestCase
         $authMock = $this->getMockBuilder(AuthChild::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getJWTFromHeader', 'respondWarnMessage'])->getMock();
-        $authMock->expects($this->once())
+        $authMock->expects($this->exactly(2))
             ->method('getJWTFromHeader')->willReturn('Bearr');
         $authMock->expects($this->once())
-            ->method('respondWarnMessage')->with('incomplete authorization header');
+            ->method('respondWarnMessage')->with('Incomplete authorization header');
+
+        $this->assertFalse($authMock->authenticateByJWT());
+    }
+    public function testAuthenticateByJWTReturnFalseIfHeaderIsNotPersist(): void
+    {
+        $authMock = $this->getMockBuilder(AuthChild::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getJWTFromHeader', 'respondWarnMessage'])->getMock();
+        $authMock->expects($this->once())
+            ->method('getJWTFromHeader')->willReturn(null);
+        $authMock->expects($this->once())
+            ->method('respondWarnMessage')->with('Please enter an authorization token');
 
         $this->assertFalse($authMock->authenticateByJWT());
     }
@@ -113,7 +125,7 @@ class AuthTest extends TestCase
             ])
             ->onlyMethods(['getJWTFromHeader', 'respondWarnMessage'])->getMock();
 
-        $authMock->expects($this->once())
+        $authMock->expects($this->exactly(2))
             ->method('getJWTFromHeader')->willReturn('Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9');
         $authMock->expects($this->once())
             ->method('respondWarnMessage')->with($exceptionMsg, $code);
@@ -147,7 +159,7 @@ class AuthTest extends TestCase
             ])
             ->onlyMethods(['getJWTFromHeader'])->getMock();
 
-        $authMock->expects($this->once())
+        $authMock->expects($this->exactly(2))
             ->method('getJWTFromHeader')->willReturn('Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9');
 
         $this->assertTrue($authMock->authenticateByJWT());

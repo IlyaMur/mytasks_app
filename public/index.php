@@ -2,21 +2,28 @@
 
 declare(strict_types=1);
 
-use Ilyamur\TasksApp\Services\{JWTCodec, Database, Auth};
-use Ilyamur\TasksApp\Controllers\{UserController, RefreshTokenController, TaskController, TokenController};
-use Ilyamur\TasksApp\Gateways\{UserGateway, TaskGateway, RefreshTokenGateway};
+use Ilyamur\TasksApp\Services\Auth;
+use Ilyamur\TasksApp\Services\Database;
+use Ilyamur\TasksApp\Services\JWTCodec;
+use Ilyamur\TasksApp\Gateways\TaskGateway;
+use Ilyamur\TasksApp\Gateways\UserGateway;
+use Ilyamur\TasksApp\Controllers\TaskController;
+use Ilyamur\TasksApp\Controllers\UserController;
+use Ilyamur\TasksApp\Controllers\TokenController;
+use Ilyamur\TasksApp\Gateways\RefreshTokenGateway;
+use Ilyamur\TasksApp\Controllers\RefreshTokenController;
 
 /**
  * Front Controller
  * 
  * PHP version 8.0
  */
-
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 // Filter redundant slashes and parse request URI
 $reqUri = preg_replace('/(\/)+/', '/', $_SERVER['REQUEST_URI']);
 $parts = explode('/', parse_url($reqUri, PHP_URL_PATH));
+
 // Reject if it's an incorrect API request
 if ($parts[1] !== 'api' || ($parts[1] === 'api' && empty($parts[2]))) {
     http_response_code(404);

@@ -13,6 +13,8 @@ jobs:
           php-version: '8.0'
       - name: Install
         run: make install
+      - name: Env
+        run: make env-prepare
       - name: run-tests
         uses: paambaati/codeclimate-action@v2.6.0
         env:

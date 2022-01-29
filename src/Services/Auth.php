@@ -90,9 +90,15 @@ class Auth
      */
     protected function authenticateByJWT(): bool
     {
+        if (is_null($this->getJWTFromHeader())) {
+            $this->respondWarnMessage('Please enter an authorization token');
+
+            return false;
+        }
+
         // Check if Bearer key persist in the beginning of auth header
         if (!preg_match("/^Bearer\s+(.*)$/", $this->getJWTFromHeader() ?? '', $matches)) {
-            $this->respondWarnMessage('incomplete authorization header');
+            $this->respondWarnMessage('Incomplete authorization header');
 
             return false;
         }

@@ -13,5 +13,7 @@ jobs:
           php-version: '8.0'
       - name: Install
         run: make install
+      - name: Env
+        run: make env-prepare
       - name: run-linter
         run: make lint
