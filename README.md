@@ -44,7 +44,7 @@ API **MyTasks** доступен по адресу - https://rest-todoapp.heroku
 
 ## Установка  
 
-Прежде всего необходимо склонировать репозиторий
+Необходимо склонировать репозиторий
 
     $ git clone https://github.com/IlyaMur/mytasks_app.git  
     $ cd mytasks_app
@@ -53,7 +53,6 @@ API **MyTasks** доступен по адресу - https://rest-todoapp.heroku
 
     $ make env-prepare
 
-### Сборка в Docker
 
 Изменить (опционально, будет работать и с настройками по умолчанию) параметры подключения в файле `.env`
 
@@ -65,14 +64,24 @@ MYSQL_PASSWORD='testpassword'
 ...
 ```
 
+### Сборка в Docker
+
+Приложение доступно для сборки в Docker.   
+
 Собрать и запустить приложение
 
-    $ make docker-start # собрать и запустить проект (с заливом дампа базы)  
-    $ make docker-stop  # остановить и удалить контейнеры.
+    $ make docker-start  
+
+Остановить и удалить контейнеры
+
+    $ make docker-stop  
+
+Так же доступны:
+
     $ make docker-bash  # запустить сессию bash в контейнере  
     $ make docker-test  # запустить тесты в контейнере 
 
-По умолчанию приложение будет доступно `localhost/api/tasks`
+По умолчанию приложение будет доступно: `http://localhost/api/tasks`
 
 ### Установка локально
 
@@ -82,13 +91,9 @@ MYSQL_PASSWORD='testpassword'
 
     $ make install   
 
-Для запуска тестов:  
-
-    $ make test   
-
 В настройках веб-сервера установить root в директории `public/`  
 
-В выбранную СУБД импортировать SQL из файла `database/mytasks.sql`    
+В выбранную СУБД импортировать SQL из файла `database/mytasks_db.sql`    
 
 ### Конфигурация  
 
