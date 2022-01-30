@@ -11,8 +11,9 @@ test-coverage:
 	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
 
 docker-start: 
-	docker-compose up -d && make docker-install
-
+	docker-compose up -d
+	make docker-install
+	
 docker-stop: 
 	docker-compose down
 
