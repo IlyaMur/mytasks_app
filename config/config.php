@@ -17,7 +17,7 @@ define('DB_NAME',  $_ENV['MYSQL_DATABASE']);
 header('Content-Type: application/json; charset=UTF-8');
 
 // SHA256 codec secret string
-define('SECRET_KEY', 'dummyKey');
+define('SECRET_KEY', $_ENV['JWT_KEY']);
 
 // Adjusting lifetime of the JWT tokens 
 define('REFRESH_TOKEN_LIFESPAN', 5); // days
