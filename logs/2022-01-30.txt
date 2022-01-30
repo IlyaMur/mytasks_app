@@ -1,6 +1,0 @@
-[30-Jan-2022 15:26:25 UTC] Fatal error
-Message: 'Ilyamur\TasksApp\Gateways\RefreshTokenGateway::__construct(): Argument #2 ($key) must be of type string, null given, called in /var/www/html/public/index.php on line 44'
-Stack trace: #0 /var/www/html/public/index.php(44): Ilyamur\TasksApp\Gateways\RefreshTokenGateway->__construct(Object(Ilyamur\TasksApp\Services\Database), NULL)
-#1 {main}
-Thrown in '/var/www/html/src/Gateways/RefreshTokenGateway.php
-Line: 39
