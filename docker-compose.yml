@@ -22,10 +22,11 @@ services:
             - "127.0.0.1:${MYSQL_DB_PORT}:3306"
         volumes:
             - ./database:/docker-entrypoint-initdb.d
+            - mariadb-data:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 volumes:
-    mariadb:
+    mariadb-data:
